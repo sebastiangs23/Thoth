@@ -8,12 +8,12 @@ export default function Login({}) {
     <View style={styles.main_container}>
 
       {/* BUTTON SIGN IN */}
-      <Link href="/components/SignIn/SignIn" style={styles.redirect_sign_in} >
+      <Link href="/src/Login/components/SignIn/SignIn" style={styles.redirect_sign_in} >
         Go to Sign In
       </Link>
 
       {/* BUTTON SIGN UP */}
-      <Link href="/components/SignUp/SignUp" >
+      <Link href="/src/Login/components/SignUp/SignUp" >
         Go to Sign Up
       </Link>
 

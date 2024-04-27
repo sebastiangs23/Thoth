@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image } from "react-native";
 import Login from "./src/Login/Login";
-import SignIn from "./src/Login/components/SignIn/SignIn";
+
 
 export default function Page() {
   return (
