@@ -1,1 +1,7 @@
-## DOCUMENTATION THOUTH ##
+#####     DOCUMENTATION THOUTH     ######
+
+## API (BACK) ##
+
+
+
+## ENGLISHAPP (FRONT) ##
