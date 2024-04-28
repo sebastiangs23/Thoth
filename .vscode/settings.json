@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "Back and front created",
-        "Api (creation of routes and controllers)"
+        "Api (creation of routes and controllers)",
+        "javascript TO typescript"
     ]
 }

@@ -1,6 +1,6 @@
+import { Request, Response } from "express";
 
-
-export async function createUsers(req,res){
+export async function createUser(req: Request, res: Response){
     try{
         let objeto = {
             nombre : 'Sebastian'

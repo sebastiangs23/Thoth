@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 
 
 const app = express();
@@ -15,10 +15,10 @@ app.use('/', routes);
 
 /*_______________________
 |   START THE SERVER   */
-app.use((err, req, res, next) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     const status = err.status || 500;
     const message = err.message || err;
     res.status(status).send(message);
-})
+});
 
 export default app;
