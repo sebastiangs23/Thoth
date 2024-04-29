@@ -1,8 +1,10 @@
 import { Router } from "express";
-import { createUser } from '../../controllers/login/loginController.js';
+import { getCountries } from '../../controllers/login/loginController.js';
 
 const router = Router();
 
-router.get('/', createUser);
+/*__________________
+   GET COUNTRIES   */
+router.get('/get-countries', getCountries);
 
 export default router;

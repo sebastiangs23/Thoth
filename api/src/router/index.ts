@@ -1,5 +1,6 @@
-import { Router } from "express";
+import { Router } from 'express';
 import loginRouter from './login/index.js';
+import userRouter from './users/index.js';
 
 const router = Router();
 
@@ -7,7 +8,9 @@ const router = Router();
 |   ROUTES LOGIN   */
 router.use('/login', loginRouter);
 
+/*___________________
+|   ROUTES USERS   */
+router.use('/users', userRouter);
 
-//AQUI IRAN TODAS LAS RUTAS CON SUS RESPECTIVAS SUBRUTAS DENTRO
 
 export default router;

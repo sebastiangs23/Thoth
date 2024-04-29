@@ -1,29 +1,45 @@
-import { View, StyleSheet,Text ,TextInput, Button } from "react-native";
+import { View, StyleSheet, Text, TextInput, Button } from "react-native";
+import { useEffect } from "react";
+import axios from "axios";
 
+export default function SignIn() {
+  // Montador
+  useEffect(() => {
+    console.log("HOLAAAAAA");
+    getUser();
+  }, []);
 
-export default function SignIn(){
-    return(
-        <View style={styles.sign_container}>
-            <Text style={styles.title} >Sign In</Text>
+  // Request to the server
+  async function getUser() {
+    try {
+      await axios.get("http://localhost:5000/users");
+      console.log("se ejecuto mi fn() getUsers");
+    } catch (error) {
+      console.log("Error en la fn getUser() ", error);
+    }
+  }
 
-            <Text> User name: </Text>
-            <TextInput placeholder="Example@email.com" />
+  return (
+    <View style={styles.sign_container}>
+      <Text style={styles.title}>Sign In</Text>
 
-            <Text> Password: </Text>
-            <TextInput placeholder="password" />
+      <Text> User name: </Text>
+      <TextInput placeholder="Example@email.com" />
 
-            <Button title="Log In" />
-        </View>
-    )
+      <Text> Password: </Text>
+      <TextInput placeholder="password" />
+
+      <Button title="Log In" />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    sign_container: {
-        alignItems: "center",
-    },
+  sign_container: {
+    alignItems: "center",
+  },
 
-    title: {
-        fontSize:40
-    }
-
+  title: {
+    fontSize: 40,
+  },
 });
