@@ -1,6 +1,6 @@
 import { Sequelize, DataType, DataTypes } from "sequelize";
 import db from "../../db/postgresql.js";
-import UserTypeModel from "../userType/userTypeModel.js";
+import UserTypeModel from "../user_type/user_type_model.js";
 
 const UserModel = db.define('users', {
     id: {
