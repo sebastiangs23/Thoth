@@ -27,10 +27,6 @@ export default function SignIn() {
 
   async function sendUserData() {
     try {
-      console.log("Se ejecuto la fn sendUserData");
-      console.log(email);
-      console.log(password)
-
       let data = { email: email, password: password };
       
       let response =  await axios.get('http://192.168.1.10:5000/login/login-user', { params: data });
