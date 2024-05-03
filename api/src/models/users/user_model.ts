@@ -28,6 +28,14 @@ const UserModel = db.define('users', {
         type: DataTypes.STRING(25),
         allowNull: false
     },
+    email: {
+        type: DataTypes.STRING(60),
+        allowNull: false,
+    },
+    password: {
+        type: DataTypes.STRING(30),
+        allowNull: false
+    },
     native_country: {
         type: DataTypes.STRING(25),
         allowNull: false

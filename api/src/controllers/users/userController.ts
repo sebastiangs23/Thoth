@@ -7,12 +7,12 @@ export async function getUsers(req: Request, res: Response) {
 
     // const users = await UserModel.findAll({});
 
-    console.log("lo que me llega por body");
-    console.log(data);
+    console.log('Se esta consumiento el endpoint de manera exitosa!');
 
     res.json({
-      sebass: "SSEBASS",
+      sebas: "CEEEEEEEEEEEB",
     });
+
   } catch (error) {
     res.json({
       message: "Error trying to bring the users.",
@@ -26,7 +26,7 @@ export async function createUser(req: Request, res: Response) {
 
     const userCreated = await UserModel.create({
          id_user_type: 2,
-        //  name,
+         name,
         //  last_name: data.last_name,
         //  second_last_name,
         //  native_contry,

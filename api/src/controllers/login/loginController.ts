@@ -1,23 +1,43 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import UserTypeModel from "../../models/user_type/user_type_model.js";
+import UserModel from "../../models/users/user_model.js";
 import LanguageLevel from "../../models/language_levels/language_levels_model.js";
 
-export async function createUser(req: Request, res: Response) {
+export async function logInUser(req: Request, res: Response) {
   try {
-    const users = await UserTypeModel.findAll({});
+    const { email, password } = req.query;
+    console.log(req.query);
 
-    console.log("Solo para crear el modelo de UserType ", UserTypeModel);
+    console.log("lo que me llega x query!");
 
-    let objeto = {
-      nombre: "Sebastian",
-    };
-
-    res.json(objeto);
-  } catch (error) {
-    res.json({
-      message: "Error en el controlador createUsers " + error,
+    const user = await UserModel.findOne({
+      where: {
+        email,
+      },
     });
+
+    if (user) {
+      if ((user as any).password == password) {
+        res.json({
+          user,
+        });
+      } else if ((user as any).password != password) {
+        res.json({
+          status: 'Error',
+          message: "Unauthorized: Incorrect password."
+        });
+      }
+    } else {
+      res.json({
+        status: 'Error',
+        message: "Unauthorized: User doesn´t exists."
+      });
+    }
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error });
   }
 }
 
@@ -53,7 +73,6 @@ export async function getLevels(req: Request, res: Response) {
     const levels_cefr = await LanguageLevel.findAll();
 
     res.json({ levels_cefr });
-
   } catch (error) {
     console.log("Error en el controlador getLevels ", error);
     res.json({
