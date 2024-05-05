@@ -47,7 +47,7 @@ export async function getCountries(req: Request, res: Response) {
 
     const countriesNecessary = countries.data.map((item: any) => {
       let country = {
-        name: item.name.official,
+        name: item.name.common,
         flag: item.flags,
         nationatity: item.demonyms ? item.demonyms.eng.f : null,
         iso_code: item.cca2,

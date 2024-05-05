@@ -15,7 +15,7 @@ export default function SignIn() {
   async function getCountries() {
     try {
       const response = await axios.get(
-        "http://192.168.1.10:5000/login/get-countries"
+        "http://192.168.1.13:5000/login/get-countries"
       );
       console.log("response.data paisessss");
 

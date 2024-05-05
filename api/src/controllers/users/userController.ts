@@ -22,16 +22,19 @@ export async function getUsers(req: Request, res: Response) {
 
 export async function createUser(req: Request, res: Response) {
   try {
-    const { data } = req.body;
+    const { name, last_name, second_last_name, email, password, birth_country, residence_country  } = req.body;
+
+    console.log(req.body);
 
     const userCreated = await UserModel.create({
          id_user_type: 2,
          name,
-        //  last_name: data.last_name,
-        //  second_last_name,
-        //  native_contry,
-        //  residence_country,
-        //  nationality
+         last_name,
+         second_last_name,
+         email,
+         password,
+         birth_country,
+         residence_country,
      });
 
     if(userCreated){
@@ -42,6 +45,8 @@ export async function createUser(req: Request, res: Response) {
     }
 
   } catch (error) {
+    console.log(error)
+    console.log(error)
     res.json({ error });
   }
 }

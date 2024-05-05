@@ -36,19 +36,17 @@ const UserModel = db.define('users', {
         type: DataTypes.STRING(30),
         allowNull: false
     },
-    native_country: {
+    birth_country: {
         type: DataTypes.STRING(25),
         allowNull: false
     },
     residence_country: {
         type: DataTypes.STRING(30),
+        allowNull: false,
     },
-    nationality: {
-        type: DataTypes.STRING(30)
-    }
 });
 
-UserModel.belongsTo(UserTypeModel, { foreignKey: 'fk_user_type' });
+UserModel.belongsTo(UserTypeModel, { foreignKey: 'id_user_type' });
 
 UserModel.sync({ alter: true });
 

@@ -12,6 +12,8 @@ const UserModel = db.define("user_type", {
         allowNull: false,   
     },
 
+},{
+    timestamps: false
 });
 
 UserModel.sync({ alter: true });
