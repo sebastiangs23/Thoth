@@ -5,7 +5,8 @@ export async function getConversationContext(req: Request, res: Response){
     try{
 
         const conversationContexts = await ConversationContext.findAll({});
-
+        console.log(conversationContexts)
+        console.log("conversationContexts-->")
         res.json(conversationContexts);
 
     }catch(error){

@@ -1,7 +1,6 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View, Button, Alert, Image, Text } from "react-native";
-// import { Link } from "expo-router";
 import logo from '../../../assets/logos/logo2.png';
 
 export default function Login({ navigation }) {

@@ -12,7 +12,8 @@ export default function SignIn({ navigation }) {
     getCountries();
   }, []);
 
-  // Request to the server
+  /*____________________________
+  |   REQUEST TO THE SERVER   */
   async function getCountries() {
     try {
       const response = await axios.get(
