@@ -1,8 +1,9 @@
 import { View, StyleSheet, Text, TextInput, Button } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import RandomConversation from "../RandomConversation/RandomConversation";
 
-export default function SignIn() {
+export default function SignIn({ navigation }) {
   const [countries, setCountries] = useState([]);
   const [email, setEmail] = useState({});
   const [password, setPassword] = useState({});
@@ -15,7 +16,7 @@ export default function SignIn() {
   async function getCountries() {
     try {
       const response = await axios.get(
-        "http://192.168.1.13:5000/login/get-countries"
+        "http://192.168.1.12:5000/login/get-countries"
       );
       console.log("response.data paisessss");
 
@@ -29,14 +30,34 @@ export default function SignIn() {
     try {
       let data = { email: email, password: password };
       
-      let response =  await axios.get('http://192.168.1.10:5000/login/login-user', { params: data });
+      let response =  await axios.get('http://192.168.1.12:5000/login/login-user', { params: data });
 
-      console.log(response.data);
+      console.log(response.data.user);
       console.log('Aca debe estar mi usuario y seguir con todo el flujo: ');
+
+      switch(response.data.user.id_user_type){
+        case 2: {
+          navigateToRandomConversation();
+          break;
+        };
+        case 1 : {
+          //Aca se logeo el administrador
+          break;
+        }
+        default: {
+          console.log('Aqui no se quien chch se logeo')
+          break;
+        }
+      }
 
     } catch (error) {
       console.log(error);
     }
+  }
+
+
+  function navigateToRandomConversation(){
+    navigation.navigate('RandomConversation')
   }
 
   return (

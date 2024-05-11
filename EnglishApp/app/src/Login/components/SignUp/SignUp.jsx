@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import axios from "axios";
 
-export default function SignUp() {
+export default function SignUp({}) {
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -19,7 +19,7 @@ export default function SignUp() {
   async function getCountries() {
     try {
       const response = await axios.get(
-        "http://192.168.1.13:5000/login/get-countries"
+        "http://192.168.1.6:5000/login/get-countries"
       );
 
       let formattedCountries;
@@ -61,14 +61,14 @@ export default function SignUp() {
         name: name,
         last_name: lastName,
         second_last_name: secondLastName,
-        email: secondLastName,
+        email: email,
         password: password,
         birth_country: selectedCountryBirth,
         residence_country: selectedCountryResid,
       };
 
       const response = await axios.post(
-        "http://192.168.1.13:5000/users/create/", data
+        "http://192.168.1.6:5000/users/create/", data
       );
 
       console.log(response);

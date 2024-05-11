@@ -1,21 +1,33 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Button, Alert } from "react-native";
-import { Link } from "expo-router";
+import { StyleSheet, View, Button, Alert, Image, Text } from "react-native";
+// import { Link } from "expo-router";
+import logo from '../../../assets/logos/logo2.png';
 
-export default function Login({}) {
+export default function Login({ navigation }) {
   return (
     <View style={styles.main_container}>
+      <Image
+        style={styles.logo_image}
+        source={logo}
+      />
+      
+      <Text style={styles.title}>Welcome to Thoth</Text>
+      <Text styles={styles.subtitle}>
+        We are gonna revolutionatethe Language
+      </Text>
 
-      {/* BUTTON SIGN IN */}
-      <Link href="/src/Login/components/SignIn/SignIn" style={styles.redirect_sign_in} >
-        Go to Sign In
-      </Link>
+      <Button
+        title="Go to Sign In"
+        style={styles.redirect_sign_in}
+        onPress={() => navigation.navigate("SignIn")}
+      />
 
-      {/* BUTTON SIGN UP */}
-      <Link href="/src/Login/components/SignUp/SignUp" >
-        Go to Sign Up
-      </Link>
+      <Button 
+        title="Go to Sign up"
+        style={styles.button_sign_up}
+        onPress={() => navigation.navigate('SignUp')}
+      />
 
       {/* RECOVERY PASSWORD */}
       <Button
@@ -38,6 +50,29 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  container: {
+    flex: 1,
+    alignItems: "center",
+    padding: 24,
+  },
+  main: {
+    flex: 1,
+    justifyContent: "center",
+    maxWidth: 960,
+    marginHorizontal: "auto",
+  },
+  title: {
+    fontSize: 44,
+    fontWeight: "bold",
+  },
+  subtitle: {
+    fontSize: 30,
+    color: "#38434D",
+  },
+  logo_image: {
+    width: 60,
+    height: 50,
   },
   redirect_sign_in: {
     padding: "5px",

@@ -14,21 +14,29 @@ export async function logInUser(req: Request, res: Response) {
     const user = await UserModel.findOne({
       where: {
         email,
+        password
       },
     });
+    console.log(user)
+    console.log("user el usuario encoentrado");
 
     if (user) {
       if ((user as any).password == password) {
+        console.log('Entro a esta condicional')
         res.json({
+          status: 'Success',
+          messag: 'Bienvenido',
           user,
         });
       } else if ((user as any).password != password) {
+        console.log('entro a esta otra condiconl')
         res.json({
           status: 'Error',
           message: "Unauthorized: Incorrect password."
         });
       }
     } else {
+      console.log('el usuario de meirda no existe')
       res.json({
         status: 'Error',
         message: "Unauthorized: User doesn´t exists."

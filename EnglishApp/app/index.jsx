@@ -1,20 +1,22 @@
-import { StyleSheet, Text, View, Image } from "react-native";
 import Login from "./src/Login/Login";
+import SignIn from "./src/Login/components/SignIn/SignIn";
+import SignUp from "./src/Login/components/SignUp/SignUp";
+import RandomConversation from "./src/Login/components/RandomConversation/RandomConversation";
+import { StyleSheet, Text, View, Image } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-
+const Stack = createStackNavigator();
 export default function Page() {
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Image style={styles.logo_image} source={require('../assets/logos/logo2.png')} />
-        <Text style={styles.title}>Welcome to Thoth</Text>
-        <Text styles={styles.subtitle}>We are gonna revolutionate the Language learning throw the IA.</Text>
-
-        {/* LOGIN COMPONENT */}
-        <Login />
-
-      </View>
-    </View>
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login}/>
+        <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="RandomConversation" component={RandomConversation} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -31,15 +33,15 @@ const styles = StyleSheet.create({
     marginHorizontal: "auto",
   },
   title: {
-    fontSize:44,
+    fontSize: 44,
     fontWeight: "bold",
   },
   subtitle: {
-    fontSize:30,
+    fontSize: 30,
     color: "#38434D",
   },
   logo_image: {
     width: 60,
-    height:50,
-  }
+    height: 50,
+  },
 });
