@@ -19,7 +19,7 @@ export default function SignUp({}) {
   async function getCountries() {
     try {
       const response = await axios.get(
-        "http://192.168.1.6:5000/login/get-countries"
+        "http://192.168.1.12:5000/login/get-countries"
       );
 
       let formattedCountries;

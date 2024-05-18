@@ -13,23 +13,37 @@ export default function RandomConversation({}) {
 |   REQUEST TO THE SERVER   */
   async function getConversationContexts() {
     try {
+
+      //ESTE MODELO VA DESAPARECER Y TENGO QUE CONSUMIR LA TABLA 'CONVERSATIONS'
       const response = await axios.get(
-        "http://192.168.1.12:5000/conversation-context/get-conversations-context"
+        "http://192.168.1.9:5000/conversation/get-conversation-topic"
       );
+      console.log(response.data)
+      console.log("response.data adads")
+
       setConversationContext(response.data);
-      console.log(response.data);
-      console.log("conversation-context");
+      
     } catch (error) {
       console.log("error en function getConversationContexts");
       console.log(error);
     }
   }
 
-  function selectContext(item){
-    console.log(" lo que se selecciono")
-    console.log(item)
-    alert(item.id)
-  }
+  async function selectContext(item){
+    try{
+      console.log(" lo que se selecciono")
+      console.log(item)
+      alert(item.id)
+  
+      const response = await axios.get(`http://192.168.1.9:5000/conversation/get-dialogs-conversation/${item.id}`);
+      
+      console.log("response.data");
+      console.log(response.data);
+
+    }catch(error){
+      console.log(error.message)
+    }
+  };
 
   return (
     <View>
@@ -39,7 +53,7 @@ export default function RandomConversation({}) {
         conversationContext.map((item) => {
           return (
             <Button
-              title={item.description}
+              title={item.context}
               style={styles.button_context}
               onPress={() => selectContext(item)}
             />
