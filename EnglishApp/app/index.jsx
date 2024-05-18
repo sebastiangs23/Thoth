@@ -5,18 +5,22 @@ import RandomConversation from "./src/Login/components/RandomConversation/Random
 import { StyleSheet, Text, View, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { Provider } from 'react-redux';
+import store from "./src/store/store.js";
 
 const Stack = createStackNavigator();
 export default function Page() {
   return (
-    <NavigationContainer independent={true}>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={Login}/>
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="RandomConversation" component={RandomConversation} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer independent={true}>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={Login}/>
+          <Stack.Screen name="SignIn" component={SignIn} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="RandomConversation" component={RandomConversation} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
