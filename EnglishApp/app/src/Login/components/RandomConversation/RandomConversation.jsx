@@ -1,8 +1,11 @@
 import { View, StyleSheet, Text, Button } from "react-native";
 import { useEffect, useState } from "react";
+import { useDispatch } from 'react-redux';
+import { setDialog } from "../../../store/slice";
 import axios from "axios";
 
-export default function RandomConversation({}) {
+export default function RandomConversation({ navigation }) {
+  const dispatch = useDispatch();
   const [conversationContext, setConversationContext] = useState([]);
 
   useEffect(() => {
@@ -18,8 +21,6 @@ export default function RandomConversation({}) {
       const response = await axios.get(
         "http://192.168.1.9:5000/conversation/get-conversation-topic"
       );
-      console.log(response.data)
-      console.log("response.data adads")
 
       setConversationContext(response.data);
       
@@ -37,13 +38,17 @@ export default function RandomConversation({}) {
   
       const response = await axios.get(`http://192.168.1.9:5000/conversation/get-dialogs-conversation/${item.id}`);
       
-      console.log("response.data");
-      console.log(response.data);
+      dispatch(setDialog(response.data));
+      navigateToConversation();
 
     }catch(error){
       console.log(error.message)
     }
   };
+
+  function navigateToConversation(){
+    navigation.navigate('Conversation')
+  }
 
   return (
     <View>

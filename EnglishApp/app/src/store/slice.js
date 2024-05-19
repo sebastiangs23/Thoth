@@ -9,7 +9,10 @@ export const DialogsSlice = createSlice({
     },
     reducers: {
         setDialog: (state, action)=> {
+            console.log("action.payload")
+            console.log(action.payload)
             state.value = action.payload;
+
         }
     }
 });

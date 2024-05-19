@@ -1,7 +1,6 @@
 import { View, StyleSheet, Text, TextInput, Button } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import RandomConversation from "../RandomConversation/RandomConversation";
 
 export default function SignIn({ navigation }) {
   const [countries, setCountries] = useState([]);
