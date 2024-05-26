@@ -1,20 +1,19 @@
-import { View, StyleSheet, Text } from "react-native";
+import { ScrollView, View, StyleSheet, Text } from "react-native";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import Dialog from "./components/Dialog";
 import Microphone from "./components/Microphone";
+import Score from "./components/Score";
 
 export default function Conversation({}) {
   const dialogs = useSelector((state) => state.dialog.value);
 
   useEffect(() => {
-    console.log("INTO THE CONVERSATION COMPOENNT");
     console.log(dialogs);
   }, []);
 
   return (
-    <View>
-      <Text>OHH SHIT HERE WE GO AGAIN</Text>
+    <ScrollView>
       {dialogs &&
         dialogs.map((item) => {
           return (
@@ -24,10 +23,13 @@ export default function Conversation({}) {
                 person={item.person}
                 dialog={item.dialog}
               />
-              <Microphone />
+              <Microphone dialog={item.dialog} id_conversation={item.id} />
             </View>
           );
         })}
-    </View>
+      <View>
+        <Score />
+      </View>
+    </ScrollView>
   );
 }

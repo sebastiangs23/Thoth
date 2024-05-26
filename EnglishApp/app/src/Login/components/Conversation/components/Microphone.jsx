@@ -1,8 +1,10 @@
-import { View, Text, Button, StyleSheet } from "react-native";
+import { View, Button, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
 import { Audio } from "expo-av";
+import axios from "axios";
+import * as FileSystem from "expo-file-system";
 
-export default function Microphone() {
+export default function Microphone({ dialog, id_conversation }) {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [recording, setRecording] = useState(false);
   const [audioUri, setAudioUri] = useState(null);
@@ -11,17 +13,15 @@ export default function Microphone() {
   useEffect(() => {
     return sound
       ? () => {
-          console.log("Unloading Sound");//Libera memoria innecesaria para que la aplicación no sea mas pesada para el user
+          console.log("Unloading Sound");
           sound.unloadAsync();
         }
       : undefined;
   }, [sound]);
 
-  /*___________________________
-    |   REQUEST TO THE SERVER   */
   async function startRecording() {
     try {
-      if (permissionResponse.status != "granted") {
+      if (permissionResponse.status !== "granted") {
         await requestPermission();
       }
       await Audio.setAudioModeAsync({
@@ -37,7 +37,7 @@ export default function Microphone() {
 
       setRecording(recording);
     } catch (error) {
-      console.log("An error ocurred while trying to start recording");
+      console.log("An error occurred while trying to start recording");
       console.log(error);
     }
   }
@@ -47,16 +47,17 @@ export default function Microphone() {
       console.log("Stopping recording..");
       await recording.stopAndUnloadAsync();
       const uri = recording.getURI();
-        
-      setAudioUri(uri)
+
+      setAudioUri(uri);
       setRecording(false);
 
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
       });
 
+      audioScore(uri, dialog);
     } catch (error) {
-      console.log("An error ocurred while trying to stop recording");
+      console.log("An error occurred while trying to stop recording");
       console.log(error);
     }
   }
@@ -69,13 +70,43 @@ export default function Microphone() {
     await sound.playAsync();
   }
 
+  async function audioScore(uri, dialog) {
+    try {
+      const content = await FileSystem.readAsStringAsync(uri, {
+        encoding: FileSystem.EncodingType.Base64,
+      });
+
+      const formData = new FormData();
+      formData.append("voice", {
+        uri,
+        type: "audio/wav",
+        name: "audio.wav",
+      });
+      formData.append("dialog", dialog);
+
+      const response = await axios.post(
+        "http://192.168.1.9:5000/score/audio",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Server response:", response.data);
+    } catch (error) {
+      console.log("Error al intentar evaluar el audio");
+      console.log(error.response ? error.response.data : error);
+    }
+  }
+
   return (
-    <View styles={styles.container}>
+    <View style={styles.container}>
       <Button
         title={recording ? "Stop Recording" : "Start recording"}
         onPress={recording ? stopRecording : startRecording}
       />
-      <Button title="Play audio" onPress={playAudio} />
+      {audioUri && <Button title="Play audio" onPress={playAudio} />}
     </View>
   );
 }
