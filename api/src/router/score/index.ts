@@ -1,5 +1,5 @@
 import { Router } from "express";
-import audioScore from "../../controllers/score/scoreController.js";
+import audioScore  from "../../controllers/score/scoreController.js";
 import multer from 'multer';
 
 const router = Router();

@@ -19,7 +19,7 @@ export default function RandomConversation({ navigation }) {
 
       //ESTE MODELO VA DESAPARECER Y TENGO QUE CONSUMIR LA TABLA 'CONVERSATIONS'
       const response = await axios.get(
-        "http://192.168.1.9:5000/conversation/get-conversation-topic"
+        "http://192.168.1.10:5000/conversation/get-conversation-topic"
       );
 
       setConversationContext(response.data);
@@ -36,7 +36,7 @@ export default function RandomConversation({ navigation }) {
       console.log(item)
       alert(item.id)
   
-      const response = await axios.get(`http://192.168.1.9:5000/conversation/get-dialogs-conversation/${item.id}`);
+      const response = await axios.get(`http://192.168.1.10:5000/conversation/get-dialogs-conversation/${item.id}`);
       
       dispatch(setDialog(response.data));
       navigateToConversation();

@@ -83,9 +83,10 @@ export default function Microphone({ dialog, id_conversation }) {
         name: "audio.wav",
       });
       formData.append("dialog", dialog);
+      console.log('Last time')
 
       const response = await axios.post(
-        "http://192.168.1.9:5000/score/audio",
+        "http://192.168.1.10:5000/score/audio",
         formData,
         {
           headers: {
@@ -93,6 +94,7 @@ export default function Microphone({ dialog, id_conversation }) {
           },
         }
       );
+      
       console.log("Server response:", response.data);
     } catch (error) {
       console.log("Error al intentar evaluar el audio");

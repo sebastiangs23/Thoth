@@ -16,7 +16,7 @@ export default function SignIn({ navigation }) {
   async function getCountries() {
     try {
       const response = await axios.get(
-        "http://192.168.1.9:5000/login/get-countries"
+        "http://192.168.1.10:5000/login/get-countries"
       );
       console.log("response.data paisessss");
 
@@ -30,7 +30,7 @@ export default function SignIn({ navigation }) {
     try {
       let data = { email: email, password: password };
       
-      let response =  await axios.get('http://192.168.1.9:5000/login/login-user', { params: data });
+      let response =  await axios.get('http://192.168.1.10:5000/login/login-user', { params: data });
 
       console.log(response.data.user);
       console.log('Aca debe estar mi usuario y seguir con todo el flujo: ');
