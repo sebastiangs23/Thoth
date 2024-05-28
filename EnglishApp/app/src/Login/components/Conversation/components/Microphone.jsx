@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from "react";
 import { View, Button, StyleSheet } from "react-native";
-import { useState, useEffect } from "react";
 import { Audio } from "expo-av";
 import axios from "axios";
 import * as FileSystem from "expo-file-system";
@@ -72,10 +72,6 @@ export default function Microphone({ dialog, id_conversation }) {
 
   async function audioScore(uri, dialog) {
     try {
-      const content = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-
       const formData = new FormData();
       formData.append("voice", {
         uri,
@@ -83,7 +79,6 @@ export default function Microphone({ dialog, id_conversation }) {
         name: "audio.wav",
       });
       formData.append("dialog", dialog);
-      console.log('Last time')
 
       const response = await axios.post(
         "http://192.168.1.10:5000/score/audio",
@@ -94,7 +89,7 @@ export default function Microphone({ dialog, id_conversation }) {
           },
         }
       );
-      
+
       console.log("Server response:", response.data);
     } catch (error) {
       console.log("Error al intentar evaluar el audio");

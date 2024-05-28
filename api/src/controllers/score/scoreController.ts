@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as sdkazure from 'microsoft-cognitiveservices-speech-sdk';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,29 +19,16 @@ export default async function audioScore(req: Request, res: Response) {
       return res.status(400).send('No file uploaded or file is corrupted.');
     }
 
-    // Verificar el mimetype
-    if (req.file.mimetype !== 'audio/wav') {
-      return res.status(400).send('Invalid file type. Only WAV files are supported.');
-    }
 
     console.log('PASO 1');
     const speechConfig = sdkazure.SpeechConfig.fromSubscription('b26e3d8292384860871e4f1eb684a283', 'eastus');
 
-    // Guardar el archivo temporalmente
-    console.log('__dirname ', __dirname);
     const tempFilePath = path.join(__dirname, `${uuidv4()}.wav`);
-    console.log('Saving temporary file to: ', tempFilePath);
-
     fs.writeFileSync(tempFilePath, req.file.buffer);
+    const fileBuffer = fs.readFileSync(tempFilePath);
 
-    // Verificar si el archivo se ha guardado correctamente
-    if (!fs.existsSync(tempFilePath)) {
-      console.log('File not saved correctly');
-      return res.status(500).send('Error saving audio file.');
-    }
 
-    console.log('File saved correctly: ', tempFilePath);
-    const audioConfig = sdkazure.AudioConfig.fromWavFileInput(fs.readFileSync(tempFilePath));
+    const audioConfig = sdkazure.AudioConfig.fromWavFileInput(req.file.buffer);
 
     console.log('PASO 2');
     speechConfig.speechRecognitionLanguage = 'en-US';
@@ -61,7 +48,6 @@ export default async function audioScore(req: Request, res: Response) {
     console.log('PASO 5');
     let recognizer = new sdkazure.SpeechRecognizer(speechConfig, audioConfig);
     pronunciationAssesstmentConfig.applyTo(recognizer);
-    console.log('recognizer ', recognizer);
 
     let pronunciation_level: any = [];
     let words: any = [];
@@ -135,7 +121,7 @@ export default async function audioScore(req: Request, res: Response) {
     }, (err) => {
       console.log('Error en recognizeOnceAsync: ', err);
       res.status(500).send('Error processing audio.');
-      //fs.unlinkSync(tempFilePath); // Eliminar el archivo temporal en caso de error
+      fs.unlinkSync(tempFilePath); // Eliminar el archivo temporal en caso de error
     });
 
   } catch (error) {
