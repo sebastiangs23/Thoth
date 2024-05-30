@@ -34,7 +34,7 @@ export default function RandomConversation({ navigation }) {
     try{
       console.log(" lo que se selecciono")
       console.log(item)
-      alert(item.id)
+      // alert(item.id)
   
       const response = await axios.get(`http://192.168.1.10:5000/conversation/get-dialogs-conversation/${item.id}`);
       
