@@ -14,8 +14,8 @@ ffmpeg.setFfmpegPath(ffmpegPath.path);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-/*_______________________________________________
-|   FUNCTION PARA PURIFICAR EL AUDIO CORRUPTO   */
+/*________________________________________
+|   FUNCTION TO FIX THE CORRUPT AUDIO   */
 function convertAudio(inputPath: any, outputPath: any) {
   return new Promise<void>((resolve, reject) => {
     ffmpeg(inputPath)
@@ -30,6 +30,12 @@ function convertAudio(inputPath: any, outputPath: any) {
       })
       .run();
   });
+}
+
+/*_______________
+|   CALLBACK   */
+function callback(error: any){
+  console.log(error);
 }
 
 /*__________________
@@ -59,7 +65,7 @@ export default async function audioScore(req: Request, res: Response) {
     speechConfig.speechRecognitionLanguage = "en-US";
     const textToMatch = req.body.dialog;
 
-    // 4) Leo el audio y hago que el azure lo reconozca
+    // 4) Leo el audio, hago que el azure lo reconozca
     const fileBuffer = fs.readFileSync(outputFilePath);
 
     if (fileBuffer.length === 0) {
@@ -123,12 +129,16 @@ export default async function audioScore(req: Request, res: Response) {
 
         pronunciation_level.push(words);
         recognizer.close();
+        fs.unlink(tempFilePath, callback);
+        fs.unlink(outputFilePath, callback);
 
         res.json({
           pronunciation_level,
         });
 
       } catch (e) {
+        fs.unlink(tempFilePath, callback);
+        fs.unlink(outputFilePath, callback);
         res.json({ error: true });
         console.log("Error en la fn onRecognized: ", e);
       }
