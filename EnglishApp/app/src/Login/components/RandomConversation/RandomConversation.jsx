@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, Button } from "react-native";
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
-import { setDialog } from "../../../store/slice";
+import { setDialog } from "../../../store/slices/dialog/slice";
 import axios from "axios";
 
 export default function RandomConversation({ navigation }) {
@@ -31,11 +31,7 @@ export default function RandomConversation({ navigation }) {
   }
 
   async function selectContext(item){
-    try{
-      console.log(" lo que se selecciono")
-      console.log(item)
-      // alert(item.id)
-  
+    try{  
       const response = await axios.get(`http://192.168.1.10:5000/conversation/get-dialogs-conversation/${item.id}`);
       
       dispatch(setDialog(response.data));

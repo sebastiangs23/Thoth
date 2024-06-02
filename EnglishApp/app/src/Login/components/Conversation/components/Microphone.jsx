@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Button, StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
+import { setScore } from "../../../../store/slices/score/slice";
 import { Audio } from "expo-av";
 import axios from "axios";
-import * as FileSystem from "expo-file-system";
 
 export default function Microphone({ dialog, id_conversation }) {
+  const dispatch = useDispatch();
+
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [recording, setRecording] = useState(false);
   const [audioUri, setAudioUri] = useState(null);
@@ -91,7 +94,8 @@ export default function Microphone({ dialog, id_conversation }) {
         }
       );
 
-      console.log("Server response:", response.data);
+      dispatch(setScore(response.data));
+
     } catch (error) {
       console.log("Error al intentar evaluar el audio");
       console.log(error.response ? error.response.data : error);

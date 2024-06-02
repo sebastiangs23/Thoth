@@ -5,7 +5,7 @@ import Dialog from "./components/Dialog";
 import Microphone from "./components/Microphone";
 import Score from "./components/Score";
 
-export default function Conversation({}) {
+export default function Conversation() {
   const dialogs = useSelector((state) => state.dialog.value);
 
   useEffect(() => {
@@ -13,23 +13,29 @@ export default function Conversation({}) {
   }, []);
 
   return (
-    <ScrollView>
-      {dialogs &&
-        dialogs.map((item) => {
-          return (
-            <View>
-              <Dialog
-                id_conversation={item.id}
-                person={item.person}
-                dialog={item.dialog}
-              />
-              <Microphone dialog={item.dialog} id_conversation={item.id} />
-            </View>
-          );
-        })}
+    <View>
+      
       <View>
+        <Text>SCORE ....</Text>
         <Score />
       </View>
-    </ScrollView>
+
+      <ScrollView>
+        {dialogs &&
+          dialogs.map((item) => {
+            return (
+              <View>
+                <Dialog
+                  id_conversation={item.id}
+                  person={item.person}
+                  dialog={item.dialog}
+                />
+                <Microphone dialog={item.dialog} id_conversation={item.id} />
+              </View>
+            );
+          })}
+      </ScrollView>
+      
+    </View>
   );
 }

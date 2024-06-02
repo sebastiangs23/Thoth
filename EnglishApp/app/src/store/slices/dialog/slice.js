@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/*_____________
-|   DIALOG   */
 export const DialogsSlice = createSlice({
     name: 'dialog',
     initialState: {
@@ -9,10 +7,7 @@ export const DialogsSlice = createSlice({
     },
     reducers: {
         setDialog: (state, action)=> {
-            console.log("action.payload")
-            console.log(action.payload)
             state.value = action.payload;
-
         }
     }
 });
