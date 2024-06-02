@@ -8,7 +8,7 @@ import {
   Image,
   Text,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import logo from "../../../assets/logos/logo2.png";
 import image from "../../../assets/logos/login_wallpaper_full.webp";
@@ -20,32 +20,35 @@ export default function Login({ navigation }) {
         {/* <Image source={logo} style={styles.logo_image} /> */}
 
         <View styles={styles.login_form}>
-          
-          <View style={styles.title_container} >
+          <View style={styles.title_container}>
             <Text style={styles.title}>Welcome to Thoth</Text>
           </View>
 
           <View style={styles.subtitle_container}>
             <Text style={styles.subtitle}>
-              Practice, learn and improve conversations that you will use in your daily life with AI.
+              Practice, learn and improve conversations that you will use in
+              your daily life with AI.
             </Text>
           </View>
 
-          <View style={styles.login_button_container}>
+          <View style={styles.button_container}>
             <TouchableOpacity
               title="Log in"
               onPress={() => navigation.navigate("SignIn")}
-              style={styles.login_button}>
-              <Text style={styles.login_button_text}>Log in</Text>
-            </TouchableOpacity >
+              style={styles.button}
+            >
+              <Text style={styles.text}>Log in</Text>
+            </TouchableOpacity>
           </View>
 
-          <View style={styles.signup_button}>
-            <Button
-              title="Sign up"
+          <View style={styles.button_container}>
+            <TouchableOpacity
               onPress={() => navigation.navigate("SignUp")}
               color="#F87800"
-            />
+              style={styles.button}
+            >
+              <Text style={styles.text} >Sign up</Text>
+            </TouchableOpacity>
           </View>
 
           <StatusBar style="auto" />
@@ -71,8 +74,8 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   title_container: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     margin: 5,
@@ -82,39 +85,36 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   subtitle_container: {
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   subtitle: {
     fontSize: 20,
     color: "#fff",
+    marginBottom: 50,
   },
   logo_image: {
     width: 60,
     height: 50,
   },
-  login_button_container: {
+  
+  button_container: {
     margin: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
-  login_button: {
+  button: {
     width: 200,
-    height: 75, 
-    backgroundColor: '#F87800', 
-    justifyContent: 'center', 
-    alignItems: 'center',
+    height: 55,
+    backgroundColor: "#F87800",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 50,
   },
-  login_button_text: {
+  text: {
     fontSize: 23,
-    color: '#FFFFFF',
-    fontWeight: 'bold'
+    color: "#FFFFFF",
+    fontWeight: "bold",
   },
-  signup_button: {
-    margin: 5,
-    width: "70%",
-    borderRadius: 50,
-    overflow: "hidden",
-  },
+
 });
