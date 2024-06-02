@@ -1,8 +1,8 @@
-import Login from "./src/Login/Login";
-import SignIn from "./src/Login/components/SignIn/SignIn";
-import SignUp from "./src/Login/components/SignUp/SignUp";
-import RandomConversation from "./src/Login/components/RandomConversation/RandomConversation";
-import Conversation from "./src/Login/components/Conversation/Conversation.jsx";
+import Login from "./src/modules/Login/Login.jsx";
+import SignIn from "./src/modules/Login/components/SignIn/SignIn.jsx";
+import SignUp from "./src/modules/Login/components/SignUp/SignUp.jsx";
+import RandomConversation from "./src/modules/Conversation/RandomConversation/RandomConversation.jsx";
+import Conversation from "./src/modules/Conversation/Conversation/Conversation.jsx";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";

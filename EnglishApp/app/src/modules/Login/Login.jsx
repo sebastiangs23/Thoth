@@ -1,19 +1,25 @@
-import React from "react";
+import { StyleSheet,View, Button, Alert, Image, Text, ImageBackground, TouchableOpacity } from "react-native";
+import React, {  useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  View,
-  Button,
-  Alert,
-  Image,
-  Text,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
-import logo from "../../../assets/logos/logo2.png";
-import image from "../../../assets/logos/login_wallpaper_full.webp";
+import { playAudioNext } from "../../common/functions/functions";
+import logo from "../../assets/logos/logo2.png";
+import image from "../../assets/logos/login_wallpaper_full.webp";
 
 export default function Login({ navigation }) {
+
+
+  /*________________
+  |   FUNCTIONS   */
+  function signIn(){
+    navigation.navigate("SignIn");
+    playAudioNext();
+  }
+
+  function signUp(){
+    navigation.navigate("SignUp");
+    playAudioNext();
+  }
+
   return (
     <View style={styles.main_container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
@@ -21,7 +27,7 @@ export default function Login({ navigation }) {
 
         <View styles={styles.login_form}>
           <View style={styles.title_container}>
-            <Text style={styles.title}>Welcome to Thoth</Text>
+            <Text style={styles.title}>Welcome to Thoth /. </Text>
           </View>
 
           <View style={styles.subtitle_container}>
@@ -34,7 +40,7 @@ export default function Login({ navigation }) {
           <View style={styles.button_container}>
             <TouchableOpacity
               title="Log in"
-              onPress={() => navigation.navigate("SignIn")}
+              onPress={() => signIn()}
               style={styles.button}
             >
               <Text style={styles.text}>Log in</Text>
@@ -43,11 +49,11 @@ export default function Login({ navigation }) {
 
           <View style={styles.button_container}>
             <TouchableOpacity
-              onPress={() => navigation.navigate("SignUp")}
+              onPress={() => signUp()}
               color="#F87800"
               style={styles.button}
             >
-              <Text style={styles.text} >Sign up</Text>
+              <Text style={styles.text}>Sign up</Text>
             </TouchableOpacity>
           </View>
 
@@ -92,12 +98,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     marginBottom: 50,
+    paddingHorizontal: 20,
   },
   logo_image: {
     width: 60,
     height: 50,
   },
-  
+
   button_container: {
     margin: 5,
     justifyContent: "center",
@@ -116,5 +123,4 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontWeight: "bold",
   },
-
 });

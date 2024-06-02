@@ -3,6 +3,7 @@ import { View, Button, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import { setScore } from "../../../../store/slices/score/slice";
 import { Audio } from "expo-av";
+import { playAudio } from "../../../../common/functions/functions";
 import axios from "axios";
 
 export default function Microphone({ dialog, id_conversation }) {
@@ -11,16 +12,6 @@ export default function Microphone({ dialog, id_conversation }) {
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [recording, setRecording] = useState(false);
   const [audioUri, setAudioUri] = useState(null);
-  const [sound, setSound] = useState();
-
-  useEffect(() => {
-    return sound
-      ? () => {
-          console.log("Unloading Sound");
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
 
   async function startRecording() {
     try {
@@ -65,14 +56,6 @@ export default function Microphone({ dialog, id_conversation }) {
     }
   }
 
-  async function playAudio() {
-    const { sound } = await Audio.Sound.createAsync({ uri: audioUri });
-    setSound(sound);
-
-    console.log("Playing Sound");
-    await sound.playAsync();
-  }
-
   async function audioScore(uri, dialog) {
     try {
       const formData = new FormData();
@@ -108,7 +91,7 @@ export default function Microphone({ dialog, id_conversation }) {
         title={recording ? "Stop Recording" : "Start recording"}
         onPress={recording ? stopRecording : startRecording}
       />
-      {audioUri && <Button title="Play audio" onPress={playAudio} />}
+      {audioUri && <Button title="Play audio" onPress={() => playAudio(audioUri)} />}
     </View>
   );
 }
