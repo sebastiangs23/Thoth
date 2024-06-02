@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, TextInput, Button } from "react-native";
+import { View, StyleSheet, Text, TextInput, Button, Alert } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -29,35 +29,36 @@ export default function SignIn({ navigation }) {
   async function sendUserData() {
     try {
       let data = { email: email, password: password };
-      
-      let response =  await axios.get('http://192.168.1.10:5000/login/login-user', { params: data });
+
+      let response = await axios.get(
+        "http://192.168.1.10:5000/login/login-user",
+        { params: data }
+      );
 
       console.log(response.data.user);
-      console.log('Aca debe estar mi usuario y seguir con todo el flujo: ');
+      console.log("Aca debe estar mi usuario y seguir con todo el flujo: ");
 
-      switch(response.data.user.id_user_type){
+      switch (response.data.user.id_user_type) {
         case 2: {
           navigateToRandomConversation();
           break;
-        };
-        case 1 : {
+        }
+        case 1: {
           //Aca se logeo el administrador
           break;
         }
         default: {
-          console.log('Aqui no se quien chch se logeo')
+          console.log("Aqui no se quien chch se logeo");
           break;
         }
       }
-
     } catch (error) {
       console.log(error);
     }
   }
 
-
-  function navigateToRandomConversation(){
-    navigation.navigate('RandomConversation')
+  function navigateToRandomConversation() {
+    navigation.navigate("RandomConversation");
   }
 
   return (
@@ -71,12 +72,25 @@ export default function SignIn({ navigation }) {
       />
 
       <Text> Password: </Text>
-      <TextInput 
+      <TextInput
         placeholder="password"
-        onChangeText={(text) => setPassword(text)} />
+        onChangeText={(text) => setPassword(text)}
+      />
 
       <Button title="Log In" onPress={sendUserData} />
 
+      {/* RECOVERY PASSWORD */}
+      <View>
+        <Button
+          title="Recovery password"
+          style={styles.recovery_password}
+          onPress={() =>
+            Alert.alert(
+              "Here its where the user are gonna be redirect to recovery his password throw email"
+            )
+          }
+        />
+      </View>
     </View>
   );
 }
@@ -88,5 +102,8 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 40,
+  },
+  recovery_password: {
+    backgroundColor: "#fff",
   },
 });

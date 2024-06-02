@@ -1,4 +1,3 @@
-
 import Login from "./src/Login/Login";
 import SignIn from "./src/Login/components/SignIn/SignIn";
 import SignUp from "./src/Login/components/SignUp/SignUp";
@@ -15,11 +14,19 @@ export default function Page() {
   return (
     <Provider store={store}>
       <NavigationContainer independent={true}>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login}/>
+        <Stack.Navigator
+          initialRouteName="Login"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="SignIn" component={SignIn} />
           <Stack.Screen name="SignUp" component={SignUp} />
-          <Stack.Screen name="RandomConversation" component={RandomConversation} />
+          <Stack.Screen
+            name="RandomConversation"
+            component={RandomConversation}
+          />
           <Stack.Screen name="Conversation" component={Conversation} />
         </Stack.Navigator>
       </NavigationContainer>

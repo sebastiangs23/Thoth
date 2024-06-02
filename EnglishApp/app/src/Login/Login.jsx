@@ -1,44 +1,56 @@
 import React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, Button, Alert, Image, Text } from "react-native";
-import logo from '../../../assets/logos/logo2.png';
+import {
+  StyleSheet,
+  View,
+  Button,
+  Alert,
+  Image,
+  Text,
+  ImageBackground,
+  TouchableOpacity
+} from "react-native";
+import logo from "../../../assets/logos/logo2.png";
+import image from "../../../assets/logos/login_wallpaper_full.webp";
 
 export default function Login({ navigation }) {
   return (
     <View style={styles.main_container}>
-      <Image
-        style={styles.logo_image}
-        source={logo}
-      />
-      
-      <Text style={styles.title}>Welcome to Thoth</Text>
-      <Text styles={styles.subtitle}>
-        We are gonna revolutionatethe Language
-      </Text>
+      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+        {/* <Image source={logo} style={styles.logo_image} /> */}
 
-      <Button
-        title="Go to Sign In"
-        style={styles.redirect_sign_in}
-        onPress={() => navigation.navigate("SignIn")}
-      />
+        <View styles={styles.login_form}>
+          
+          <View style={styles.title_container} >
+            <Text style={styles.title}>Welcome to Thoth</Text>
+          </View>
 
-      <Button 
-        title="Go to Sign up"
-        style={styles.button_sign_up}
-        onPress={() => navigation.navigate('SignUp')}
-      />
+          <View style={styles.subtitle_container}>
+            <Text style={styles.subtitle}>
+              Practice, learn and improve conversations that you will use in your daily life with AI.
+            </Text>
+          </View>
 
-      {/* RECOVERY PASSWORD */}
-      <Button
-        title="Recovery password"
-        style={styles.recovery_password}
-        onPress={() =>
-          Alert.alert(
-            "Here its where the user are gonna be redirect to recovery his password throw email"
-          )
-        }
-      />
-      <StatusBar style="auto" />
+          <View style={styles.login_button_container}>
+            <TouchableOpacity
+              title="Log in"
+              onPress={() => navigation.navigate("SignIn")}
+              style={styles.login_button}>
+              <Text style={styles.login_button_text}>Log in</Text>
+            </TouchableOpacity >
+          </View>
+
+          <View style={styles.signup_button}>
+            <Button
+              title="Sign up"
+              onPress={() => navigation.navigate("SignUp")}
+              color="#F87800"
+            />
+          </View>
+
+          <StatusBar style="auto" />
+        </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -46,42 +58,63 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    backgroundColor: "#000000",
+  },
+  image: {
+    flex: 1,
     justifyContent: "center",
   },
-  container: {
+  login_form: {
     flex: 1,
+    width: "100%",
     alignItems: "center",
     padding: 24,
   },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
+  title_container: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 44,
+    margin: 5,
+    padding: 5,
+    fontSize: 55,
     fontWeight: "bold",
+    color: "#fff",
+  },
+  subtitle_container: {
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   subtitle: {
-    fontSize: 30,
-    color: "#38434D",
+    fontSize: 20,
+    color: "#fff",
   },
   logo_image: {
     width: 60,
     height: 50,
   },
-  redirect_sign_in: {
-    padding: "5px",
-    margin: "5px",
+  login_button_container: {
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  button_sign_up: {
-    padding: "5px",
-    margin: "5px",
+  login_button: {
+    width: 200,
+    height: 75, 
+    backgroundColor: '#F87800', 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    borderRadius: 50,
   },
-  recovery_password: {
-    backgroundColor: "#fff",
+  login_button_text: {
+    fontSize: 23,
+    color: '#FFFFFF',
+    fontWeight: 'bold'
+  },
+  signup_button: {
+    margin: 5,
+    width: "70%",
+    borderRadius: 50,
+    overflow: "hidden",
   },
 });
