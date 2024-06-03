@@ -7,6 +7,10 @@ import {
   Alert,
   TouchableOpacity,
   Image,
+  KeyboardAvoidingView,
+  Platform,
+  keyboardVerticalOffset,
+  ScrollView
 } from "react-native";
 import { useEffect, useState } from "react";
 import { Icon } from "react-native-elements";
@@ -71,19 +75,23 @@ export default function SignIn({ navigation }) {
 
 
   return (
-    <View style={styles.sign_container}>
-      <Image source={image} style={styles.image} />
+    <KeyboardAvoidingView style={styles.sign_container}>
 
-      <View>
+      <View style={styles.container_back_button} >
         <Icon
           name="arrow-back-outline"
           reverseColor="#000000"
           type="ionicon"
           color="white"
           reverse
+          style={styles.back_button}
           onPress={logIn}
         />
       </View>
+      
+      <Image source={image} style={styles.image} />
+
+      
 
       <Text style={styles.title}>Log in</Text>
 
@@ -139,11 +147,18 @@ export default function SignIn({ navigation }) {
           <Icon name="lock-open-outline" type="ionicon" color="white" />
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  container_back_button: {
+    alignSelf: 'flex-start',
+    padding: 10, 
+  },
+  back_button: {
+    alignSelf: 'flex-start',
+  },
   sign_container: {
     alignItems: "center",
   },
@@ -155,20 +170,22 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   container_input: {
+    padding: 5,
+    width: '80%',
     borderWidth: 1,
     borderRadius: 20,
     flexDirection: "row",
-    padding: 5,
+    marginTop: 10,
+    marginBottom:  10
   },
   input: {
     borderRadius: 5,
-    width: "70%",
-  },
-  recovery_password: {
-    backgroundColor: "#fff",
+    width: "80%",
   },
   button_container: {
     width: "70%",
+    marginTop: 10,
+    marginBottom: 10
   },
   button: {
     flexDirection: "row",
