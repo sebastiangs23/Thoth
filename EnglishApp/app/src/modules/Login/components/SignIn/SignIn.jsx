@@ -6,7 +6,7 @@ import {
   Button,
   Alert,
   TouchableOpacity,
-  Image
+  Image,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { Icon } from "react-native-elements";
@@ -14,9 +14,10 @@ import axios from "axios";
 import image from "../../../../assets/images/sign-in-top-icon.png";
 
 export default function SignIn({ navigation }) {
-  const [countries, setCountries] = useState([]);
   const [email, setEmail] = useState({});
   const [password, setPassword] = useState({});
+  const [eyeOpen, setEyeOpen] = useState(false);
+  const [securePassword, setSecurePassword] = useState(true);
 
   useEffect(() => {}, []);
 
@@ -63,6 +64,12 @@ export default function SignIn({ navigation }) {
     navigation.navigate("Login");
   }
 
+  function passwordVisible(boolean){
+    setEyeOpen(boolean);
+    setSecurePassword(!boolean);
+  }
+
+
   return (
     <View style={styles.sign_container}>
       <Image source={image} style={styles.image} />
@@ -94,20 +101,32 @@ export default function SignIn({ navigation }) {
         <TextInput
           placeholder="password"
           style={styles.input}
+          secureTextEntry={securePassword}
           onChangeText={(text) => setPassword(text)}
         />
-        <Icon name="eye-off-outline" type="ionicon" />
-        <Icon name="eye-outline" type="ionicon" />
+        {eyeOpen == false ? (
+          <Icon
+            name="eye-off-outline"
+            type="ionicon"
+            onPress={() => passwordVisible(true)}
+          />
+        ) : (
+          <Icon
+            name="eye-outline"
+            type="ionicon"
+            onPress={() => passwordVisible(false)}
+          />
+        )}
       </View>
 
-      <View>
+      <View style={styles.button_container}>
         <TouchableOpacity style={styles.button} onPress={sendUserData}>
           <Text style={styles.text}>Log in</Text>
           <Icon name="log-in-outline" type="ionicon" color="white" />
         </TouchableOpacity>
       </View>
 
-      <View>
+      <View style={styles.button_container}>
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
@@ -130,31 +149,35 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 250,
-    width: 240
+    width: 240,
   },
   title: {
     fontSize: 40,
   },
   container_input: {
     borderWidth: 1,
-    borderRadius: 20
+    borderRadius: 20,
+    flexDirection: "row",
+    padding: 5,
   },
   input: {
     borderRadius: 5,
     width: "70%",
-    padding: 5,
   },
   recovery_password: {
     backgroundColor: "#fff",
   },
-  button: {
-    display: "flex",
+  button_container: {
     width: "70%",
+  },
+  button: {
+    flexDirection: "row",
     height: 35,
     backgroundColor: "#F87800",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+    borderRadius: 20,
   },
   text: {
     padding: 5,
