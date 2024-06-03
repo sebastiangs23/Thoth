@@ -3,18 +3,16 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Button,
   Alert,
   TouchableOpacity,
   Image,
   KeyboardAvoidingView,
-  Platform,
-  keyboardVerticalOffset,
-  ScrollView
 } from "react-native";
 import { useEffect, useState } from "react";
-import { Icon } from "react-native-elements";
 import axios from "axios";
+import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+import { Icon } from "react-native-elements";
+import { playAudioNext } from "../../../../common/functions/functions";
 import image from "../../../../assets/images/sign-in-top-icon.png";
 
 export default function SignIn({ navigation }) {
@@ -35,24 +33,53 @@ export default function SignIn({ navigation }) {
         "http://192.168.1.10:5000/login/login-user",
         { params: data }
       );
+      
+      switch (response.data.status){
+        case 'Successful' : {
+          Dialog.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: response.data.message,
+            textBody: 'Its good to see you again',
+            button: 'Ok',
+            autoClose: 1000
+          })
 
-      console.log(response.data.user);
-      console.log("Aca debe estar mi usuario y seguir con todo el flujo: ");
+          if(response.data.user.id_user_type == 2){
+            playAudioNext()
+            randomConversation();
+            break;
+          }else if(response.data.user.id_user_type == 1){
+            //DASHBOARD ADMIN
+          }else {
+            //COMPONENTE DE RUTA NO ESPECIFICADA
+          }
 
-      switch (response.data.user.id_user_type) {
-        case 2: {
-          randomConversation();
           break;
         }
-        case 1: {
-          //Aca se logeo el administrador
+        case 'Unauthorized': {
+          Dialog.show({
+            type: ALERT_TYPE.DANGER,
+            title: response.data.message,
+            textBody: 'The fuck are you doing here',
+            button: 'close'
+          })
           break;
         }
-        default: {
-          console.log("Aqui no se quien chch se logeo");
+
+        case 'WrongPassword': {
+          Dialog.show({
+            type: ALERT_TYPE.WARNING,
+            title: 'Password incorrect',
+            textBody: response.data.message,
+            button: 'close'
+          })
+          break;
+        }
+        default : {
           break;
         }
       }
+
     } catch (error) {
       console.log(error);
     }
@@ -90,8 +117,6 @@ export default function SignIn({ navigation }) {
       </View>
       
       <Image source={image} style={styles.image} />
-
-      
 
       <Text style={styles.title}>Log in</Text>
 

@@ -13,39 +13,36 @@ export async function logInUser(req: Request, res: Response) {
 
     const user = await UserModel.findOne({
       where: {
-        email,
-        password
+        email
       },
     });
-    console.log(user)
-    console.log("user el usuario encoentrado");
 
-    if (user) {
-      if ((user as any).password == password) {
-        console.log('Entro a esta condicional')
+    if(user){
+      if((user as any).password == password){
         res.json({
-          status: 'Success',
-          messag: 'Bienvenido',
-          user,
+          status: 'Successful',
+          message: 'Welcome back',
+          user, //It only needs to send the user and the type user
         });
-      } else if ((user as any).password != password) {
-        console.log('entro a esta otra condiconl')
+      }else {
         res.json({
-          status: 'Error',
-          message: "Unauthorized: Incorrect password."
-        });
+          status: 'WrongPassword',
+          message: 'The password it´s incorrect. '
+        })
       }
-    } else {
-      console.log('el usuario de meirda no existe')
+    }else {
       res.json({
-        status: 'Error',
-        message: "Unauthorized: User doesn´t exists."
-      });
+        status: 'Unauthorized',
+        message: 'The email doesn´t exists.'
+      })
     }
 
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: error });
+    res.json({
+      status: 'Warning',
+      message: 'Something goes wrong!'
+    })
   }
 }
 
