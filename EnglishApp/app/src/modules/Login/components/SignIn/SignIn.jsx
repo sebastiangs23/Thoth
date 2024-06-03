@@ -16,8 +16,8 @@ import { playAudioNext } from "../../../../common/functions/functions";
 import image from "../../../../assets/images/sign-in-top-icon.png";
 
 export default function SignIn({ navigation }) {
-  const [email, setEmail] = useState({});
-  const [password, setPassword] = useState({});
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const [eyeOpen, setEyeOpen] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
 
@@ -27,13 +27,25 @@ export default function SignIn({ navigation }) {
   |   REQUEST TO THE SERVER   */
   async function sendUserData() {
     try {
+      console.log('1 ' , email , ' 2 ', password);
+
+      if(!email || !password){
+        Dialog.show({
+          type: ALERT_TYPE.WARNING,
+          title: 'Warning',
+          textBody: 'The email or password cannot be empty.',
+          button: 'close'
+        });
+        return;
+      };
+
       let data = { email: email, password: password };
 
       let response = await axios.get(
         "http://192.168.1.10:5000/login/login-user",
         { params: data }
       );
-      
+
       switch (response.data.status){
         case 'Successful' : {
           Dialog.show({
@@ -41,7 +53,7 @@ export default function SignIn({ navigation }) {
             title: response.data.message,
             textBody: 'Its good to see you again',
             button: 'Ok',
-            autoClose: 1000
+            autoClose: 100
           })
 
           if(response.data.user.id_user_type == 2){
