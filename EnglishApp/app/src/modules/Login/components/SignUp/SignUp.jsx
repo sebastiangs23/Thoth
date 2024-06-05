@@ -14,6 +14,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import axios from "axios";
 import image from "../../../../assets/images/sign-up-top-icon.png";
 import { Icon } from "react-native-elements";
+import DatePicker from "../../../../../global/datePicker/datePicker";
 
 export default function SignUp({ navigation }) {
   const [name, setName] = useState(null);
@@ -116,6 +117,8 @@ export default function SignUp({ navigation }) {
 
         <Image source={image} style={styles.image} />
         <Text style={styles.title}>Sign Up</Text>
+
+        <DatePicker />
 
         <View style={styles.container_input}>
           <TextInput
