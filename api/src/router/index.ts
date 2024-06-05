@@ -4,6 +4,7 @@ import userRouter from './users/index.js';
 import conversationRouter from './conversations/index.js';
 import LanguageRouter from './language/index.js';
 import scoreRouter from './score/index.js';
+import CountriesRouter from './countries/index.js';
 
 const router = Router();
 
@@ -26,5 +27,9 @@ router.use('/languages', LanguageRouter);
 /*__________________
 |  ROUTES SCORE   */
 router.use('/score', scoreRouter);
+
+/*__________________
+|  ROUTES SCORE   */
+router.use('/countries', CountriesRouter);
 
 export default router;

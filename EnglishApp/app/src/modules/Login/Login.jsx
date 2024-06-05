@@ -1,12 +1,28 @@
-import { StyleSheet,View, Button, Alert, Image, Text, ImageBackground, TouchableOpacity } from "react-native";
+import { StyleSheet,View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import React, {  useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { playAudioNext } from "../../common/functions/functions";
+import axios from "axios";
 import logo from "../../assets/logos/logo2.png";
 import image from "../../assets/logos/login_wallpaper_full.webp";
+import { setCountries } from "../../store/slices/countries/slice";
+
 
 export default function Login({ navigation }) {
 
+  useEffect(() => {
+    getCountries();
+  }, []);
+
+  /*_______________________________________
+  |   REQUEST TO SERVER (GLOBAL STATES)   */
+  async function getCountries(){
+    const response = await axios.get(
+      "http://192.168.43.29:5000/login/get-countries"
+    );
+    console.log('se ejcuto esta vainaa')
+    setCountries(response.data);
+  }
 
   /*________________
   |   FUNCTIONS   */
