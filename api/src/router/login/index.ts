@@ -4,15 +4,15 @@ import { getCountries, getLevels, logInUser } from '../../controllers/login/logi
 const router = Router();
 
 /*__________________
-   GET COUNTRIES  */
+|  GET COUNTRIES  */
 router.get('/get-countries', getCountries);
 
 /*_______________
-   GET LEVELS  */
+|  GET LEVELS  */
 router.get('/get-levels', getLevels);
 
 /*________________
-   LOG IN USER   */
+|  LOG IN USER   */
 router.get('/login-user', logInUser);
 
 export default router;

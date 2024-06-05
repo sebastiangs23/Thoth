@@ -12,12 +12,12 @@ const CountriesModel = db.define('countries', {
         allowNull: false
     },
     flag: {
-        type: DataTypes.STRING,
+        type: DataTypes.JSON,
         allowNull: false
     },
     nationality: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     iso_code: {
         type: DataTypes.STRING,

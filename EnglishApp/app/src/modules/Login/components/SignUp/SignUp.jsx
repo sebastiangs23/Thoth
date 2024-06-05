@@ -15,8 +15,13 @@ import axios from "axios";
 import image from "../../../../assets/images/sign-up-top-icon.png";
 import { Icon } from "react-native-elements";
 import DatePicker from "../../../../../global/datePicker/datePicker";
+import { useSelector } from "react-redux";
 
 export default function SignUp({ navigation }) {
+  const countriesRedux = useSelector((state) => state.countries.value);
+
+  /*___________
+  |   FORM   */
   const [name, setName] = useState(null);
   const [email, setEmail] = useState(null);
   const [lastName, setLastName] = useState(null);
@@ -28,22 +33,16 @@ export default function SignUp({ navigation }) {
   const [openB, setOpenB] = useState(false);
   const [openR, setOpenR] = useState(false);
 
-  // useEffect(() => {
-  //   getCountries();
-  // }, []);
+  useEffect(() => {
+    renderCountries();
+  }, []);
 
-  /*____________________________
-  |   Request to the server   */
-  async function getCountries() {
+  async function renderCountries() {
     try {
-      const response = await axios.get(
-        "http://192.168.1.10:5000/login/get-countries"
-      );
-
       let formattedCountries;
 
-      if (response.data.length) {
-        formattedCountries = response.data.map((country) => ({
+      if (countriesRedux.length) {
+        formattedCountries = countriesRedux.map((country) => ({
           label: country.name,
           value: country.iso_code,
           icon: () => {
@@ -56,7 +55,7 @@ export default function SignUp({ navigation }) {
 
       setCountries(formattedCountries);
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
     }
   }
 

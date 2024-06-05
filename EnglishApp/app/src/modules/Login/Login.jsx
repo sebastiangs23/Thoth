@@ -6,9 +6,11 @@ import axios from "axios";
 import logo from "../../assets/logos/logo2.png";
 import image from "../../assets/logos/login_wallpaper_full.webp";
 import { setCountries } from "../../store/slices/countries/slice";
+import { useDispatch } from "react-redux";
 
 
 export default function Login({ navigation }) {
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getCountries();
@@ -18,10 +20,10 @@ export default function Login({ navigation }) {
   |   REQUEST TO SERVER (GLOBAL STATES)   */
   async function getCountries(){
     const response = await axios.get(
-      "http://192.168.43.29:5000/login/get-countries"
+      "http://192.168.1.10:5000/countries/get-countries-db"
     );
-    console.log('se ejcuto esta vainaa')
-    setCountries(response.data);
+
+    dispatch(setCountries(response.data));
   }
 
   /*________________
