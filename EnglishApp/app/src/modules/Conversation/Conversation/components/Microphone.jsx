@@ -1,10 +1,11 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { View, Button, StyleSheet } from "react-native";
+import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { useDispatch } from "react-redux";
+import { Icon } from "react-native-elements";
 import { setScore } from "../../../../store/slices/score/slice";
 import { Audio } from "expo-av";
 import { playAudio } from "../../../../common/functions/functions";
-import axios from "axios";
 
 export default function Microphone({ dialog, id_conversation }) {
   const dispatch = useDispatch();
@@ -78,7 +79,6 @@ export default function Microphone({ dialog, id_conversation }) {
       );
 
       dispatch(setScore(response.data));
-
     } catch (error) {
       console.log("Error al intentar evaluar el audio");
       console.log(error.response ? error.response.data : error);
@@ -87,11 +87,30 @@ export default function Microphone({ dialog, id_conversation }) {
 
   return (
     <View style={styles.container}>
-      <Button
+      {/* <Button
         title={recording ? "Stop Recording" : "Start recording"}
         onPress={recording ? stopRecording : startRecording}
-      />
-      {audioUri && <Button title="Play audio" onPress={() => playAudio(audioUri)} />}
+      /> */}
+
+      <View style={styles.button_container}>
+        <TouchableOpacity
+          style={recording ?  styles.button_recording : styles.button_no_recording}
+          onPress={recording ? stopRecording : startRecording}
+        >
+          <Icon name="mic-circle-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
+      </View>
+
+      {audioUri && (
+        <View style={styles.button_container}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => playAudio(audioUri)}
+          >
+            <Icon name="ear-outline" type="ionicon" color="white" />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -103,4 +122,36 @@ const styles = StyleSheet.create({
     backgroundColor: "#ecf0f1",
     padding: 10,
   },
+  button_container: {
+    width: 30,
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  button: {
+    flexDirection: "row",
+    height: 35,
+    backgroundColor: "#F87800",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderRadius: 20,
+  },
+  button_recording: {
+    flexDirection: "row",
+    height: 35,
+    backgroundColor: "#41D84A",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderRadius: 20,
+  },
+  button_no_recording: {
+    flexDirection: "row",
+    height: 35,
+    backgroundColor: "#F87800",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderRadius: 20,
+  }
 });
