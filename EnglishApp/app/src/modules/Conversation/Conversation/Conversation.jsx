@@ -15,8 +15,8 @@ export default function Conversation() {
 
   return (
     <View>
-      <View>
-        <Text>SCORE ....</Text>
+      <View style={styles.container_score_board}>
+        <Text style={styles.title}>SCORE333</Text>
         <Score />
       </View>
 
@@ -47,6 +47,14 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     margin: 5,
     borderRadius: 10,
+  },
+
+  title: {
+    margin: 5,
+    padding: 5,
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#000000",
   },
   avatar: {
     borderRadius: 50,

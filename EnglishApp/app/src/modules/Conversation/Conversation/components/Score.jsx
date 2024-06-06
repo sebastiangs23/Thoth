@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { Icon } from "react-native-elements";
+import Bar from "../components/Bar.jsx";
 
 export default function Score() {
   const score = useSelector((state) => state.score.value);
@@ -9,16 +11,48 @@ export default function Score() {
   }, []);
 
   return (
-    <View>
+    <View style={styles.container_score}>
       {score.pronunciation_level && (
-            <View>
-              <Text>Acurracy: {score.pronunciation_level[0].accuracy_score} </Text>
-              <Text>completeness: {score.pronunciation_level[0].completeness_score} </Text>
-              <Text>Fluency: {score.pronunciation_level[0].fluency_score} </Text>
-              <Text>Pronunciation: {score.pronunciation_level[0].prosody_score} </Text>
-            </View>
-          )
-       }
+        <View>
+          <View>
+            <Bar
+              type={"Acurracy"}
+              porcentaje={score.pronunciation_level[0].accuracy_score}
+              icon_name={"crosshairs"}
+              icon_type={"font-awesome"}
+            />
+
+            <Bar
+              type={"Completeness"}
+              porcentaje={score.pronunciation_level[0].completeness_score}
+              icon_name={"check"}
+              icon_type={"font-awesome"}
+            />
+
+            <Bar
+              type={"Fluency"}
+              porcentaje={score.pronunciation_level[0].fluency_score}
+              icon_name={"air"}
+              icon_type={"material"}
+            />
+
+            <Bar
+              type={"Pronunciation"}
+              porcentaje={score.pronunciation_level[0].prosody_score}
+              icon_name={"laugh-wink"}
+              icon_type={"font-awesome-5"}
+            />
+
+
+          </View>
+        </View>
+      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container_score: {
+    width: "100%",
+  },
+});
