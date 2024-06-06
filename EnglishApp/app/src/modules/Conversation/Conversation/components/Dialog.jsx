@@ -1,8 +1,9 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Image } from "react-native"
+
 
 export default function Dialog({ id_conversation, person,dialog }){
     return(
-        <View>
+        <View  >
             <Text> {person} </Text>
             <Text> {dialog} </Text>
         </View>

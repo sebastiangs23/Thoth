@@ -5,10 +5,21 @@ import { useDispatch } from "react-redux";
 import { Icon } from "react-native-elements";
 import { setScore } from "../../../../store/slices/score/slice";
 import { Audio } from "expo-av";
+import * as Speech from 'expo-speech';
 import { playAudio } from "../../../../common/functions/functions";
 
 export default function Microphone({ dialog, id_conversation }) {
   const dispatch = useDispatch();
+
+  const speak = () => {
+    const thingToSay = dialog;
+
+    Speech.speak(thingToSay, {
+      language: 'en',
+      pitch: 1,
+      rate: 0.8
+    });
+  };
 
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [recording, setRecording] = useState(false);
@@ -87,30 +98,29 @@ export default function Microphone({ dialog, id_conversation }) {
 
   return (
     <View style={styles.container}>
-      {/* <Button
-        title={recording ? "Stop Recording" : "Start recording"}
-        onPress={recording ? stopRecording : startRecording}
-      /> */}
-
-      <View style={styles.button_container}>
-        <TouchableOpacity
-          style={recording ?  styles.button_recording : styles.button_no_recording}
-          onPress={recording ? stopRecording : startRecording}
-        >
-          <Icon name="mic-circle-outline" type="ionicon" color="white" />
-        </TouchableOpacity>
-      </View>
-
-      {audioUri && (
+      <View>
         <View style={styles.button_container}>
           <TouchableOpacity
-            style={styles.button}
-            onPress={() => playAudio(audioUri)}
+            style={
+              recording ? styles.button_recording : styles.button_no_recording
+            }
+            onPress={recording ? stopRecording : startRecording}
           >
-            <Icon name="ear-outline" type="ionicon" color="white" />
+            <Icon name="mic-circle-outline" type="ionicon" color="white" />
           </TouchableOpacity>
         </View>
-      )}
+
+        {audioUri && (
+          <View style={styles.button_container}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={speak}
+            >
+              <Icon name="ear-outline" type="ionicon" color="white" />
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     </View>
   );
 }
@@ -153,5 +163,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     borderRadius: 20,
-  }
+  },
 });
