@@ -29,8 +29,8 @@ export default function Login({ navigation }) {
   /*________________
   |   FUNCTIONS   */
   function signIn(){
-    //navigation.navigate("SignIn");
-    navigation.navigate("LanguageLevel")
+    navigation.navigate("SignIn");
+    //navigation.navigate("LanguageLevel")
     playAudioNext();
   }
 

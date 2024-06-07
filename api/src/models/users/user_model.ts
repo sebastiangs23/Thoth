@@ -48,6 +48,6 @@ const UserModel = db.define('users', {
 
 UserModel.belongsTo(UserTypeModel, { foreignKey: 'id_user_type' });
 
-UserModel.sync({ alter: true });
+UserModel.sync({ alter: false });
 
 export default UserModel;

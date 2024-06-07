@@ -2,6 +2,7 @@ import axios from "axios";
 import { Request, Response } from "express";
 import UserTypeModel from "../../models/user_type/user_type_model.js";
 import UserModel from "../../models/users/user_model.js";
+import ViewUserModel from "../../models/users/view_user_model.js";
 import LanguageLevel from "../../models/language_levels/language_levels_model.js";
 
 export async function logInUser(req: Request, res: Response) {
@@ -11,11 +12,13 @@ export async function logInUser(req: Request, res: Response) {
 
     console.log("lo que me llega x query!");
 
-    const user = await UserModel.findOne({
+    const user = await ViewUserModel.findOne({
       where: {
         email
       },
     });
+
+    console.log('USEEER --> ', user);
 
     if(user){
       if((user as any).password == password){

@@ -13,7 +13,7 @@ router.post('/create', createUser);
 
 /*_______________________________
 |   EDIT LANGUAGE LEVEL USER   */
-router.put('/update-user-level-language',  updateUserLanguageLevel);
+router.put('/update-level-language',  updateUserLanguageLevel);
 
 
 export default router;

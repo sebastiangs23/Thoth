@@ -12,16 +12,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import { Icon } from "react-native-elements";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../../store/slices/user/slice";
 import { playAudioNext } from "../../../../common/functions/functions";
 import image from "../../../../assets/images/sign-in-top-icon.png";
 
 export default function SignIn({ navigation }) {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [eyeOpen, setEyeOpen] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
-
-  useEffect(() => {}, []);
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
@@ -48,6 +50,9 @@ export default function SignIn({ navigation }) {
 
       switch (response.data.status){
         case 'Successful' : {
+          //Llenare ala persona en el estado global redux
+          dispatch(setUser(response.data.user));
+
           Dialog.show({
             type: ALERT_TYPE.SUCCESS,
             title: response.data.message,
@@ -57,8 +62,9 @@ export default function SignIn({ navigation }) {
           })
 
           if(response.data.user.id_user_type == 2){
-            playAudioNext()
-            randomConversation();
+            playAudioNext();
+            //randomConversation();
+            LanguageLevel();
             break;
           }else if(response.data.user.id_user_type == 1){
             //DASHBOARD ADMIN
@@ -99,6 +105,10 @@ export default function SignIn({ navigation }) {
 
   /*________________
   |   FUNCTIONS   */
+  function LanguageLevel(){
+    navigation.navigate("LanguageLevel");
+  }
+
   function randomConversation() {
     navigation.navigate("RandomConversation");
   }

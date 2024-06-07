@@ -1,16 +1,19 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
-export default function LanguageLevel() {
+export default function LanguageLevel({ navigation }) {
+  const user = useSelector((state) => state.user.value);
+
   const [languageLevels, setLanguageLevels] = useState([]);
 
   useEffect(() => {
     getLanguageLevels();
   }, []);
 
-  /*________________
-    |   FUNCTIONS   */
+  /*________________________________________
+  |   REQUEST TO SERVER (GLOBAL STATES)   */
   async function getLanguageLevels() {
     try {
       const response = await axios.get(
@@ -20,6 +23,26 @@ export default function LanguageLevel() {
       setLanguageLevels(response.data);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function updateUserLanguageLevel(id_language_level){
+    try{
+      let data = {
+        id_user: user.id,
+        id_language_level
+      };
+
+      const response = await axios.put('http://192.168.1.12:5000/users/update-level-language', data);
+
+      if(response.data.status == 'Successfull'){
+        navigation.navigate("RandomConversation");
+      }else {
+        //notification that somethings goes wrong
+      }
+
+    }catch(error){
+      console.log(error)
     }
   }
 
@@ -33,7 +56,7 @@ export default function LanguageLevel() {
         {languageLevels &&
           languageLevels.map((item) => {
             return (
-              <TouchableOpacity key={item.id} style={styles.button}>
+              <TouchableOpacity key={item.id} style={styles.button} onPress={() => updateUserLanguageLevel(item.id)}>
                 <Text style={styles.text}> {item.level} </Text>
               </TouchableOpacity>
             );
