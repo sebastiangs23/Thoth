@@ -1,22 +1,46 @@
-import { ScrollView, View, StyleSheet, Text, Image } from "react-native";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import Dialog from "./components/Dialog";
+import { Icon } from "react-native-elements";
+import { Audio } from "expo-av";
 import Microphone from "./components/Microphone";
+import Dialog from "./components/Dialog";
 import Score from "./components/Score";
 import silueta from "../../../assets/avatars/siluetaAvatar.jpg";
 
 export default function Conversation() {
   const dialogs = useSelector((state) => state.dialog.value);
+  const audioUri = useSelector((state) => state.audioUri.value);
 
   useEffect(() => {
     console.log(dialogs);
   }, []);
 
+  /*_______________
+  |   FUNCTIONS   */
+  async function playAudio() {
+    const { sound } = await Audio.Sound.createAsync({ uri: audioUri });
+    console.log('audioUri--> ', audioUri)
+    console.log("Playing Sound");
+    await sound.playAsync();
+  }
+
   return (
     <View>
       <View style={styles.container_score_board}>
-        <Text style={styles.title}>SCORE333</Text>
+        <Text style={styles.title}>SCORE</Text>
+        <View style={styles.button}>
+          <TouchableOpacity onPress={playAudio}>
+            <Icon name="ear-outline" type="ionicon" color="white" />
+          </TouchableOpacity>
+        </View>
         <Score />
       </View>
 
@@ -60,5 +84,14 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 50,
     height: 50,
+  },
+  button: {
+    flexDirection: "row",
+    height: 35,
+    backgroundColor: "#F87800",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    borderRadius: 20,
   },
 });

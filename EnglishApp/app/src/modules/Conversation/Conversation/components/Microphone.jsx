@@ -1,15 +1,17 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { View, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { setScore } from "../../../../store/slices/score/slice";
 import { Audio } from "expo-av";
 import * as Speech from 'expo-speech';
 import { playAudio } from "../../../../common/functions/functions";
+import { setAudioUri2 } from "../../../../store/slices/audioUri/slice";
 
 export default function Microphone({ dialog, id_conversation }) {
   const dispatch = useDispatch();
+  const audioUri = useSelector((state) => state.audioUri.value);
 
   const speak = () => {
     const thingToSay = dialog;
@@ -23,7 +25,7 @@ export default function Microphone({ dialog, id_conversation }) {
 
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [recording, setRecording] = useState(false);
-  const [audioUri, setAudioUri] = useState(null);
+  //const [audioUri, setAudioUri] = useState(null);
 
   async function startRecording() {
     try {
@@ -54,7 +56,8 @@ export default function Microphone({ dialog, id_conversation }) {
       await recording.stopAndUnloadAsync();
       const uri = recording.getURI();
 
-      setAudioUri(uri);
+      //setAudioUri(uri);
+      dispatch(setAudioUri2(uri))
       setRecording(false);
 
       await Audio.setAudioModeAsync({
@@ -80,7 +83,6 @@ export default function Microphone({ dialog, id_conversation }) {
 
       const response = await axios.post(
         "http://192.168.1.10:5000/score/audio",
-        //'http://192.168.1.10:5001/api/cosmo-ai/score/audio',
         formData,
         {
           headers: {
