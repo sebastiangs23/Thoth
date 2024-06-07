@@ -7,7 +7,7 @@ import { setScore } from "../../../../store/slices/score/slice";
 import { Audio } from "expo-av";
 import * as Speech from 'expo-speech';
 import { playAudio } from "../../../../common/functions/functions";
-import { setAudioUri2 } from "../../../../store/slices/audioUri/slice";
+import { setAudioUri } from "../../../../store/slices/audioUri/slice";
 
 export default function Microphone({ dialog, id_conversation }) {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ export default function Microphone({ dialog, id_conversation }) {
       const uri = recording.getURI();
 
       //setAudioUri(uri);
-      dispatch(setAudioUri2(uri))
+      dispatch(setAudioUri(uri))
       setRecording(false);
 
       await Audio.setAudioModeAsync({

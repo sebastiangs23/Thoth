@@ -6,8 +6,8 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
 import Microphone from "./components/Microphone";
@@ -19,16 +19,10 @@ export default function Conversation() {
   const dialogs = useSelector((state) => state.dialog.value);
   const audioUri = useSelector((state) => state.audioUri.value);
 
-  useEffect(() => {
-    console.log(dialogs);
-  }, []);
-
   /*_______________
   |   FUNCTIONS   */
   async function playAudio() {
     const { sound } = await Audio.Sound.createAsync({ uri: audioUri });
-    console.log('audioUri--> ', audioUri)
-    console.log("Playing Sound");
     await sound.playAsync();
   }
 

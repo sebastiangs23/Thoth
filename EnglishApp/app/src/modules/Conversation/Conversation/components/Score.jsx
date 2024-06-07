@@ -38,7 +38,7 @@ export default function Score() {
 
             <Bar
               type={"Pronunciation"}
-              porcentaje={score.pronunciation_level[0].prosody_score}
+              porcentaje={score.pronunciation_level[0].pronunciation_score}
               icon_name={"laugh-wink"}
               icon_type={"font-awesome-5"}
             />
