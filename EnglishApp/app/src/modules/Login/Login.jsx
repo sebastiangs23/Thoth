@@ -20,7 +20,7 @@ export default function Login({ navigation }) {
   |   REQUEST TO SERVER (GLOBAL STATES)   */
   async function getCountries(){
     const response = await axios.get(
-      "http://192.168.1.10:5000/countries/get-countries-db"
+      "http://192.168.1.12:5000/countries/get-countries-db"
     );
 
     dispatch(setCountries(response.data));
@@ -29,7 +29,8 @@ export default function Login({ navigation }) {
   /*________________
   |   FUNCTIONS   */
   function signIn(){
-    navigation.navigate("SignIn");
+    //navigation.navigate("SignIn");
+    navigation.navigate("LanguageLevel")
     playAudioNext();
   }
 

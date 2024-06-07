@@ -42,7 +42,7 @@ export default function SignIn({ navigation }) {
       let data = { email: email, password: password };
 
       let response = await axios.get(
-        "http://192.168.1.10:5000/login/login-user",
+        "http://192.168.1.12:5000/login/login-user",
         { params: data }
       );
 

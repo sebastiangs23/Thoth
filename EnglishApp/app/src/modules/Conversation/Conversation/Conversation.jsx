@@ -30,11 +30,13 @@ export default function Conversation() {
     <View>
       <View style={styles.container_score_board}>
         <Text style={styles.title}>SCORE</Text>
-        <View style={styles.button}>
-          <TouchableOpacity onPress={playAudio}>
-            <Icon name="ear-outline" type="ionicon" color="white" />
-          </TouchableOpacity>
-        </View>
+        {audioUri && (
+          <View style={styles.button}>
+            <TouchableOpacity onPress={playAudio}>
+              <Icon name="ear-outline" type="ionicon" color="white" />
+            </TouchableOpacity>
+          </View>
+        )}
         <Score />
       </View>
 

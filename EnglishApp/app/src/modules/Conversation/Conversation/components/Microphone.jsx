@@ -82,7 +82,7 @@ export default function Microphone({ dialog, id_conversation }) {
       formData.append("dialog", dialog);
 
       const response = await axios.post(
-        "http://192.168.1.10:5000/score/audio",
+        "http://192.168.1.12:5000/score/audio",
         formData,
         {
           headers: {
@@ -112,7 +112,6 @@ export default function Microphone({ dialog, id_conversation }) {
           </TouchableOpacity>
         </View>
 
-        {audioUri && (
           <View style={styles.button_container}>
             <TouchableOpacity
               style={styles.button}
@@ -121,7 +120,6 @@ export default function Microphone({ dialog, id_conversation }) {
               <Icon name="ear-outline" type="ionicon" color="white" />
             </TouchableOpacity>
           </View>
-        )}
       </View>
     </View>
   );
