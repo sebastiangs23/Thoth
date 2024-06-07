@@ -6,6 +6,7 @@
         "API (creation of models, controllers and their routes)",
         "CLIENT",
         "React-Redux ",
-        "Azure-speech"
+        "Azure-speech",
+        "Database && Back"
     ]
 }

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import UserModel from "../../models/users/user_model.js";
+import UserLanguageLevel from "../../models/user_language_level/user_language_model.js";
 
 export async function getUsers(req: Request, res: Response) {
   try {
@@ -46,7 +47,28 @@ export async function createUser(req: Request, res: Response) {
 
   } catch (error) {
     console.log(error)
-    console.log(error)
     res.json({ error });
+  }
+}
+
+export async function updateUserLanguageLevel(req: Request, res: Response){
+  try{
+    const { id_user , id_language_level} = req.params;
+
+    await UserLanguageLevel.update({
+      id_language_level
+    }, {
+      where: {
+        id_user
+      }
+    });
+
+    res.status(200).json({
+      status: 'Successfull',
+      message: 'The level was successfully edited.'
+    })
+  }catch(error){
+    console.log(error);
+    
   }
 }
