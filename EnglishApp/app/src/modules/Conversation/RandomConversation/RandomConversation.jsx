@@ -60,6 +60,7 @@ export default function RandomConversation({ navigation }) {
           conversationContext.map((item) => {
             return (
                 <TouchableOpacity
+                  key={item.id}
                   style={styles.button}
                   onPress={() => selectContext(item)}
                 >

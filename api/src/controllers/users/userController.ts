@@ -32,28 +32,48 @@ export async function createUser(req: Request, res: Response) {
 
     console.log(req.body);
 
-    const userCreated = await UserModel.create({
-      id_user_type: 2,
-      name,
-      last_name,
-      second_last_name,
-      email,
-      password,
-      birth_country,
-      residence_country,
+    //Validacion para saber si ese correo ya existe en la bd
+    const emailInUse = await UserModel.findOne({
+      where: {
+        email,
+      },
+      attributes: ["email"],
     });
 
-    if (userCreated) {
-      res.json({
-        status: "Successful",
-        message: "The user was successfully created!",
+    console.log("emailInUse");
+    console.log(emailInUse);
+
+    if (!emailInUse) {
+      const userCreated = await UserModel.create({
+        id_user_type: 2,
+        name,
+        last_name,
+        second_last_name,
+        email,
+        password,
+        birth_country,
+        residence_country,
       });
+
+      if (userCreated) {
+        res.json({
+          status: "Successful",
+          message: "The user was successfully created!",
+          user: userCreated,
+        });
+      };
+
+    } else if (emailInUse) {
+      res.json({
+        status: 'Warning',
+        message: 'This email its already in use.'
+      })
     }
   } catch (error) {
     console.log(error);
     res.json({
-      status: 'Warning',
-      message: 'Some issue trying to create the user.'
+      status: "Warning",
+      message: "Some issue trying to create the user.",
     });
   }
 }

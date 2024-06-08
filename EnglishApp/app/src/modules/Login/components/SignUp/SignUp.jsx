@@ -17,9 +17,12 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { Icon } from "react-native-elements";
 import DatePicker from "../../../../../global/datePicker/datePicker";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../../../store/slices/user/slice";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
 export default function SignUp({ navigation }) {
+  const dispatch = useDispatch();
   const countriesRedux = useSelector((state) => state.countries.value);
 
   /*___________
@@ -88,12 +91,11 @@ export default function SignUp({ navigation }) {
       ) {
         Dialog.show({
           type: ALERT_TYPE.WARNING,
-          title: 'Complete all',
-          textBody: 'Some fields are missing to fill out',
-          button: 'Ok',
-          autoClose: 2000
-        })
-
+          title: "Complete all",
+          textBody: "Some fields are missing to fill out",
+          button: "Ok",
+          autoClose: 2000,
+        });
       } else {
         let data = {
           name: name,
@@ -109,19 +111,50 @@ export default function SignUp({ navigation }) {
           "http://192.168.1.12:5000/users/create/",
           data
         );
-        
-        Dialog.show({
-          type: ALERT_TYPE.SUCCESS,
-          title: response.data.message,
-          textBody: 'Something goes wrong.',
-          button: 'Ok',
-          autoClose: 2000
-        })
 
-        console.log(response.data)
+        switch (response.data.status) {
+          case "Successful":
+            {
+              Dialog.show({
+                type: ALERT_TYPE.SUCCESS,
+                title: "Perfect",
+                textBody: response.data.message,
+                button: "Ok",
+                autoClose: 2000,
+              });
+            }
+
+            dispatch(setUser(response.data.user));
+            navigation.navigate("LanguageLevel");
+            break;
+
+          case "Warning": {
+            Dialog.show({
+              type: ALERT_TYPE.WARNING,
+              title: "Something goes wrong",
+              textBody: response.data.message,
+              button: "Ok",
+              autoClose: 3000,
+            });
+
+            break;
+          }
+
+          default: {
+            Dialog.show({
+              type: ALERT_TYPE.WARNING,
+              title: "???",
+              textBody: "Something unexpected just happened",
+              button: "Ok",
+              autoClose: 2000,
+            });
+
+            break;
+          }
+        }
+
+        console.log(response.data);
       }
-
-      console.log(response);
     } catch (error) {
       console.log(error.message);
     }
