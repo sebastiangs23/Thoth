@@ -45,13 +45,16 @@ export async function createUser(req: Request, res: Response) {
 
     if (userCreated) {
       res.json({
-        status: "Success",
-        message: "Su usuario se creo de manera exitosa!",
+        status: "Successful",
+        message: "The user was successfully created!",
       });
     }
   } catch (error) {
     console.log(error);
-    res.json({ error });
+    res.json({
+      status: 'Warning',
+      message: 'Some issue trying to create the user.'
+    });
   }
 }
 

@@ -8,6 +8,7 @@
         "React-Redux ",
         "Azure-speech",
         "Database && Back",
-        "Front && Back"
+        "Front && Back",
+        "Front"
     ]
 }

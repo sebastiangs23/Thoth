@@ -8,7 +8,7 @@ import {
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { useState } from "react";
 
-export default function DatePicker() {
+export default function DatePicker({ format }) {
   const [date, setDate] = useState(new Date());
 
   function onChange(event, selectedDate) {
@@ -26,11 +26,13 @@ export default function DatePicker() {
   }
 
   function showDatepicker() {
-    showMode("date");
+    //showMode("date");
+    showMode(format);
   }
 
   function showTimepicker() {
-    showMode("time");
+    //showMode("time");
+    showMode(format);
   }
 
   return (
@@ -48,18 +50,21 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: 1,
+    borderRadius: 8,
+    width: '50%'
   },
   button: {
-    width: 200,
-    height: 55,
-    backgroundColor: "#F87800",
+    width: '100%',
+    height: 50,
+    backgroundColor: "#FFFFFF",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
+    borderRadius: 10,
   },
   text: {
-    fontSize: 23,
-    color: "#FFFFFF",
-    fontWeight: "bold",
+    fontSize: 15,
+    color: "#000000",
+    fontWeight: "400",
   },
 });

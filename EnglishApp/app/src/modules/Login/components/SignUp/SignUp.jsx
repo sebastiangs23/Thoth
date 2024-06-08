@@ -8,14 +8,16 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
   ScrollView,
+  TouchableOpacity,
+  FlatList,
 } from "react-native";
 import { useEffect, useState } from "react";
-import DropDownPicker from "react-native-dropdown-picker";
 import axios from "axios";
-import image from "../../../../assets/images/sign-up-top-icon.png";
+import DropDownPicker from "react-native-dropdown-picker";
 import { Icon } from "react-native-elements";
 import DatePicker from "../../../../../global/datePicker/datePicker";
 import { useSelector } from "react-redux";
+import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
 export default function SignUp({ navigation }) {
   const countriesRedux = useSelector((state) => state.countries.value);
@@ -37,6 +39,8 @@ export default function SignUp({ navigation }) {
     renderCountries();
   }, []);
 
+  /*____________________________
+  |   REQUEST TO THE SERVER   */
   async function renderCountries() {
     try {
       let formattedCountries;
@@ -72,20 +76,50 @@ export default function SignUp({ navigation }) {
       );
       console.log("arribaaa!");
 
-      let data = {
-        name: name,
-        last_name: lastName,
-        second_last_name: secondLastName,
-        email: email,
-        password: password,
-        birth_country: selectedCountryBirth,
-        residence_country: selectedCountryResid,
-      };
+      // Validate all the fields
+      if (
+        name == null ||
+        email == null ||
+        lastName == null ||
+        secondLastName == null ||
+        password == null ||
+        selectedCountryBirth == null ||
+        selectedCountryResid == null
+      ) {
+        Dialog.show({
+          type: ALERT_TYPE.WARNING,
+          title: 'Complete all',
+          textBody: 'Some fields are missing to fill out',
+          button: 'Ok',
+          autoClose: 2000
+        })
 
-      const response = await axios.post(
-        "http://192.168.1.12:5000/users/create/",
-        data
-      );
+      } else {
+        let data = {
+          name: name,
+          last_name: lastName,
+          second_last_name: secondLastName,
+          email: email,
+          password: password,
+          birth_country: selectedCountryBirth,
+          residence_country: selectedCountryResid,
+        };
+
+        const response = await axios.post(
+          "http://192.168.1.12:5000/users/create/",
+          data
+        );
+        
+        Dialog.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: response.data.message,
+          textBody: 'Something goes wrong.',
+          button: 'Ok',
+          autoClose: 2000
+        })
+
+        console.log(response.data)
+      }
 
       console.log(response);
     } catch (error) {
@@ -100,7 +134,7 @@ export default function SignUp({ navigation }) {
   }
 
   return (
-    <ScrollView>
+    <View>
       <View style={styles.container}>
         <View style={styles.container_back_button}>
           <Icon
@@ -114,10 +148,8 @@ export default function SignUp({ navigation }) {
           />
         </View>
 
-        <Image source={image} style={styles.image} />
+        {/* <Image source={image} style={styles.image} /> */}
         <Text style={styles.title}>Sign Up</Text>
-
-        <DatePicker />
 
         <View style={styles.container_input}>
           <TextInput
@@ -144,13 +176,6 @@ export default function SignUp({ navigation }) {
           <TextInput
             placeholder="Example@email.com"
             onChangeText={(text) => setEmail(text)}
-          />
-        </View>
-
-        <View style={styles.container_input}>
-          <TextInput
-            placeholder="Password"
-            onChangeText={(text) => setPassword(text)}
           />
         </View>
 
@@ -192,18 +217,30 @@ export default function SignUp({ navigation }) {
           )}
         />
 
-        <Button title="Create an Account" onPress={createUser} />
+        <DatePicker format={"date"} />
+
+        <View style={styles.container_input}>
+          <TextInput
+            placeholder="Password"
+            onChangeText={(text) => setPassword(text)}
+          />
+        </View>
+
+        <View style={styles.create_button_container}>
+          <TouchableOpacity style={styles.create_button} onPress={createUser}>
+            <Text style={styles.text}>Create an Account</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
+    alignContent: "center",
+    height: "100%",
   },
   container_back_button: {
     alignSelf: "flex-start",
@@ -223,13 +260,14 @@ const styles = StyleSheet.create({
     padding: 5,
     width: "80%",
     borderWidth: 1,
-    borderRadius: 20,
+    borderRadius: 8,
     flexDirection: "row",
     marginTop: 10,
     marginBottom: 10,
   },
   dropdown: {
     height: 50,
+    width: "50%",
   },
   flag: {
     width: 30,
@@ -242,5 +280,23 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
+  },
+  create_button_container: {
+    margin: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  create_button: {
+    width: 200,
+    height: 55,
+    backgroundColor: "#F87800",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+  },
+  text: {
+    fontSize: 23,
+    color: "#FFFFFF",
+    fontWeight: "bold",
   },
 });
