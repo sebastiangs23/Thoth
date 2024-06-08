@@ -68,17 +68,6 @@ export default function SignUp({ navigation }) {
 
   async function createUser() {
     try {
-      console.log(
-        name,
-        email,
-        lastName,
-        secondLastName,
-        password,
-        selectedCountryBirth,
-        selectedCountryResid
-      );
-      console.log("arribaaa!");
-
       // Validate all the fields
       if (
         name == null ||
@@ -167,51 +156,55 @@ export default function SignUp({ navigation }) {
   }
 
   return (
-    <View>
-      <View style={styles.container}>
-        <View style={styles.container_back_button}>
-          <Icon
-            name="arrow-back-outline"
-            reverseColor="#000000"
-            type="ionicon"
-            color="white"
-            reverse
-            style={styles.back_button}
-            onPress={logIn}
-          />
-        </View>
+    <View style={styles.sign_up_container}>
+      <View style={styles.container_back_button}>
+        <Icon
+          name="arrow-back-outline"
+          reverseColor="#000000"
+          type="ionicon"
+          color="white"
+          reverse
+          style={styles.back_button}
+          onPress={logIn}
+        />
+      </View>
 
-        {/* <Image source={image} style={styles.image} /> */}
-        <Text style={styles.title}>Sign Up</Text>
+      {/* <Image source={image} style={styles.image} /> */}
+      <Text style={styles.title}>Sign Up</Text>
 
-        <View style={styles.container_input}>
-          <TextInput
-            placeholder="Name"
-            onChangeText={(text) => setName(text)}
-          />
-        </View>
+      <View style={styles.container_input}>
+        <TextInput
+          placeholder="Name"
+          style={styles.input}
+          onChangeText={(text) => setName(text)}
+        />
+      </View>
 
-        <View style={styles.container_input}>
-          <TextInput
-            placeholder="LastName"
-            onChangeText={(text) => setLastName(text)}
-          />
-        </View>
+      <View style={styles.container_input}>
+        <TextInput
+          placeholder="LastName"
+          style={styles.input}
+          onChangeText={(text) => setLastName(text)}
+        />
+      </View>
 
-        <View style={styles.container_input}>
-          <TextInput
-            placeholder="Second lastName"
-            onChangeText={(text) => setSecondLastName(text)}
-          />
-        </View>
+      <View style={styles.container_input}>
+        <TextInput
+          placeholder="Second lastName"
+          style={styles.input}
+          onChangeText={(text) => setSecondLastName(text)}
+        />
+      </View>
 
-        <View style={styles.container_input}>
-          <TextInput
-            placeholder="Example@email.com"
-            onChangeText={(text) => setEmail(text)}
-          />
-        </View>
+      <View style={styles.container_input}>
+        <TextInput
+          placeholder="Example@email.com"
+          style={styles.input}
+          onChangeText={(text) => setEmail(text)}
+        />
+      </View>
 
+      <View >
         <DropDownPicker
           open={openB}
           value={selectedCountryBirth}
@@ -230,7 +223,9 @@ export default function SignUp({ navigation }) {
             </View>
           )}
         />
+      </View>
 
+      <View>
         <DropDownPicker
           open={openR}
           value={selectedCountryResid}
@@ -249,27 +244,31 @@ export default function SignUp({ navigation }) {
             </View>
           )}
         />
+      </View>
 
-        <DatePicker format={"date"} />
+      <DatePicker format={"date"} />
 
-        <View style={styles.container_input}>
-          <TextInput
-            placeholder="Password"
-            onChangeText={(text) => setPassword(text)}
-          />
-        </View>
+      <View style={styles.container_input}>
+        <TextInput
+          placeholder="Password"
+          style={styles.input}
+          onChangeText={(text) => setPassword(text)}
+        />
+      </View>
 
-        <View style={styles.create_button_container}>
-          <TouchableOpacity style={styles.create_button} onPress={createUser}>
-            <Text style={styles.text}>Create an Account</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.create_button_container}>
+        <TouchableOpacity style={styles.create_button} onPress={createUser}>
+          <Text style={styles.text}>Create an Account</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  sign_up_container: {
+    alignItems: "center",
+  },
   container: {
     justifyContent: "center",
     alignContent: "center",
@@ -298,9 +297,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
+  input: {
+    borderRadius: 5,
+    width: "80%",
+  },
   dropdown: {
     height: 50,
-    width: "50%",
+    width: "65%",
   },
   flag: {
     width: 30,

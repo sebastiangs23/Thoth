@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { playAudioNext } from "../../common/functions/functions";
 import axios from "axios";
 
 export default function LanguageLevel({ navigation }) {
@@ -36,7 +37,10 @@ export default function LanguageLevel({ navigation }) {
       const response = await axios.put('http://192.168.1.12:5000/users/update-level-language', data);
 
       if(response.data.status == 'Successfull'){
+
         navigation.navigate("RandomConversation");
+        playAudioNext();
+
       }else {
         //notification that somethings goes wrong
       }
@@ -49,7 +53,7 @@ export default function LanguageLevel({ navigation }) {
   return (
     <View>
       <View style={styles.title_container}>
-        <Text style={styles.title}>PICK THE LEVEL THAT U THINK U ARE</Text>
+        <Text style={styles.title}>Select the level that represents your current ability</Text>
       </View>
 
       <View style={styles.container_card}>

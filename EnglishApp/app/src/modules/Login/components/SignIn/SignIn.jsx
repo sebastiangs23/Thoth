@@ -109,10 +109,6 @@ export default function SignIn({ navigation }) {
     navigation.navigate("LanguageLevel");
   }
 
-  function randomConversation() {
-    navigation.navigate("RandomConversation");
-  }
-
   function logIn() {
     navigation.navigate("Login");
   }
@@ -124,7 +120,7 @@ export default function SignIn({ navigation }) {
 
 
   return (
-    <KeyboardAvoidingView style={styles.sign_container}>
+    <KeyboardAvoidingView style={styles.sign_in_container}>
 
       <View style={styles.container_back_button} >
         <Icon
@@ -206,7 +202,7 @@ const styles = StyleSheet.create({
   back_button: {
     alignSelf: 'flex-start',
   },
-  sign_container: {
+  sign_in_container: {
     alignItems: "center",
   },
   image: {
