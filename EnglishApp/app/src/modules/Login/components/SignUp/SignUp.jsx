@@ -318,20 +318,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   create_button_container: {
-    margin: 5,
+    margin: 3,
     justifyContent: "center",
     alignItems: "center",
+    width: '100%',
+
   },
   create_button: {
-    width: 200,
-    height: 55,
+    flexDirection: "row",
     backgroundColor: "#F87800",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
+    borderRadius: 20,
   },
   text: {
-    fontSize: 23,
+    padding: 5,
+    fontSize: 15,
     color: "#FFFFFF",
     fontWeight: "bold",
   },

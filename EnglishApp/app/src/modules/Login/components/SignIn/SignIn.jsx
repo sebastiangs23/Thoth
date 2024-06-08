@@ -15,7 +15,7 @@ import { Icon } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../../store/slices/user/slice";
 import { playAudioNext } from "../../../../common/functions/functions";
-import image from "../../../../assets/images/sign-in-top-icon.png";
+import image from "../../../../assets/images/sign-in-top-icon-color.png";
 
 export default function SignIn({ navigation }) {
   const dispatch = useDispatch();
