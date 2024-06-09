@@ -32,6 +32,9 @@ const ViewUserModel = db.define('view_users', {
     },
     id_language_level: {
         type: DataTypes.INTEGER
+    },
+    avatar: {
+        type: DataTypes.INTEGER,
     }
 }, {
     timestamps: false

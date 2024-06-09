@@ -44,6 +44,10 @@ const UserModel = db.define('users', {
         type: DataTypes.STRING(30),
         allowNull: false,
     },
+    avatar: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+    }
 });
 
 UserModel.belongsTo(UserTypeModel, { foreignKey: 'id_user_type' });

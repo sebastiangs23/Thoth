@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
   async function activeSession(){
     //await removeUserSession();
     const response = await getUserSession();
-    console.log('aver que trae',  response);
+
     if(response){
       navigation.navigate("LanguageLevel");
     }

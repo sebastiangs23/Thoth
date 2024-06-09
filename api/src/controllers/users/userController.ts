@@ -61,13 +61,12 @@ export async function createUser(req: Request, res: Response) {
           message: "The user was successfully created!",
           user: userCreated,
         });
-      };
-
+      }
     } else if (emailInUse) {
       res.json({
-        status: 'Warning',
-        message: 'This email its already in use.'
-      })
+        status: "Warning",
+        message: "This email its already in use.",
+      });
     }
   } catch (error) {
     console.log(error);
@@ -99,5 +98,36 @@ export async function updateUserLanguageLevel(req: Request, res: Response) {
     });
   } catch (error) {
     console.log(error);
+    res.json({
+      status: "Warning",
+      message: "Some issue trying set the user'language.",
+    });
+  }
+}
+
+export async function updateUserAvatar(req: Request, res: Response) {
+  try {
+    const { id_user, avatar } = req.body;
+
+    await UserModel.update(
+      {
+        avatar,
+      },
+      {
+        where: {
+          id: id_user,
+        },
+      }
+    );
+
+    res.json({
+      status: 'Successfull',
+      message: 'The avatar was successfully edited.'
+    });
+  } catch (error) {
+    res.json({
+      status: 'Warning',
+      message: 'Some issue trying to update the avatar.'
+    })
   }
 }
