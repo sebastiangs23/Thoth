@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
+import { getUserSession } from "../../../../common/user/functions";
 import { Icon } from "react-native-elements";
 import { setScore } from "../../../../store/slices/score/slice";
 import { Audio } from "expo-av";
@@ -10,14 +11,28 @@ import { setAudioUri } from "../../../../store/slices/audioUri/slice";
 
 export default function Microphone({ dialog, id_conversation }) {
   const dispatch = useDispatch();
-  
+
   const [user, setUser] = useState(null);
   const [recording, setRecording] = useState(false);
 
   const [permissionResponse, requestPermission] = Audio.usePermissions();
 
+  useEffect(() => {
+    getUser();
+  }, []);
+
   /*________________
   |   FUNCTIONS   */
+  async function getUser(){
+    try{
+      const response = await getUserSession();
+      setUser(response);
+
+    }catch(error){
+      console.log(error);
+    }
+  }
+
   async function startRecording() {
     try {
       if (permissionResponse.status !== "granted") {
@@ -77,12 +92,16 @@ export default function Microphone({ dialog, id_conversation }) {
   async function audioScore(uri, dialog) {
     try {
       const formData = new FormData();
+
+      formData.append("dialog", dialog);
+      formData.append("id_user", user.id);
+      formData.append("id_dialog", id_conversation);
       formData.append("voice", {
         uri,
         type: "audio/wav",
         name: "audio.wav",
       });
-      formData.append("dialog", dialog);
+      
 
       const response = await axios.post(
         "http://192.168.1.9:5000/score/audio",

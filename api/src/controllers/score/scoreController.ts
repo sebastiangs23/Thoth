@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import UserScores from "../../models/user_score/user_scores_model";
+import UserScores from "../../models/user_score/user_scores_model.js";
 import * as sdkazure from "microsoft-cognitiveservices-speech-sdk";
 import _ from "lodash";
 import * as path from "path";
@@ -113,9 +113,9 @@ export default async function audioScore(req: Request, res: Response) {
         pronunciation_level.push(statistics_sentece);
 
         _.forEach(resultPronunciation.detailResult.Words, (word, idx) => {
-          console.log("    ", idx + 1, ": word: ", word.Word);
-          console.log("AccuracyScore: ",word.PronunciationAssessment ? word.PronunciationAssessment.AccuracyScore : "");
-          console.log("ErrorType ", word.PronunciationAssessment ? word.PronunciationAssessment.ErrorType : "");
+          console.log("    ", idx + 1, ": word complete params: ", word);
+          // console.log("AccuracyScore: ",word.PronunciationAssessment ? word.PronunciationAssessment.AccuracyScore : "");
+          // console.log("ErrorType ", word.PronunciationAssessment ? word.PronunciationAssessment.ErrorType : "");
 
           const statistics_word = {
             index: idx + 1,
@@ -130,7 +130,11 @@ export default async function audioScore(req: Request, res: Response) {
         pronunciation_level.push(words);
 
         // 6.1) Guardo el registro del score del usuario
-        const user_score = await UserScores.findAll();
+        const user_score = await UserScores.create({
+         id_user: req.body.id_user,
+         id_dialog: req.body.id_dialog,
+         score:  pronunciation_level
+        });
 
         recognizer.close();
         fs.unlink(tempFilePath, callback);
