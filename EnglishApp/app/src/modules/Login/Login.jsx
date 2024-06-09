@@ -1,18 +1,20 @@
 import { StyleSheet,View, Text, ImageBackground, TouchableOpacity } from "react-native";
 import React, {  useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { playAudioNext } from "../../common/functions/functions";
+import { playAudioNext } from "../../common/audio/functions";
 import axios from "axios";
-import logo from "../../assets/logos/logo2.png";
-import image from "../../assets/logos/login_wallpaper_full.webp";
+import { getUserSession, removeUserSession } from "../../common/user/functions";
 import { setCountries } from "../../store/slices/countries/slice";
 import { useDispatch } from "react-redux";
+import logo from "../../assets/logos/logo2.png";
+import image from "../../assets/logos/login_wallpaper_full.webp";
 
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    activeSession();
     getCountries();
   }, []);
 
@@ -20,7 +22,7 @@ export default function Login({ navigation }) {
   |   REQUEST TO SERVER (GLOBAL STATES)   */
   async function getCountries(){
     const response = await axios.get(
-      "http://192.168.1.12:5000/countries/get-countries-db"
+      "http://192.168.1.9:5000/countries/get-countries-db"
     );
 
     dispatch(setCountries(response.data));
@@ -28,6 +30,15 @@ export default function Login({ navigation }) {
 
   /*________________
   |   FUNCTIONS   */
+  async function activeSession(){
+    //await removeUserSession();
+    const response = await getUserSession();
+    console.log('aver que trae',  response);
+    if(response){
+      navigation.navigate("LanguageLevel");
+    }
+  };
+
   function signIn(){
     navigation.navigate("SignIn");
     //navigation.navigate("LanguageLevel")

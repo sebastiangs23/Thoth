@@ -14,7 +14,8 @@ import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import { Icon } from "react-native-elements";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../../../store/slices/user/slice";
-import { playAudioNext } from "../../../../common/functions/functions";
+import { saveUserSession } from "../../../../common/user/functions";
+import { playAudioNext } from "../../../../common/audio/functions";
 import image from "../../../../assets/images/sign-in-top-icon-color.png";
 
 export default function SignIn({ navigation }) {
@@ -44,14 +45,15 @@ export default function SignIn({ navigation }) {
       let data = { email: email, password: password };
 
       let response = await axios.get(
-        "http://192.168.1.12:5000/login/login-user",
+        "http://192.168.1.9:5000/login/login-user",
         { params: data }
       );
 
       switch (response.data.status){
         case 'Successful' : {
-          //Llenare ala persona en el estado global redux
+          //Llenare ala persona en el estado global redux y en AsyncStorage
           dispatch(setUser(response.data.user));
+          saveUserSession(response.data.user);
 
           Dialog.show({
             type: ALERT_TYPE.SUCCESS,

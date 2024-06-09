@@ -6,7 +6,7 @@ import { Icon } from "react-native-elements";
 import { setScore } from "../../../../store/slices/score/slice";
 import { Audio } from "expo-av";
 import * as Speech from 'expo-speech';
-import { playAudio } from "../../../../common/functions/functions";
+import { playAudio } from "../../../../common/audio/functions";
 import { setAudioUri } from "../../../../store/slices/audioUri/slice";
 
 export default function Microphone({ dialog, id_conversation }) {
@@ -82,7 +82,7 @@ export default function Microphone({ dialog, id_conversation }) {
       formData.append("dialog", dialog);
 
       const response = await axios.post(
-        "http://192.168.1.12:5000/score/audio",
+        "http://192.168.1.9:5000/score/audio",
         formData,
         {
           headers: {

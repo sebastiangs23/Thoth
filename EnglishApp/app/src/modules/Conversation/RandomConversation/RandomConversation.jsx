@@ -2,7 +2,7 @@ import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDialog } from "../../../store/slices/dialog/slice";
-import { playAudioNext } from "../../../common/functions/functions";
+import { playAudioNext } from "../../../common/audio/functions";
 import axios from "axios";
 
 export default function RandomConversation({ navigation }) {
@@ -19,7 +19,7 @@ export default function RandomConversation({ navigation }) {
     try {
       //ESTE MODELO VA DESAPARECER Y TENGO QUE CONSUMIR LA TABLA 'CONVERSATIONS'
       const response = await axios.get(
-        "http://192.168.1.12:5000/conversation/get-conversation-topic"
+        "http://192.168.1.9:5000/conversation/get-conversation-topic"
       );
 
       setConversationContext(response.data);
@@ -32,7 +32,7 @@ export default function RandomConversation({ navigation }) {
   async function selectContext(item) {
     try {
       const response = await axios.get(
-        `http://192.168.1.12:5000/conversation/get-dialogs-conversation/${item.id}`
+        `http://192.168.1.9:5000/conversation/get-dialogs-conversation/${item.id}`
       );
 
       dispatch(setDialog(response.data));

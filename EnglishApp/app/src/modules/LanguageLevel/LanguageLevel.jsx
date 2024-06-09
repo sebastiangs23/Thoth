@@ -1,24 +1,33 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { playAudioNext } from "../../common/functions/functions";
+import { playAudioNext } from "../../common/audio/functions";
+import { getUserSession } from "../../common/user/functions";
 import axios from "axios";
 
 export default function LanguageLevel({ navigation }) {
-  const user = useSelector((state) => state.user.value);
+  //const user = useSelector((state) => state.user.value);
 
   const [languageLevels, setLanguageLevels] = useState([]);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     getLanguageLevels();
+    getUser();
   }, []);
 
   /*________________________________________
   |   REQUEST TO SERVER (GLOBAL STATES)   */
+  async function getUser(){
+    const response = await getUserSession();
+
+    setUser(response);
+  };
+
   async function getLanguageLevels() {
     try {
       const response = await axios.get(
-        "http://192.168.1.12:5000/languages/get-languages-levels"
+        "http://192.168.1.9:5000/languages/get-languages-levels"
       );
 
       setLanguageLevels(response.data);
@@ -29,12 +38,13 @@ export default function LanguageLevel({ navigation }) {
 
   async function updateUserLanguageLevel(id_language_level){
     try{
+
       let data = {
         id_user: user.id,
         id_language_level
       };
-
-      const response = await axios.put('http://192.168.1.12:5000/users/update-level-language', data);
+      console.log('the data witch r gonna be sending to the controller: ', data)
+      const response = await axios.put('http://192.168.1.9:5000/users/update-level-language', data);
 
       if(response.data.status == 'Successfull'){
 
