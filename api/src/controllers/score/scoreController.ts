@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
+import UserScores from "../../models/user_score/user_scores_model";
 import * as sdkazure from "microsoft-cognitiveservices-speech-sdk";
 import _ from "lodash";
 import * as path from "path";
-import { v4 as uuidv4 } from "uuid";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import ffmpeg from "fluent-ffmpeg";
@@ -128,6 +128,10 @@ export default async function audioScore(req: Request, res: Response) {
         });
 
         pronunciation_level.push(words);
+
+        // 6.1) Guardo el registro del score del usuario
+        const user_score = await UserScores.findAll();
+
         recognizer.close();
         fs.unlink(tempFilePath, callback);
         fs.unlink(outputFilePath, callback);

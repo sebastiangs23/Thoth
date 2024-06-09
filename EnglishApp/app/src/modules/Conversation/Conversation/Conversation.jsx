@@ -44,7 +44,7 @@ export default function Conversation() {
         {dialogs &&
           dialogs.map((item) => {
             return (
-              <View>
+              <View key={item.id}>
                 <Image source={silueta} style={styles.avatar} />
                 <View style={styles.container_all_dialog}>
                   <Dialog
