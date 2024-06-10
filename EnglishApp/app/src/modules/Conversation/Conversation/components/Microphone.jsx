@@ -23,12 +23,11 @@ export default function Microphone({ dialog, id_conversation }) {
 
   /*________________
   |   FUNCTIONS   */
-  async function getUser(){
-    try{
+  async function getUser() {
+    try {
       const response = await getUserSession();
       setUser(response);
-
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
@@ -54,7 +53,7 @@ export default function Microphone({ dialog, id_conversation }) {
       console.log("An error occurred while trying to start recording");
       console.log(error);
     }
-  };
+  }
 
   async function stopRecording() {
     try {
@@ -75,7 +74,7 @@ export default function Microphone({ dialog, id_conversation }) {
       console.log("An error occurred while trying to stop recording");
       console.log(error);
     }
-  };
+  }
 
   function speak() {
     const thingToSay = dialog;
@@ -85,7 +84,7 @@ export default function Microphone({ dialog, id_conversation }) {
       pitch: 1,
       rate: 0.8,
     });
-  };
+  }
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
@@ -101,7 +100,6 @@ export default function Microphone({ dialog, id_conversation }) {
         type: "audio/wav",
         name: "audio.wav",
       });
-      
 
       const response = await axios.post(
         "http://192.168.1.10:5000/score/audio",
@@ -122,23 +120,21 @@ export default function Microphone({ dialog, id_conversation }) {
 
   return (
     <View style={styles.container}>
-      <View>
-        <View style={styles.button_container}>
-          <TouchableOpacity
-            style={
-              recording ? styles.button_recording : styles.button_no_recording
-            }
-            onPress={recording ? stopRecording : startRecording}
-          >
-            <Icon name="mic-circle-outline" type="ionicon" color="white" />
-          </TouchableOpacity>
-        </View>
+      <View style={styles.button_container}>
+        <TouchableOpacity
+          style={
+            recording ? styles.button_recording : styles.button_no_recording
+          }
+          onPress={recording ? stopRecording : startRecording}
+        >
+          <Icon name="mic-circle-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
+      </View>
 
-        <View style={styles.button_container}>
-          <TouchableOpacity style={styles.button} onPress={speak}>
-            <Icon name="ear-outline" type="ionicon" color="white" />
-          </TouchableOpacity>
-        </View>
+      <View style={styles.button_container}>
+        <TouchableOpacity style={styles.button} onPress={speak}>
+          <Icon name="ear-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -146,15 +142,18 @@ export default function Microphone({ dialog, id_conversation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
     justifyContent: "center",
-    backgroundColor: "#ecf0f1",
-    padding: 10,
+    backgroundColor: "#000000",
+    width: '20%',
+    margin: 5,
+    padding: 1,
   },
   button_container: {
     width: 30,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 5,
+    marginBottom: 5,
   },
   button: {
     // flexDirection: "row",

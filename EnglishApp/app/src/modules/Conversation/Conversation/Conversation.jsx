@@ -27,7 +27,7 @@ export default function Conversation({ navigation }) {
   }
 
   function RandomConversation() {
-    navigation.navigate("Login");
+    navigation.navigate("RandomConversation");
   }
 
   return (
@@ -41,7 +41,6 @@ export default function Conversation({ navigation }) {
             color="white"
             size={20}
             reverse
-            style={styles.back_button}
             onPress={RandomConversation}
           />
 
@@ -54,7 +53,6 @@ export default function Conversation({ navigation }) {
                 color="white"
                 size={20}
                 reverse
-                style={styles.back_button}
               />
             </TouchableOpacity>
           )}
@@ -96,13 +94,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between", // Asegura que los íconos se distribuyan en ambos extremos
     alignItems: "center",
   },
-  back_button: {
-    alignSelf: "flex-start",
-  },
   container_all_dialog: {
     borderWidth: 3,
+    backgroundColor: '#A6F5FA',
     margin: 5,
-    borderRadius: 10,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    borderTopLeftRadius: 40,
+    // borderRadius: 10,
   },
   avatar: {
     borderRadius: 50,
