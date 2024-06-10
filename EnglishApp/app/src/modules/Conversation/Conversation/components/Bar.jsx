@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Animated } from "react-native";
+import * as Font from 'expo-font';
 import { Icon } from "react-native-elements";
 
 export function Bar({ type, porcentaje, icon_name, icon_type }) {
   const animatedWidth = useRef(new Animated.Value(0)).current;
+
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     Animated.timing(animatedWidth, {
@@ -11,12 +14,26 @@ export function Bar({ type, porcentaje, icon_name, icon_type }) {
       duration: 1500,
       useNativeDriver: false,
     }).start();
+
+    loadFonts()
+
   }, [porcentaje]);
 
+  async function loadFonts() {
+    await Font.loadAsync({
+      'Roboto-Italic': require('../../../../assets/fonts/titles/Roboto-Italic.ttf'),  // Asegúrate de usar el path correcto
+    });
+    setFontsLoaded(true);
+  }
+
+
   return (
-    <View>
-      <Text> {type} </Text>
-      <Icon name={icon_name} type={icon_type} />
+    <View style={styles.container_bar}>
+      <View style={styles.container_text_icon}>
+        <Icon name={icon_name} type={icon_type} style={styles.texto} />
+        <Text style={styles.texto} > {type} </Text>
+      </View>
+
       <View style={styles.contenedorBarra}>
         <Animated.View
           style={[
@@ -38,11 +55,24 @@ export function Bar({ type, porcentaje, icon_name, icon_type }) {
 }
 
 const styles = StyleSheet.create({
+  container_bar: {
+    display: "flex",
+    flexDirection: "row",
+    width: "100%",
+    marginTop: 3,
+    marginBottom: 3,
+  },
+  container_text_icon: {
+    display: "flex",
+    flexDirection: "row",
+    width: "40%"
+  },
   contenedorBarra: {
     position: "relative",
     backgroundColor: "#ddd",
     borderRadius: 10,
     height: 30,
+    width: "60%",
     justifyContent: "center",
     paddingHorizontal: 5, // Padding horizontal para que el contenido no toque los bordes
   },
@@ -55,6 +85,9 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontWeight: "bold",
     textAlign: "center",
+  },
+  texto: {
+    fontFamily: 'Roboto-Italic',
   },
   textoExterno: {
     marginTop: 10, // Espacio después de la barra

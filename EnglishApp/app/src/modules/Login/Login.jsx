@@ -22,7 +22,7 @@ export default function Login({ navigation }) {
   |   REQUEST TO SERVER (GLOBAL STATES)   */
   async function getCountries(){
     const response = await axios.get(
-      "http://192.168.1.9:5000/countries/get-countries-db"
+      "http://192.168.1.10:5000/countries/get-countries-db"
     );
 
     dispatch(setCountries(response.data));

@@ -45,7 +45,7 @@ export default function SignIn({ navigation }) {
       let data = { email: email, password: password };
 
       let response = await axios.get(
-        "http://192.168.1.9:5000/login/login-user",
+        "http://192.168.1.10:5000/login/login-user",
         { params: data }
       );
 
@@ -130,6 +130,7 @@ export default function SignIn({ navigation }) {
           reverseColor="#000000"
           type="ionicon"
           color="white"
+          size={20}
           reverse
           style={styles.back_button}
           onPress={logIn}

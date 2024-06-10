@@ -104,7 +104,7 @@ export default function Microphone({ dialog, id_conversation }) {
       
 
       const response = await axios.post(
-        "http://192.168.1.9:5000/score/audio",
+        "http://192.168.1.10:5000/score/audio",
         formData,
         {
           headers: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    flexDirection: "row",
+    // flexDirection: "row",
     height: 35,
     backgroundColor: "#F87800",
     justifyContent: "center",
@@ -166,21 +166,19 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   button_recording: {
-    flexDirection: "row",
+    // flexDirection: "row",
     height: 35,
     backgroundColor: "#41D84A",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
     borderRadius: 20,
   },
   button_no_recording: {
-    flexDirection: "row",
+    // flexDirection: "row",
     height: 35,
     backgroundColor: "#F87800",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
     borderRadius: 20,
   },
 });

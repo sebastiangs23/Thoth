@@ -97,7 +97,7 @@ export default function SignUp({ navigation }) {
         };
 
         const response = await axios.post(
-          "http://192.168.1.9:5000/users/create/",
+          "http://192.168.1.10:5000/users/create/",
           data
         );
 
@@ -163,6 +163,7 @@ export default function SignUp({ navigation }) {
           reverseColor="#000000"
           type="ionicon"
           color="white"
+          size={20}
           reverse
           style={styles.back_button}
           onPress={logIn}

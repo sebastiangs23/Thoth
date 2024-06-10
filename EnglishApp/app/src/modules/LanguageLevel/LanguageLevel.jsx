@@ -27,7 +27,7 @@ export default function LanguageLevel({ navigation }) {
   async function getLanguageLevels() {
     try {
       const response = await axios.get(
-        "http://192.168.1.9:5000/languages/get-languages-levels"
+        "http://192.168.1.10:5000/languages/get-languages-levels"
       );
 
       setLanguageLevels(response.data);
@@ -44,7 +44,7 @@ export default function LanguageLevel({ navigation }) {
         id_language_level
       };
       console.log('the data witch r gonna be sending to the controller: ', data)
-      const response = await axios.put('http://192.168.1.9:5000/users/update-level-language', data);
+      const response = await axios.put('http://192.168.1.10:5000/users/update-level-language', data);
 
       if(response.data.status == 'Successfull'){
 

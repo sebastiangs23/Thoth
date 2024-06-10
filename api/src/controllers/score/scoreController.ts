@@ -124,7 +124,7 @@ export default async function audioScore(req: Request, res: Response) {
             pronunciationAssessment: word.PronunciationAssessment ? word.PronunciationAssessment.ErrorType : "",
           };
 
-          words.push(statistics_word);
+          words.push(statistics_word); //Esto no me trae toda la inforamcion completa me trae un string vacio
         });
 
         pronunciation_level.push(words);

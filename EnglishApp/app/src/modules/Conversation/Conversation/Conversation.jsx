@@ -15,7 +15,7 @@ import Dialog from "./components/Dialog";
 import Score from "./components/Score";
 import silueta from "../../../assets/avatars/siluetaAvatar.jpg";
 
-export default function Conversation() {
+export default function Conversation({ navigation }) {
   const dialogs = useSelector((state) => state.dialog.value);
   const audioUri = useSelector((state) => state.audioUri.value);
 
@@ -26,17 +26,40 @@ export default function Conversation() {
     await sound.playAsync();
   }
 
+  function RandomConversation() {
+    navigation.navigate("Login");
+  }
+
   return (
     <View>
       <View style={styles.container_score_board}>
-        <Text style={styles.title}>SCORE</Text>
-        {audioUri && (
-          <View style={styles.button}>
-            <TouchableOpacity onPress={playAudio}>
-              <Icon name="ear-outline" type="ionicon" color="white" />
+        <View style={styles.container_back_ear_button}>
+          <Icon
+            name="arrow-back-outline"
+            reverseColor="#000000"
+            type="ionicon"
+            color="white"
+            size={20}
+            reverse
+            style={styles.back_button}
+            onPress={RandomConversation}
+          />
+
+          {audioUri && (
+            <TouchableOpacity onPress={playAudio} style={styles.own_audio}>
+              <Icon
+                name="ear-outline"
+                reverseColor="#000000"
+                type="ionicon"
+                color="white"
+                size={20}
+                reverse
+                style={styles.back_button}
+              />
             </TouchableOpacity>
-          </View>
-        )}
+          )}
+        </View>
+
         <Score />
       </View>
 
@@ -63,31 +86,33 @@ export default function Conversation() {
 }
 
 const styles = StyleSheet.create({
+  container_score_board: {
+    padding: 5,
+    backgroundColor: "#C5C5C5",
+  },
+  container_back_ear_button: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between", // Asegura que los íconos se distribuyan en ambos extremos
+    alignItems: "center",
+  },
+  back_button: {
+    alignSelf: "flex-start",
+  },
   container_all_dialog: {
     borderWidth: 3,
     margin: 5,
     borderRadius: 10,
-  },
-
-  title: {
-    margin: 5,
-    padding: 5,
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#000000",
   },
   avatar: {
     borderRadius: 50,
     width: 50,
     height: 50,
   },
-  button: {
-    flexDirection: "row",
+  own_audio: {
     height: 35,
-    backgroundColor: "#F87800",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
     borderRadius: 20,
   },
 });
