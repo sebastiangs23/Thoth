@@ -31,7 +31,7 @@ export default function Conversation({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={styles.container_conversation}>
       <View style={styles.container_score_board}>
         <View style={styles.container_back_ear_button}>
           <Icon
@@ -79,14 +79,20 @@ export default function Conversation({ navigation }) {
             );
           })}
       </ScrollView>
+      
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container_conversation: {
+    backgroundColor: "#3790F5",
+  },
   container_score_board: {
     padding: 5,
     backgroundColor: "#C5C5C5",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   container_back_ear_button: {
     display: "flex",
@@ -95,8 +101,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container_all_dialog: {
-    borderWidth: 3,
-    backgroundColor: '#A6F5FA',
+    backgroundColor: '#95C4F7',
     margin: 5,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,

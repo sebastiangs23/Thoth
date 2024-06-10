@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   container_avatar_img: {
     padding: 20,
     margin: 10,
-    backgroundColor: "#F87800",
+    backgroundColor: "#3790F5",
     borderRadius: 100,
   },
   avatar_img: {

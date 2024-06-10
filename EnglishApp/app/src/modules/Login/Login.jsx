@@ -80,7 +80,7 @@ export default function Login({ navigation }) {
           <View style={styles.button_container}>
             <TouchableOpacity
               onPress={() => signUp()}
-              color="#F87800"
+              color="#3790F5"
               style={styles.button}
             >
               <Text style={styles.text}>Sign up</Text>
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   button: {
     width: 200,
     height: 55,
-    backgroundColor: "#F87800",
+    backgroundColor: "#3790F5",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,

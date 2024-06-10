@@ -127,13 +127,22 @@ export default function Microphone({ dialog, id_conversation }) {
           }
           onPress={recording ? stopRecording : startRecording}
         >
-          <Icon name="mic-circle-outline" type="ionicon" color="white" />
+          <Icon
+            name="mic-circle-outline"
+            type="ionicon"
+            size={25}
+            color={recording ? '#FF5F5F' : '#000000'}
+          />
         </TouchableOpacity>
       </View>
 
       <View style={styles.button_container}>
-        <TouchableOpacity style={styles.button} onPress={speak}>
-          <Icon name="ear-outline" type="ionicon" color="white" />
+        <TouchableOpacity style={styles.button_hear} onPress={speak}>
+          <Icon
+            name="ear-outline"
+            type="ionicon"
+            size={20}
+          />
         </TouchableOpacity>
       </View>
     </View>
@@ -142,11 +151,12 @@ export default function Microphone({ dialog, id_conversation }) {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: "#000000",
-    width: '20%',
+    // backgroundColor: '#000000',
+    backgroundColor: "transparent",
+    width: "20%",
     margin: 5,
     padding: 1,
   },
@@ -155,29 +165,28 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 5,
   },
-  button: {
-    // flexDirection: "row",
-    height: 35,
-    backgroundColor: "#F87800",
+  button_hear: {
+    height: 40,
+    width: 40,
+    backgroundColor: "#FFFFFF",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
-    borderRadius: 20,
+    borderRadius: 50,
   },
   button_recording: {
-    // flexDirection: "row",
-    height: 35,
-    backgroundColor: "#41D84A",
+    height: 40,
+    width: 40,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 20,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
   },
   button_no_recording: {
-    // flexDirection: "row",
-    height: 35,
-    backgroundColor: "#F87800",
+    height: 40,
+    width: 40,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 20,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
   },
 });
