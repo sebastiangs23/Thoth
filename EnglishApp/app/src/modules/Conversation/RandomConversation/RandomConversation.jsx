@@ -1,6 +1,7 @@
 import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { Icon } from "react-native-elements";
 import { setDialog } from "../../../store/slices/dialog/slice";
 import { playAudioNext } from "../../../common/audio/functions";
 import axios from "axios";
@@ -47,8 +48,24 @@ export default function RandomConversation({ navigation }) {
     navigation.navigate("Conversation");
   }
 
+  function PickAvatar() {
+    navigation.navigate("PickAvatar");
+  }
+
   return (
     <View>
+      <View style={styles.container_back_button}>
+        <Icon
+          name="arrow-back-outline"
+          reverseColor="#000000"
+          type="ionicon"
+          color="white"
+          size={20}
+          reverse
+          onPress={PickAvatar}
+        />
+      </View>
+
       <View style={styles.title_container}>
         <Text style={styles.title}>
           Select a topic you would like to talk about
@@ -59,13 +76,13 @@ export default function RandomConversation({ navigation }) {
         {conversationContext &&
           conversationContext.map((item) => {
             return (
-                <TouchableOpacity
-                  key={item.id}
-                  style={styles.button}
-                  onPress={() => selectContext(item)}
-                >
-                  <Text style={styles.text}>{item.context}</Text>
-                </TouchableOpacity>
+              <TouchableOpacity
+                key={item.id}
+                style={styles.button}
+                onPress={() => selectContext(item)}
+              >
+                <Text style={styles.text}>{item.context}</Text>
+              </TouchableOpacity>
             );
           })}
       </View>
@@ -74,6 +91,19 @@ export default function RandomConversation({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  container_back_button: {
+    alignSelf: "flex-start",
+    margin: 8,
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
+  },
   title_container: {
     justifyContent: "center",
     alignItems: "center",

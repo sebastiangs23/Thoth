@@ -165,7 +165,6 @@ export default function SignUp({ navigation }) {
           color="white"
           size={20}
           reverse
-          style={styles.back_button}
           onPress={logIn}
         />
       </View>
@@ -277,10 +276,16 @@ const styles = StyleSheet.create({
   },
   container_back_button: {
     alignSelf: "flex-start",
-    padding: 10,
-  },
-  back_button: {
-    alignSelf: "flex-start",
+    margin: 8,
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
   },
   image: {
     width: 300,

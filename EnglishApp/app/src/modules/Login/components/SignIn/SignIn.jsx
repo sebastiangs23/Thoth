@@ -132,7 +132,6 @@ export default function SignIn({ navigation }) {
           color="white"
           size={20}
           reverse
-          style={styles.back_button}
           onPress={logIn}
         />
       </View>
@@ -200,10 +199,16 @@ export default function SignIn({ navigation }) {
 const styles = StyleSheet.create({
   container_back_button: {
     alignSelf: 'flex-start',
-    padding: 10, 
-  },
-  back_button: {
-    alignSelf: 'flex-start',
+    margin: 8,
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
   },
   sign_in_container: {
     alignItems: "center",

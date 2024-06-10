@@ -4,53 +4,76 @@ import axios from "axios";
 import { getUserSession } from "../../common/user/functions";
 import { avatars } from "../../common/avatars/functions";
 import { playAudioNext } from "../../common/audio/functions";
+import { Icon } from "react-native-elements";
 
 export default function PickAvatar({ navigation }) {
-    const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        getUser();
-    }, []);
+  useEffect(() => {
+    getUser();
+  }, []);
 
   /*_____________________________
     |   REQUEST TO THE SERVER   */
-    async function avatarPicked(source){
-        try{
-            let data = {
-                id_user: user.id,
-                avatar: source
-            };
-            
-            const response = await axios.put('http://192.168.1.10:5000/users/update-avatar', data);
-            playAudioNext();
-            navigation.navigate("RandomConversation");
+  async function avatarPicked(source) {
+    try {
+      let data = {
+        id_user: user.id,
+        avatar: source,
+      };
 
-        }catch(error){
-            console.log(error);
-        }
+      const response = await axios.put(
+        "http://192.168.1.10:5000/users/update-avatar",
+        data
+      );
+      playAudioNext();
+      navigation.navigate("RandomConversation");
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    async function getUser(){
-        try{
-            const response = await getUserSession();
-            setUser(response);
-
-        }catch(error){
-            console.log(error)
-        }
+  async function getUser() {
+    try {
+      const response = await getUserSession();
+      setUser(response);
+    } catch (error) {
+      console.log(error);
     }
+  }
+
+  /*________________
+    |   FUNCTIONS   */
+  function LanguageLevel() {
+    navigation.navigate("LanguageLevel");
+  }
 
   return (
-    <View>
+    <View style={styles.pick_avatar_container}>
+      <TouchableOpacity style={styles.container_back_button}>
+        <Icon
+          name="arrow-back-outline"
+          reverseColor="#000000"
+          type="ionicon"
+          color="white"
+          size={20}
+          reverse
+          onPress={LanguageLevel}
+        />
+      </TouchableOpacity>
+
       <View style={styles.title_container}>
-        <Text style={styles.title}>Select your avatar</Text>
+        <Text style={styles.title}>Select the IA you would like to talk to</Text>
       </View>
 
       <View style={styles.container_card}>
         {avatars &&
           avatars.map((item, index) => {
             return (
-              <TouchableOpacity style={styles.container_avatar_img} onPress={() => avatarPicked(item)} >
+              <TouchableOpacity
+                style={styles.container_avatar_img}
+                onPress={() => avatarPicked(item)}
+              >
                 <Image source={item} style={styles.avatar_img} />
               </TouchableOpacity>
             );
@@ -61,6 +84,22 @@ export default function PickAvatar({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  pick_avatar_container: {
+    alignItems: "center",
+  },
+  container_back_button: {
+    alignSelf: "flex-start",
+    margin: 8,
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
+  },
   title_container: {
     justifyContent: "center",
     alignItems: "center",
