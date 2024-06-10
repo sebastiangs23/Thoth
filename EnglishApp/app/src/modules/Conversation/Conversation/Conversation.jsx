@@ -26,8 +26,8 @@ export default function Conversation({ navigation }) {
     await sound.playAsync();
   }
 
-  function RandomConversation() {
-    navigation.navigate("RandomConversation");
+  function TopicConversation() {
+    navigation.navigate("TopicConversation");
   }
 
   return (
@@ -42,7 +42,7 @@ export default function Conversation({ navigation }) {
               color="white"
               size={20}
               reverse
-              onPress={RandomConversation}
+              onPress={TopicConversation}
             />
           </TouchableOpacity>
 

@@ -65,7 +65,7 @@ export default function SignIn({ navigation }) {
 
           if(response.data.user.id_user_type == 2){
             playAudioNext();
-            //randomConversation();
+            //TopicConversation();
             LanguageLevel();
             break;
           }else if(response.data.user.id_user_type == 1){

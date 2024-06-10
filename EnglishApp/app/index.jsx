@@ -10,7 +10,7 @@ import SignIn from "./src/modules/Login/components/SignIn/SignIn.jsx";
 import SignUp from "./src/modules/Login/components/SignUp/SignUp.jsx";
 import PickAvatar from "./src/modules/PickAvatar/PickAvatar.jsx";
 import LanguageLevel from "./src/modules/LanguageLevel/LanguageLevel.jsx";
-import RandomConversation from "./src/modules/Conversation/RandomConversation/RandomConversation.jsx";
+import TopicConversation from "./src/modules/Conversation/TopicConversation/TopicConversation.jsx";
 import Conversation from "./src/modules/Conversation/Conversation/Conversation.jsx";
 
 
@@ -32,7 +32,7 @@ export default function Page() {
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="PickAvatar" component={PickAvatar} />
             <Stack.Screen name="LanguageLevel" component={LanguageLevel} />
-            <Stack.Screen name="RandomConversation" component={RandomConversation}/>
+            <Stack.Screen name="TopicConversation" component={TopicConversation}/>
             <Stack.Screen name="Conversation" component={Conversation} />
           </Stack.Navigator>
         </NavigationContainer>

@@ -13,7 +13,7 @@ export default function PickAvatar({ navigation }) {
     try {
       saveAvatarPicked(avatar);
       playAudioNext();
-      navigation.navigate("RandomConversation");
+      navigation.navigate("TopicConversation");
 
     } catch (error) {
       console.log(error);

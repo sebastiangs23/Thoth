@@ -6,7 +6,7 @@ import { setDialog } from "../../../store/slices/dialog/slice";
 import { playAudioNext } from "../../../common/audio/functions";
 import axios from "axios";
 
-export default function RandomConversation({ navigation }) {
+export default function TopicConversation({ navigation }) {
   const dispatch = useDispatch();
   const [conversationContext, setConversationContext] = useState([]);
 

@@ -48,7 +48,7 @@ export default function LanguageLevel({ navigation }) {
 
       if(response.data.status == 'Successfull'){
 
-        //navigation.navigate("RandomConversation");
+        //navigation.navigate("TopicConversation");
         navigation.navigate("PickAvatar");
         playAudioNext();
 
