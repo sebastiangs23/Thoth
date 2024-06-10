@@ -34,15 +34,17 @@ export default function Conversation({ navigation }) {
     <View style={styles.container_conversation}>
       <View style={styles.container_score_board}>
         <View style={styles.container_back_ear_button}>
-          <Icon
-            name="arrow-back-outline"
-            reverseColor="#000000"
-            type="ionicon"
-            color="white"
-            size={20}
-            reverse
-            onPress={RandomConversation}
-          />
+          <TouchableOpacity style={styles.back_button}>
+            <Icon
+              name="arrow-back-outline"
+              reverseColor="#000000"
+              type="ionicon"
+              color="white"
+              size={20}
+              reverse
+              onPress={RandomConversation}
+            />
+          </TouchableOpacity>
 
           {audioUri && (
             <TouchableOpacity onPress={playAudio} style={styles.own_audio}>
@@ -62,37 +64,58 @@ export default function Conversation({ navigation }) {
       </View>
 
       <ScrollView>
+        <View>
+          <Text>ACA LA VA ESTAR LA IMAGEN DE LA CHICA QUE ESCOGIERON</Text>
+        </View>
         {dialogs &&
           dialogs.map((item) => {
             return (
-              <View key={item.id}>
-                <Image source={silueta} style={styles.avatar} />
-                <View style={styles.container_all_dialog}>
+              <View key={item.id} style={styles.individual_conversation}>
+                {/* <Image source={silueta} style={styles.avatar} /> */}
+                <View
+                  style={
+                    item.person == 1
+                      ? styles.container_all_dialog_bot
+                      : styles.container_all_dialog
+                  }
+                >
                   <Dialog
                     id_conversation={item.id}
                     person={item.person}
                     dialog={item.dialog}
                   />
-                  <Microphone dialog={item.dialog} id_conversation={item.id} />
+                  {item.person == 2 ? (
+                    <Microphone
+                      dialog={item.dialog}
+                      id_conversation={item.id}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </View>
               </View>
             );
           })}
       </ScrollView>
-      
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container_conversation: {
-    backgroundColor: "#3790F5",
+    backgroundColor: "#FFFFFF",
   },
   container_score_board: {
     padding: 5,
-    backgroundColor: "#C5C5C5",
+    backgroundColor: "#EFEFEF",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
   },
   container_back_ear_button: {
     display: "flex",
@@ -100,13 +123,37 @@ const styles = StyleSheet.create({
     justifyContent: "space-between", // Asegura que los íconos se distribuyan en ambos extremos
     alignItems: "center",
   },
+  back_button: {
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
+  },
   container_all_dialog: {
-    backgroundColor: '#95C4F7',
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#35B8EE",
     margin: 5,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
     borderTopLeftRadius: 40,
-    // borderRadius: 10,
+  },
+  container_all_dialog_bot: {
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#2891BC",
+    margin: 5,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    borderTopRightRadius: 40,
+  },
+  individual_conversation: {
+    padding: 5,
   },
   avatar: {
     borderRadius: 50,
@@ -118,5 +165,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
   },
 });

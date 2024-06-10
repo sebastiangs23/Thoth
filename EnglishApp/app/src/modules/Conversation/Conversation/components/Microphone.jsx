@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // backgroundColor: '#000000',
     backgroundColor: "transparent",
-    width: "20%",
+    // width: "20%",
     margin: 5,
     padding: 1,
   },
@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
+    marginLeft: 15
   },
   button_recording: {
     height: 40,
