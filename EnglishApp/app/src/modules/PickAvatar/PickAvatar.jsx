@@ -1,42 +1,20 @@
-import { useEffect, useState } from "react";
 import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import axios from "axios";
-import { getUserSession } from "../../common/user/functions";
+import { saveAvatarPicked } from "../../common/avatars/functions";
 import { avatars } from "../../common/avatars/functions";
 import { playAudioNext } from "../../common/audio/functions";
 import { Icon } from "react-native-elements";
 
 export default function PickAvatar({ navigation }) {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   /*_____________________________
     |   REQUEST TO THE SERVER   */
-  async function avatarPicked(source) {
+  async function avatarPicked(avatar) {
     try {
-      let data = {
-        id_user: user.id,
-        avatar: source,
-      };
-
-      const response = await axios.put(
-        "http://192.168.1.10:5000/users/update-avatar",
-        data
-      );
+      saveAvatarPicked(avatar);
       playAudioNext();
       navigation.navigate("RandomConversation");
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
-  async function getUser() {
-    try {
-      const response = await getUserSession();
-      setUser(response);
     } catch (error) {
       console.log(error);
     }

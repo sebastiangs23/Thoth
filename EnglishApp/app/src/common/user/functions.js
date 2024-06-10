@@ -4,8 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 |    SAVE THE USER DATA IN THE ASYNC STORAGE   */
 export async function saveUserSession(userSession){
   try {
-    console.log('Se sesion of the user was successfully saved : ', userSession)
     await AsyncStorage.setItem('userSession', JSON.stringify(userSession));
+    
   } catch (error) {
     console.error('Error saving data', error);
   }
