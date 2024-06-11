@@ -155,11 +155,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     backgroundColor: "transparent",
+    minWidth: 55,
     margin: 5,
     padding: 1,
   },
   button_container: {
-    width: 30,
     marginTop: 5,
     marginBottom: 5,
   },
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
-    marginLeft: 15,
+    marginLeft: 6,
   },
   button_recording: {
     height: 40,

@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5, // Padding horizontal para que el contenido no toque los bordes
   },
   barra: {
-    backgroundColor: "#81E362",
+    backgroundColor: "#35B8EE",
     height: "100%",
     borderRadius: 10,
   },
