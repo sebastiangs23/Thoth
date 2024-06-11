@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text,StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { getUserSession } from "../../../../common/user/functions";
 import { Icon } from "react-native-elements";
@@ -9,7 +9,7 @@ import { Audio } from "expo-av";
 import * as Speech from "expo-speech";
 import { setAudioUri } from "../../../../store/slices/audioUri/slice";
 
-export default function Microphone({ dialog, id_conversation }) {
+export default function Microphone({ person, dialog, id_conversation }) {
   const dispatch = useDispatch();
 
   const [user, setUser] = useState(null);
@@ -120,29 +120,29 @@ export default function Microphone({ dialog, id_conversation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.button_container}>
-        <TouchableOpacity
-          style={
-            recording ? styles.button_recording : styles.button_no_recording
-          }
-          onPress={recording ? stopRecording : startRecording}
-        >
-          <Icon
-            name="mic-circle-outline"
-            type="ionicon"
-            size={25}
-            color={recording ? '#FF5F5F' : '#000000'}
-          />
-        </TouchableOpacity>
-      </View>
+      {person == 2 ? (
+        <View style={styles.button_container}>
+          <TouchableOpacity
+            style={
+              recording ? styles.button_recording : styles.button_no_recording
+            }
+            onPress={recording ? stopRecording : startRecording}
+          >
+            <Icon
+              name="mic-circle-outline"
+              type="ionicon"
+              size={25}
+              color={recording ? "#FF5F5F" : "#000000"}
+            />
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <></>
+      )}
 
       <View style={styles.button_container}>
         <TouchableOpacity style={styles.button_hear} onPress={speak}>
-          <Icon
-            name="ear-outline"
-            type="ionicon"
-            size={20}
-          />
+          <Icon name="ear-outline" type="ionicon" size={20} />
         </TouchableOpacity>
       </View>
     </View>
@@ -154,9 +154,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    // backgroundColor: '#000000',
     backgroundColor: "transparent",
-    // width: "20%",
     margin: 5,
     padding: 1,
   },
@@ -172,7 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
-    marginLeft: 15
+    marginLeft: 15,
   },
   button_recording: {
     height: 40,

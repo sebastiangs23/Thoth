@@ -78,6 +78,7 @@ export default function Conversation({ navigation }) {
       </View>
 
       <ScrollView style={styles.container_conversation}>
+
         <View style={styles.avatar_section}>
           <TouchableOpacity style={styles.back_button}>
             <Icon
@@ -106,7 +107,7 @@ export default function Conversation({ navigation }) {
           dialogs.map((item) => {
             return (
               <View key={item.id} style={styles.individual_conversation}>
-                {/* <Image source={silueta} style={styles.avatar} /> */}
+
                 <View
                   style={
                     item.person == 1
@@ -119,14 +120,11 @@ export default function Conversation({ navigation }) {
                     person={item.person}
                     dialog={item.dialog}
                   />
-                  {item.person == 2 ? (
-                    <Microphone
-                      dialog={item.dialog}
-                      id_conversation={item.id}
-                    />
-                  ) : (
-                    <></>
-                  )}
+                  <Microphone
+                    person={item.person}
+                    dialog={item.dialog}
+                    id_conversation={item.id}
+                  />
                 </View>
               </View>
             );
@@ -175,7 +173,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 8,
-    marginTop: 5
+    marginTop: 5,
   },
   avatar: {
     borderRadius: 50,
@@ -208,6 +206,9 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     backgroundColor: "#35B8EE",
+    minHeight: 40,
+    minWidth: 200,
+    padding: 5,
     margin: 5,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
@@ -217,12 +218,16 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     backgroundColor: "#2891BC",
+    minHeight: 40,
+    minWidth: 200,
+    padding: 5,
     margin: 5,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
     borderTopRightRadius: 40,
   },
   individual_conversation: {
+    display: 'flex',
     padding: 5,
   },
   own_audio: {
