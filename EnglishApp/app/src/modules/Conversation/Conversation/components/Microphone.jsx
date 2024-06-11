@@ -8,6 +8,7 @@ import { setScore } from "../../../../store/slices/score/slice";
 import { setDialogsApproved } from "../../../../store/slices/dialog/slice";
 import { Audio } from "expo-av";
 import * as Speech from "expo-speech";
+import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
 import { setAudioUri } from "../../../../store/slices/audioUri/slice";
 
 export default function Microphone({ person, dialog, id_conversation, allApproved }) {
@@ -133,6 +134,13 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       }
 
     } catch (error) {
+      Message.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Something goes wrong :(",
+        textBody: "Please get closer to the microphone or speak louder!",
+        button: "close",
+      });
+
       console.log("Error al intentar evaluar el audio");
       console.log(error.response ? error.response.data : error);
     }
