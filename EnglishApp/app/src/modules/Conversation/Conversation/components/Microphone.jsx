@@ -10,7 +10,7 @@ import { Audio } from "expo-av";
 import * as Speech from "expo-speech";
 import { setAudioUri } from "../../../../store/slices/audioUri/slice";
 
-export default function Microphone({ person, dialog, id_conversation }) {
+export default function Microphone({ person, dialog, id_conversation, allApproved }) {
   const dispatch = useDispatch();
 
   const [user, setUser] = useState(null);
@@ -129,6 +129,7 @@ export default function Microphone({ person, dialog, id_conversation }) {
 
       if(average >= 75){
         dispatch(setDialogsApproved());
+        allApproved;
       }
 
     } catch (error) {

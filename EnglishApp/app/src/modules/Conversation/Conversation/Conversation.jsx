@@ -12,6 +12,7 @@ import { deleteScore } from "../../../store/slices/score/slice";
 import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
 import * as Font from "expo-font";
+import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
 
 import Microphone from "./components/Microphone";
 import Dialog from "./components/Dialog";
@@ -56,6 +57,32 @@ export default function Conversation({ navigation }) {
   function TopicConversation() {
     navigation.navigate("TopicConversation");
     dispatch(deleteScore());
+  }
+
+  function verificationAllApproved() {
+    let verification = dialogs.filter((dialog) => dialog.approved == true)
+      .length;
+
+    console.log(
+      "dialogs.length ",
+      dialogs.length,
+      "allapproved ",
+      verification
+    );
+
+    if (dialogs.length == verification) {
+      Message.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: "Well Done!",
+        textBody: "You've just approved all the dialogs. Please choose another.",
+        button: "close",
+      });
+
+      setTimeout(() => {
+        navigation.navigate("TopicConversation");
+        dispatch(deleteScore());
+      }, 3000);
+    }
   }
 
   return (
@@ -131,6 +158,7 @@ export default function Conversation({ navigation }) {
                     person={item.person}
                     dialog={item.dialog}
                     id_conversation={item.id}
+                    allApproved={verificationAllApproved()}
                   />
                 </View>
               </View>
