@@ -59,19 +59,7 @@ export default function Conversation({ navigation }) {
   return (
     <View style={styles.main_container}>
       <View style={styles.container_score_board}>
-        <View style={styles.container_back_ear_button}>
-          <TouchableOpacity style={styles.back_button}>
-            <Icon
-              name="arrow-back-outline"
-              reverseColor="#000000"
-              type="ionicon"
-              color="white"
-              size={20}
-              reverse
-              onPress={TopicConversation}
-            />
-          </TouchableOpacity>
-
+        <View style={styles.container_ear_button}>
           {audioUri && (
             <TouchableOpacity onPress={playAudio} style={styles.own_audio}>
               <Icon
@@ -90,7 +78,18 @@ export default function Conversation({ navigation }) {
       </View>
 
       <ScrollView style={styles.container_conversation}>
-        <View style={styles.container_avatarpicked}>
+        <View style={styles.avatar_section}>
+          <TouchableOpacity style={styles.back_button}>
+            <Icon
+              name="arrow-back-outline"
+              reverseColor="#000000"
+              type="ionicon"
+              color="white"
+              size={20}
+              reverse
+              onPress={TopicConversation}
+            />
+          </TouchableOpacity>
           <Image source={avatarImg.img} style={styles.avatar} />
 
           <View>
@@ -102,6 +101,7 @@ export default function Conversation({ navigation }) {
             </View>
           </View>
         </View>
+
         {dialogs &&
           dialogs.map((item) => {
             return (
@@ -152,11 +152,18 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 8,
   },
-  container_back_ear_button: {
+  container_ear_button: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+  },
+
+  container_conversation: {
+    marginTop: 9,
+  },
+  avatar_section: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between", // Asegura que los íconos se distribuyan en ambos extremos
-    alignItems: "center",
   },
   back_button: {
     height: 35,
@@ -168,13 +175,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 8,
-  },
-  container_conversation: {
-    marginTop: 9,
-  },
-  container_avatarpicked: {
-    display: "flex",
-    flexDirection: "row",
+    marginTop: 5
   },
   avatar: {
     borderRadius: 50,
@@ -184,8 +185,8 @@ const styles = StyleSheet.create({
   mini_container_online: {
     display: "flex",
     flexDirection: "row",
-    alignItems:'center',
-    marginLeft: 5
+    alignItems: "center",
+    marginLeft: 5,
   },
   green_point: {
     borderRadius: 50,

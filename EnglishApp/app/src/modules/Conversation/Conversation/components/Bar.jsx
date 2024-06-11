@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     position: "relative",
     backgroundColor: "#ddd",
     borderRadius: 10,
-    height: 30,
+    height: 20,
     width: "60%",
     justifyContent: "center",
     paddingHorizontal: 5, // Padding horizontal para que el contenido no toque los bordes
