@@ -78,7 +78,6 @@ export default function Conversation({ navigation }) {
       </View>
 
       <ScrollView style={styles.container_conversation}>
-
         <View style={styles.avatar_section}>
           <TouchableOpacity style={styles.back_button}>
             <Icon
@@ -106,8 +105,7 @@ export default function Conversation({ navigation }) {
         {dialogs &&
           dialogs.map((item) => {
             return (
-              <View key={item.id} style={styles.individual_conversation}>
-
+              <View key={item.id} style={item.person == 1 ? styles.individual_conversation_bot : styles.individual_conversation}>
                 <View
                   style={
                     item.person == 1
@@ -211,7 +209,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
     borderTopLeftRadius: 40,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   container_all_dialog_bot: {
     display: "flex",
@@ -222,15 +220,23 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
     borderTopRightRadius: 40,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   individual_conversation: {
     minHeight: 60,
     minWidth: 200,
-    display: 'flex',
+    display: "flex",
     padding: 5,
-    flexDirection: 'row',
-    justifyContent: 'flex-start', // Alinea los contenedores de diálogos al inicio
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  individual_conversation_bot: {
+    minHeight: 60,
+    minWidth: 200,
+    display: "flex",
+    padding: 5,
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
   own_audio: {
     height: 35,

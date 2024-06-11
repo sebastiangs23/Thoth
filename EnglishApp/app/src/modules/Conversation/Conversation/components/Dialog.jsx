@@ -12,7 +12,7 @@ export default function Dialog({ id_conversation, person,dialog }){
 
 const styles = StyleSheet.create({
     container_just_dialog: {
-        // width: '50%'
+        marginTop: 15
     },
     text: {
         color:'white'
