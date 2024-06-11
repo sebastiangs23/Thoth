@@ -11,6 +11,7 @@ export default function PickAvatar({ navigation }) {
     |   REQUEST TO THE SERVER   */
   async function avatarPicked(avatar) {
     try {
+      console.log(avatar)
       saveAvatarPicked(avatar);
       playAudioNext();
       navigation.navigate("TopicConversation");
@@ -52,7 +53,7 @@ export default function PickAvatar({ navigation }) {
                 style={styles.container_avatar_img}
                 onPress={() => avatarPicked(item)}
               >
-                <Image source={item} style={styles.avatar_img} />
+                <Image source={item.img} style={styles.avatar_img} />
               </TouchableOpacity>
             );
           })}

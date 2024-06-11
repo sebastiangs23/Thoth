@@ -11,7 +11,7 @@ export function Bar({ type, porcentaje, icon_name, icon_type }) {
   useEffect(() => {
     Animated.timing(animatedWidth, {
       toValue: porcentaje, // Asegura que se anime al porcentaje correcto
-      duration: 1500,
+      duration: 800,
       useNativeDriver: false,
     }).start();
 
