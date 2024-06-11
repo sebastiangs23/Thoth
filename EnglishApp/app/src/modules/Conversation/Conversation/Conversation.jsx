@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteScore } from "../../../store/slices/score/slice";
 import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
 import * as Font from "expo-font";
@@ -17,13 +18,13 @@ import Dialog from "./components/Dialog";
 import Score from "./components/Score";
 
 import { getAvatarPicked } from "../../../common/avatars/functions";
-import silueta from "../../../assets/avatars/siluetaAvatar.jpg";
 
 export default function Conversation({ navigation }) {
+  const dispatch = useDispatch();
+
   const dialogs = useSelector((state) => state.dialog.value);
   const audioUri = useSelector((state) => state.audioUri.value);
 
-  // const [fontsLoaded, setFontsLoaded] = useState(false);
   const [avatarImg, setAvatarImg] = useState("");
 
   useEffect(() => {
@@ -54,10 +55,11 @@ export default function Conversation({ navigation }) {
 
   function TopicConversation() {
     navigation.navigate("TopicConversation");
+    dispatch(deleteScore());
   }
 
   return (
-    <View style={styles.main_container}>
+    <ScrollView style={styles.main_container}>
       <View style={styles.container_score_board}>
         <View style={styles.container_ear_button}>
           {audioUri && (
@@ -77,7 +79,7 @@ export default function Conversation({ navigation }) {
         <Score />
       </View>
 
-      <ScrollView style={styles.container_conversation}>
+      <View style={styles.container_conversation}>
         <View style={styles.avatar_section}>
           <TouchableOpacity style={styles.back_button}>
             <Icon
@@ -104,8 +106,15 @@ export default function Conversation({ navigation }) {
 
         {dialogs &&
           dialogs.map((item) => {
-            return (
-              <View key={item.id} style={item.person == 1 ? styles.individual_conversation_bot : styles.individual_conversation}>
+            return item.approved == true ? (
+              <View
+                key={item.id}
+                style={
+                  item.person == 1
+                    ? styles.individual_conversation_bot
+                    : styles.individual_conversation
+                }
+              >
                 <View
                   style={
                     item.person == 1
@@ -125,14 +134,19 @@ export default function Conversation({ navigation }) {
                   />
                 </View>
               </View>
+            ) : (
+              <></>
             );
           })}
-      </ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  idk: {
+    // height: 5000
+  },
   main_container: {
     backgroundColor: "#FFFFFF",
   },

@@ -19,10 +19,22 @@ export const ScoreSlice = createSlice({
   reducers: {
     setScore: (state, action) => {
       state.value = action.payload;
-      console.log("AZURE RESULT");
-      console.log(state.value);
+    },
+    deleteScore: (state) => {
+      state.value = {
+        pronunciation_level: [
+          {
+            accuracy_score: 0,
+            completeness_score: 0,
+            fluency_score: 0,
+            pronunciation_score: 0,
+            prosody_score: 0,
+          },
+          [],
+        ],
+      };
     },
   },
 });
 
-export const { setScore } = ScoreSlice.actions;
+export const { setScore, deleteScore } = ScoreSlice.actions;

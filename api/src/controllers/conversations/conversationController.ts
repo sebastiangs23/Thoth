@@ -3,36 +3,47 @@ import { Request, Response } from "express";
 import ConversationModel from "../../models/conversations/conversations_model.js";
 import Dialogs from "../../models/dialogs/dialogs-model.js";
 
-async function getConversation(req: Request, res: Response){
-    try{
-        const { id_language_level } = req.query;
+async function getConversation(req: Request, res: Response) {
+  try {
+    const { id_language_level } = req.query;
 
-        const conversation = await ConversationModel.findAll({});
-        console.log(conversation)
-        console.log("conversation HERE")
-        res.json(conversation);
+    const conversation = await ConversationModel.findAll({});
 
-    }catch(error){
-        console.log(error)
-    }
-};
+    res.json(conversation);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-async function getDialogsConversation(req: Request, res: Response){
-    try{
-        const { id_conversation } = req.params;
+async function getDialogsConversation(req: Request, res: Response) {
+  try {
+    const { id_conversation } = req.params;
 
-        const dialogsConversation = await Dialogs.findAll({
-            where : {
-                id_conversation
-            }
-        });
+    const dialogsConversation = await Dialogs.findAll({
+      where: {
+        id_conversation,
+      },
+    });
 
-        res.status(200).json(dialogsConversation);
+    //Add the property witch made able to render just the firts two dialogs
+    let dialogsConversationsApproved = dialogsConversation.map(
+      (item, index) => {
+        let dialog = item.toJSON();
+        if (index < 2) {
+          dialog.approved = true;
+        } else {
+          dialog.approved = false;
+        }
 
-    }catch(error){
-        console.log(error);
-        res.status(500).send('Error en el controlador getDialogsConversation');
-    }
+        return dialog;
+      }
+    );
+
+    res.status(200).json(dialogsConversationsApproved);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error en el controlador getDialogsConversation");
+  }
 }
 
 export { getConversation, getDialogsConversation };

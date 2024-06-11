@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { getUserSession } from "../../../../common/user/functions";
 import { Icon } from "react-native-elements";
 import { setScore } from "../../../../store/slices/score/slice";
+import { setDialogsApproved } from "../../../../store/slices/dialog/slice";
 import { Audio } from "expo-av";
 import * as Speech from "expo-speech";
 import { setAudioUri } from "../../../../store/slices/audioUri/slice";
@@ -112,6 +113,24 @@ export default function Microphone({ person, dialog, id_conversation }) {
       );
 
       dispatch(setScore(response.data));
+
+      //Condition to know if the the approved the dialog or not
+      let average = 0;
+
+      if(response.data.pronunciation_level){
+        average += response.data.pronunciation_level[0].accuracy_score;
+        average += response.data.pronunciation_level[0].completeness_score;
+        average += response.data.pronunciation_level[0].fluency_score;
+        average += response.data.pronunciation_level[0].pronunciation_score;
+        average += response.data.pronunciation_level[0].prosody_score;
+
+        average = average/5;
+      }
+
+      if(average >= 75){
+        dispatch(setDialogsApproved());
+      }
+
     } catch (error) {
       console.log("Error al intentar evaluar el audio");
       console.log(error.response ? error.response.data : error);
