@@ -53,7 +53,6 @@ export default function Login({ navigation }) {
   return (
     <View style={styles.main_container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        {/* <Image source={logo} style={styles.logo_image} /> */}
 
         <View styles={styles.login_form}>
           <View style={styles.title_container}>
@@ -87,7 +86,7 @@ export default function Login({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <StatusBar style="auto" />
+       
         </View>
       </ImageBackground>
     </View>

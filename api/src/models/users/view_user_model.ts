@@ -24,11 +24,8 @@ const ViewUserModel = db.define('view_users', {
     password: {
         type: DataTypes.STRING(30),
     },
-    birth_country: {
-        type: DataTypes.STRING(25),
-    },
-    residence_country: {
-        type: DataTypes.STRING(30),
+    id_country: {
+        type: DataTypes.INTEGER,
     },
     id_language_level: {
         type: DataTypes.INTEGER

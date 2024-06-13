@@ -30,7 +30,11 @@ export async function createCountries(req: Request, res: Response) {
 
 export async function getCountries(req: Request, res: Response){
   try{
-    const countries = await CountriesModel.findAll();
+    const countries = await CountriesModel.findAll({
+      order: [
+        ['name', 'ASC']
+      ]
+    });
 
     res.json(countries);
   }catch(error){

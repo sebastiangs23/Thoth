@@ -1,6 +1,7 @@
 import { Sequelize, DataType, DataTypes } from "sequelize";
 import db from "../../db/postgresql.js";
 import UserTypeModel from "../user_type/user_type_model.js";
+import CountriesModel from "../countries/countries_model.js";
 
 const UserModel = db.define('users', {
     id: {
@@ -36,13 +37,13 @@ const UserModel = db.define('users', {
         type: DataTypes.STRING(30),
         allowNull: false
     },
-    birth_country: {
-        type: DataTypes.STRING(25),
-        allowNull: false
-    },
-    residence_country: {
-        type: DataTypes.STRING(30),
+    id_country: {
+        type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: CountriesModel,
+            key: 'id'
+        }
     },
     avatar: {
         type: DataTypes.INTEGER,
@@ -51,6 +52,7 @@ const UserModel = db.define('users', {
 });
 
 UserModel.belongsTo(UserTypeModel, { foreignKey: 'id_user_type' });
+UserModel.belongsTo(CountriesModel, { foreignKey: 'id_country' });
 
 UserModel.sync({ alter: false });
 

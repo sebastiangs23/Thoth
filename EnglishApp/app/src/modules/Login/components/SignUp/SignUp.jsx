@@ -1,15 +1,11 @@
 import {
+  ImageBackground,
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   Image,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  ScrollView,
   TouchableOpacity,
-  FlatList,
 } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -17,12 +13,12 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { Icon } from "react-native-elements";
 import DatePicker from "../../../../../global/datePicker/datePicker";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../../../store/slices/user/slice";
+import { saveUserSession } from "../../../../common/user/functions";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
+import imagegb from "../../../../assets/logos/login_wallpaper_full.webp";
+
 export default function SignUp({ navigation }) {
-  const dispatch = useDispatch();
   const countriesRedux = useSelector((state) => state.countries.value);
 
   /*___________
@@ -33,10 +29,8 @@ export default function SignUp({ navigation }) {
   const [secondLastName, setSecondLastName] = useState(null);
   const [password, setPassword] = useState(null);
   const [countries, setCountries] = useState([]);
-  const [selectedCountryBirth, setSelectedCountryBirth] = useState(null);
-  const [selectedCountryResid, setSelectedCountryResid] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [openB, setOpenB] = useState(false);
-  const [openR, setOpenR] = useState(false);
 
   useEffect(() => {
     renderCountries();
@@ -51,7 +45,7 @@ export default function SignUp({ navigation }) {
       if (countriesRedux.length) {
         formattedCountries = countriesRedux.map((country) => ({
           label: country.name,
-          value: country.iso_code,
+          value: country.id,
           icon: () => {
             return (
               <Image source={{ uri: country.flag.png }} style={styles.flag} />
@@ -75,8 +69,7 @@ export default function SignUp({ navigation }) {
         lastName == null ||
         secondLastName == null ||
         password == null ||
-        selectedCountryBirth == null ||
-        selectedCountryResid == null
+        selectedCountry == null
       ) {
         Dialog.show({
           type: ALERT_TYPE.WARNING,
@@ -92,8 +85,7 @@ export default function SignUp({ navigation }) {
           second_last_name: secondLastName,
           email: email,
           password: password,
-          birth_country: selectedCountryBirth,
-          residence_country: selectedCountryResid,
+          id_country: selectedCountry,
         };
 
         const response = await axios.post(
@@ -113,7 +105,7 @@ export default function SignUp({ navigation }) {
               });
             }
 
-            dispatch(setUser(response.data.user));
+            saveUserSession(response.data.user);
             navigation.navigate("LanguageLevel");
             break;
 
@@ -157,126 +149,115 @@ export default function SignUp({ navigation }) {
 
   return (
     <View style={styles.sign_up_container}>
-      <View style={styles.container_back_button}>
-        <Icon
-          name="arrow-back-outline"
-          reverseColor="#000000"
-          type="ionicon"
-          color="white"
-          size={20}
-          reverse
-          onPress={logIn}
-        />
-      </View>
+      <ImageBackground
+        source={imagegb}
+        resizeMode="cover"
+        style={styles.image_bg}
+      >
+        <View style={styles.container_back_button}>
+          <Icon
+            name="arrow-back-outline"
+            reverseColor="#000000"
+            type="ionicon"
+            color="white"
+            size={20}
+            reverse
+            onPress={logIn}
+          />
+        </View>
 
-      {/* <Image source={image} style={styles.image} /> */}
-      <Text style={styles.title}>Sign Up</Text>
+        <View style={styles.title_container}>
+          <Text style={styles.title}>Sign Up</Text>
+        </View>
 
-      <View style={styles.container_input}>
-        <TextInput
-          placeholder="Name"
-          style={styles.input}
-          onChangeText={(text) => setName(text)}
-        />
-      </View>
+        <View style={styles.form_container}>
+          <View style={styles.container_input}>
+            <TextInput
+              placeholder="Name"
+              style={styles.input}
+              onChangeText={(text) => setName(text)}
+            />
+          </View>
 
-      <View style={styles.container_input}>
-        <TextInput
-          placeholder="LastName"
-          style={styles.input}
-          onChangeText={(text) => setLastName(text)}
-        />
-      </View>
+          <View style={styles.container_input}>
+            <TextInput
+              placeholder="LastName"
+              style={styles.input}
+              onChangeText={(text) => setLastName(text)}
+            />
+          </View>
 
-      <View style={styles.container_input}>
-        <TextInput
-          placeholder="Second lastName"
-          style={styles.input}
-          onChangeText={(text) => setSecondLastName(text)}
-        />
-      </View>
+          <View style={styles.container_input}>
+            <TextInput
+              placeholder="Second lastName"
+              style={styles.input}
+              onChangeText={(text) => setSecondLastName(text)}
+            />
+          </View>
 
-      <View style={styles.container_input}>
-        <TextInput
-          placeholder="Example@email.com"
-          style={styles.input}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </View>
+          <View style={styles.container_input}>
+            <TextInput
+              placeholder="Example@email.com"
+              style={styles.input}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
 
-      <View >
-        <DropDownPicker
-          open={openB}
-          value={selectedCountryBirth}
-          items={countries}
-          setOpen={setOpenB}
-          setValue={setSelectedCountryBirth}
-          setItems={setCountries}
-          placeholder="Country of birth"
-          dropDownContainerStyle={styles.dropdownContainer}
-          itemSeparator={true}
-          style={styles.dropdown}
-          customItemContainer={({ label, icon }) => (
-            <View style={styles.itemContainer}>
-              {icon && icon()}
-              <Text style={styles.label}>{label}</Text>
-            </View>
-          )}
-        />
-      </View>
+          <View>
+            <DropDownPicker
+              open={openB}
+              value={selectedCountry}
+              items={countries}
+              setOpen={setOpenB}
+              setValue={setSelectedCountry}
+              setItems={setCountries}
+              placeholder="Country of birth"
+              dropDownContainerStyle={styles.dropdownContainer}
+              itemSeparator={true}
+              style={styles.dropdown}
+              customItemContainer={({ label, icon }) => (
+                <View style={styles.itemContainer}>
+                  {icon && icon()}
+                  <Text style={styles.label}>{label}</Text>
+                </View>
+              )}
+            />
+          </View>
 
-      <View>
-        <DropDownPicker
-          open={openR}
-          value={selectedCountryResid}
-          items={countries}
-          setOpen={setOpenR}
-          setValue={setSelectedCountryResid}
-          setItems={setCountries}
-          placeholder="Country of residence"
-          dropDownContainerStyle={styles.dropdownContainer}
-          itemSeparator={true}
-          style={styles.dropdown}
-          customItemContainer={({ label, icon }) => (
-            <View style={styles.itemContainer}>
-              {icon && icon()}
-              <Text style={styles.label}>{label}</Text>
-            </View>
-          )}
-        />
-      </View>
+          <DatePicker format={"date"} />
 
-      <DatePicker format={"date"} />
+          <View style={styles.container_input}>
+            <TextInput
+              placeholder="Password"
+              style={styles.input}
+              onChangeText={(text) => setPassword(text)}
+            />
+          </View>
+        </View>
 
-      <View style={styles.container_input}>
-        <TextInput
-          placeholder="Password"
-          style={styles.input}
-          onChangeText={(text) => setPassword(text)}
-        />
-      </View>
-
-      <View style={styles.create_button_container}>
-        <TouchableOpacity style={styles.create_button} onPress={createUser}>
-          <Text style={styles.text}>Create an Account</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.create_button_container}>
+          <TouchableOpacity style={styles.create_button} onPress={createUser}>
+            <Text style={styles.create_button_text}>Create</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   sign_up_container: {
-    alignItems: "center",
+    flex: 1,
   },
-  container: {
+  image_bg: {
+    flex: 1,
     justifyContent: "center",
-    alignContent: "center",
-    height: "100%",
   },
   container_back_button: {
-    alignSelf: "flex-start",
-    margin: 8,
+    position: 'absolute', 
+    top: 8,               
+    left: 8,             
+    marginTop: 5,
     height: 35,
     justifyContent: "center",
     alignItems: "center",
@@ -287,17 +268,25 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 8,
   },
-  image: {
-    width: 300,
-    height: 200,
+  title_container: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
-    fontSize: 40,
-  },
-  container_input: {
+    margin: 5,
     padding: 5,
-    width: "80%",
-    borderWidth: 1,
+    fontSize: 55,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  form_container: {
+    alignItems: "center",
+  },
+
+  container_input: {
+    backgroundColor: "#FFFFFF",
+    padding: 5,
+    width: "65%",
     borderRadius: 8,
     flexDirection: "row",
     marginTop: 10,
@@ -305,7 +294,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderRadius: 5,
-    width: "80%",
+    width: "60%",
   },
   dropdown: {
     height: 50,
@@ -327,19 +316,18 @@ const styles = StyleSheet.create({
     margin: 3,
     justifyContent: "center",
     alignItems: "center",
-    width: '100%',
-
+    width: "100%",
   },
   create_button: {
-    flexDirection: "row",
+    width: 200,
+    height: 55,
     backgroundColor: "#3790F5",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 20,
+    borderRadius: 50,
   },
-  text: {
-    padding: 5,
-    fontSize: 15,
+  create_button_text: {
+    fontSize: 23,
     color: "#FFFFFF",
     fontWeight: "bold",
   },

@@ -1,5 +1,6 @@
 import {
   View,
+  ImageBackground,
   StyleSheet,
   Text,
   TextInput,
@@ -13,10 +14,10 @@ import axios from "axios";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import { Icon } from "react-native-elements";
 import { useDispatch } from "react-redux";
-import { setUser } from "../../../../store/slices/user/slice";
 import { saveUserSession } from "../../../../common/user/functions";
 import { playAudioNext } from "../../../../common/audio/functions";
-import image from "../../../../assets/images/sign-in-top-icon-color.png";
+
+import imagebg from "../../../../assets/logos/login_wallpaper_full.webp";
 
 export default function SignIn({ navigation }) {
   const dispatch = useDispatch();
@@ -30,17 +31,17 @@ export default function SignIn({ navigation }) {
   |   REQUEST TO THE SERVER   */
   async function sendUserData() {
     try {
-      console.log('1 ' , email , ' 2 ', password);
+      console.log("1 ", email, " 2 ", password);
 
-      if(!email || !password){
+      if (!email || !password) {
         Dialog.show({
           type: ALERT_TYPE.WARNING,
-          title: 'Warning',
-          textBody: 'The email or password cannot be empty.',
-          button: 'close'
+          title: "Warning",
+          textBody: "The email or password cannot be empty.",
+          button: "close",
         });
         return;
-      };
+      }
 
       let data = { email: email, password: password };
 
@@ -49,57 +50,54 @@ export default function SignIn({ navigation }) {
         { params: data }
       );
 
-      switch (response.data.status){
-        case 'Successful' : {
-          //Llenare ala persona en el estado global redux y en AsyncStorage
-          dispatch(setUser(response.data.user));
+      switch (response.data.status) {
+        case "Successful": {
           saveUserSession(response.data.user);
 
           Dialog.show({
             type: ALERT_TYPE.SUCCESS,
             title: response.data.message,
-            textBody: 'Its good to see you again',
-            button: 'Ok',
-            autoClose: 100
-          })
+            textBody: "Its good to see you again",
+            button: "Ok",
+            autoClose: 100,
+          });
 
-          if(response.data.user.id_user_type == 2){
+          if (response.data.user.id_user_type == 2) {
             playAudioNext();
             //TopicConversation();
             LanguageLevel();
             break;
-          }else if(response.data.user.id_user_type == 1){
+          } else if (response.data.user.id_user_type == 1) {
             //DASHBOARD ADMIN
-          }else {
+          } else {
             //COMPONENTE DE RUTA NO ESPECIFICADA
           }
 
           break;
         }
-        case 'Unauthorized': {
+        case "Unauthorized": {
           Dialog.show({
             type: ALERT_TYPE.DANGER,
             title: response.data.message,
-            textBody: 'The fuck are you doing here',
-            button: 'close'
-          })
+            textBody: "The fuck are you doing here",
+            button: "close",
+          });
           break;
         }
 
-        case 'WrongPassword': {
+        case "WrongPassword": {
           Dialog.show({
             type: ALERT_TYPE.WARNING,
-            title: 'Password incorrect',
+            title: "Password incorrect",
             textBody: response.data.message,
-            button: 'close'
-          })
+            button: "close",
+          });
           break;
         }
-        default : {
+        default: {
           break;
         }
       }
-
     } catch (error) {
       console.log(error);
     }
@@ -107,7 +105,7 @@ export default function SignIn({ navigation }) {
 
   /*________________
   |   FUNCTIONS   */
-  function LanguageLevel(){
+  function LanguageLevel() {
     navigation.navigate("LanguageLevel");
   }
 
@@ -115,91 +113,106 @@ export default function SignIn({ navigation }) {
     navigation.navigate("Login");
   }
 
-  function passwordVisible(boolean){
+  function passwordVisible(boolean) {
     setEyeOpen(boolean);
     setSecurePassword(!boolean);
   }
 
-
   return (
-    <KeyboardAvoidingView style={styles.sign_in_container}>
-
-      <View style={styles.container_back_button} >
-        <Icon
-          name="arrow-back-outline"
-          reverseColor="#000000"
-          type="ionicon"
-          color="white"
-          size={20}
-          reverse
-          onPress={logIn}
-        />
-      </View>
-      
-      <Image source={image} style={styles.image} />
-
-      <Text style={styles.title}>Log in</Text>
-
-      <View style={styles.container_input}>
-        <Icon name="person-outline" type="ionicon" />
-        <TextInput
-          placeholder="Example@email.com"
-          style={styles.input}
-          onChangeText={(text) => setEmail(text)}
-        />
-      </View>
-
-      <View style={styles.container_input}>
-        <Icon name="lock-closed-outline" type="ionicon"></Icon>
-        <TextInput
-          placeholder="password"
-          style={styles.input}
-          secureTextEntry={securePassword}
-          onChangeText={(text) => setPassword(text)}
-        />
-        {eyeOpen == false ? (
+    <View style={styles.sign_in_container}>
+      <ImageBackground
+        source={imagebg}
+        resizeMode="cover"
+        style={styles.image_bg}
+      >
+        <View style={styles.container_back_button}>
           <Icon
-            name="eye-off-outline"
+            name="arrow-back-outline"
+            reverseColor="#000000"
             type="ionicon"
-            onPress={() => passwordVisible(true)}
+            color="white"
+            size={20}
+            reverse
+            onPress={logIn}
           />
-        ) : (
-          <Icon
-            name="eye-outline"
-            type="ionicon"
-            onPress={() => passwordVisible(false)}
-          />
-        )}
-      </View>
+        </View>
 
-      <View style={styles.button_container}>
-        <TouchableOpacity style={styles.button} onPress={sendUserData}>
-          <Text style={styles.text}>Log in</Text>
-          <Icon name="log-in-outline" type="ionicon" color="white" />
-        </TouchableOpacity>
-      </View>
+        <View style={styles.title_container}>
+          <Text style={styles.title}>Log in</Text>
+        </View>
 
-      <View style={styles.button_container}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() =>
-            Alert.alert(
-              "Here its where the user are gonna be redirect to recovery his password throw email"
-            )
-          }
-        >
-          <Text style={styles.text}>Recovery password</Text>
-          <Icon name="lock-open-outline" type="ionicon" color="white" />
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+        <View style={styles.form_container}>
+          <View style={styles.container_input}>
+            <Icon name="person-outline" type="ionicon" />
+            <TextInput
+              placeholder="Example@email.com"
+              style={styles.input}
+              onChangeText={(text) => setEmail(text)}
+            />
+          </View>
+
+          <View style={styles.container_input}>
+            <Icon name="lock-closed-outline" type="ionicon"></Icon>
+            <TextInput
+              placeholder="password"
+              style={styles.input}
+              secureTextEntry={securePassword}
+              onChangeText={(text) => setPassword(text)}
+            />
+            {eyeOpen == false ? (
+              <Icon
+                name="eye-off-outline"
+                type="ionicon"
+                onPress={() => passwordVisible(true)}
+              />
+            ) : (
+              <Icon
+                name="eye-outline"
+                type="ionicon"
+                onPress={() => passwordVisible(false)}
+              />
+            )}
+          </View>
+        </View>
+
+        <View style={styles.button_container}>
+          <TouchableOpacity style={styles.button} onPress={sendUserData}>
+            <Text style={styles.text}>Log in</Text>
+            <Icon name="log-in-outline" type="ionicon" color="white" />
+          </TouchableOpacity>
+        </View>
+
+        {/* <View style={styles.button_container}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+              Alert.alert(
+                "Here its where the user are gonna be redirect to recovery his password throw email"
+              )
+            }
+          >
+            <Text style={styles.text}>Recovery password</Text>
+            <Icon name="lock-open-outline" type="ionicon" color="white" />
+          </TouchableOpacity>
+        </View> */}
+      </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  sign_in_container: {
+    flex: 1,
+  },
+  image_bg: {
+    flex: 1,
+    justifyContent: "center",
+  },
   container_back_button: {
-    alignSelf: 'flex-start',
-    margin: 8,
+    position: 'absolute', 
+    top: 8,               
+    left: 8,             
+    marginTop: 5,
     height: 35,
     justifyContent: "center",
     alignItems: "center",
@@ -210,46 +223,51 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 8,
   },
-  sign_in_container: {
+  title_container: {
+    justifyContent: "center",
     alignItems: "center",
   },
-  image: {
-    height: 250,
-    width: 240,
-  },
   title: {
-    fontSize: 40,
+    margin: 5,
+    padding: 5,
+    fontSize: 55,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  form_container: {
+    alignItems: "center",
   },
   container_input: {
+    backgroundColor: "#FFFFFF",
     padding: 5,
-    width: '80%',
-    borderWidth: 1,
-    borderRadius: 10,
+    width: "75%",
+    borderRadius: 8,
     flexDirection: "row",
     marginTop: 10,
-    marginBottom:  10
+    marginBottom: 10,
   },
   input: {
     borderRadius: 5,
     width: "80%",
   },
   button_container: {
-    width: "70%",
-    marginTop: 10,
-    marginBottom: 10
+    margin: 3,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
   },
   button: {
-    flexDirection: "row",
-    height: 35,
+    display: 'flex',
+    flexDirection: 'row',
+    width: 200,
+    height: 55,
     backgroundColor: "#3790F5",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
-    borderRadius: 20,
+    borderRadius: 50,
   },
   text: {
-    padding: 5,
-    fontSize: 15,
+    fontSize: 18,
     color: "#FFFFFF",
     fontWeight: "bold",
   },

@@ -39,6 +39,7 @@ export default function TopicConversation({ navigation }) {
       dispatch(setDialog(response.data));
       playAudioNext();
       navigateToConversation();
+      
     } catch (error) {
       console.log(error.message);
     }

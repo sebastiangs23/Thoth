@@ -26,8 +26,7 @@ export async function createUser(req: Request, res: Response) {
       second_last_name,
       email,
       password,
-      birth_country,
-      residence_country,
+      id_country,
     } = req.body;
 
     console.log(req.body);
@@ -51,8 +50,7 @@ export async function createUser(req: Request, res: Response) {
         second_last_name,
         email,
         password,
-        birth_country,
-        residence_country,
+        id_country,
       });
 
       if (userCreated) {

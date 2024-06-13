@@ -1,13 +1,10 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { playAudioNext } from "../../common/audio/functions";
 import { getUserSession } from "../../common/user/functions";
 import axios from "axios";
 
 export default function LanguageLevel({ navigation }) {
-  //const user = useSelector((state) => state.user.value);
-
   const [languageLevels, setLanguageLevels] = useState([]);
   const [user, setUser] = useState({});
 
@@ -20,7 +17,7 @@ export default function LanguageLevel({ navigation }) {
   |   REQUEST TO SERVER (GLOBAL STATES)   */
   async function getUser(){
     const response = await getUserSession();
-
+    console.log(response),
     setUser(response);
   };
 
@@ -38,17 +35,17 @@ export default function LanguageLevel({ navigation }) {
 
   async function updateUserLanguageLevel(id_language_level){
     try{
-
+      console.log('the data: ', user)
       let data = {
         id_user: user.id,
         id_language_level
-      };
+        };
       console.log('the data witch r gonna be sending to the controller: ', data)
       const response = await axios.put('http://192.168.1.10:5000/users/update-level-language', data);
 
       if(response.data.status == 'Successfull'){
 
-        //navigation.navigate("TopicConversation");
+        //navigation.navigate("Login");
         navigation.navigate("PickAvatar");
         playAudioNext();
 
