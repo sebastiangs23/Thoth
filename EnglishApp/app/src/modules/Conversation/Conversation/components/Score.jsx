@@ -1,14 +1,9 @@
-import { View, Text, StyleSheet } from "react-native";
-import { useEffect } from "react";
+import { View, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 import Bar from "../components/Bar.jsx";
 
 export default function Score() {
   const score = useSelector((state) => state.score.value);
-
-  useEffect(() => {
-    console.log(score);
-  }, []);
 
   return (
     <View style={styles.container_score}>

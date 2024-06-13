@@ -8,24 +8,19 @@ import LanguageLevel from "../../models/language_levels/language_levels_model.js
 export async function logInUser(req: Request, res: Response) {
   try {
     const { email, password } = req.query;
-    console.log(req.query);
-
-    console.log("lo que me llega x query!");
-
+    
     const user = await ViewUserModel.findOne({
       where: {
         email
       },
     });
 
-    console.log('USEEER --> ', user);
-
     if(user){
       if((user as any).password == password){
         res.json({
           status: 'Successful',
           message: 'Welcome back',
-          user, //It only needs to send the user and the type user
+          user,
         });
       }else {
         res.json({

@@ -2,14 +2,16 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { View, Text,StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import { getUserSession } from "../../../../common/user/functions";
-import { Icon } from "react-native-elements";
 import { setScore } from "../../../../store/slices/score/slice";
 import { setDialogsApproved } from "../../../../store/slices/dialog/slice";
+import { setAudioUri } from "../../../../store/slices/audioUri/slice";
+import { getUserSession } from "../../../../common/user/functions";
+
+import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
 import * as Speech from "expo-speech";
 import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
-import { setAudioUri } from "../../../../store/slices/audioUri/slice";
+
 
 export default function Microphone({ person, dialog, id_conversation, allApproved }) {
   const dispatch = useDispatch();
@@ -29,8 +31,15 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
     try {
       const response = await getUserSession();
       setUser(response);
+
     } catch (error) {
-      console.log(error);
+      Message.show({
+        type: ALERT_TYPE.DANGER,
+        title: ":(",
+        textBody: "Something unexpected just happened in the Microphone.jsx",
+        button: "Ok",
+        autoClose: 2000,
+      });
     }
   }
 
@@ -52,18 +61,23 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
 
       setRecording(recording);
     } catch (error) {
-      console.log("An error occurred while trying to start recording");
-      console.log(error);
+      Message.show({
+        type: ALERT_TYPE.DANGER,
+        title: ":(",
+        textBody: "Something unexpected just happened in the Microphone.jsx",
+        button: "Ok",
+        autoClose: 2000,
+      });
     }
   }
 
   async function stopRecording() {
     try {
       console.log("Stopping recording..");
+
       await recording.stopAndUnloadAsync();
       const uri = recording.getURI();
 
-      //setAudioUri(uri);
       dispatch(setAudioUri(uri));
       setRecording(false);
 
@@ -73,8 +87,13 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
 
       audioScore(uri, dialog);
     } catch (error) {
-      console.log("An error occurred while trying to stop recording");
-      console.log(error);
+      Message.show({
+        type: ALERT_TYPE.DANGER,
+        title: ":(",
+        textBody: "Something unexpected just happened trying to stopRecording in the Microphone.jsx",
+        button: "Ok",
+        autoClose: 2000,
+      });
     }
   }
 
@@ -140,9 +159,6 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
         textBody: "Please get closer to the microphone or speak louder!",
         button: "close",
       });
-
-      console.log("Error al intentar evaluar el audio");
-      console.log(error.response ? error.response.data : error);
     }
   }
 

@@ -1,8 +1,10 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+
 import { playAudioNext } from "../../common/audio/functions";
 import { getUserSession } from "../../common/user/functions";
-import axios from "axios";
 
 export default function LanguageLevel({ navigation }) {
   const [languageLevels, setLanguageLevels] = useState([]);
@@ -17,8 +19,8 @@ export default function LanguageLevel({ navigation }) {
   |   REQUEST TO SERVER (GLOBAL STATES)   */
   async function getUser(){
     const response = await getUserSession();
-    console.log(response),
     setUser(response);
+
   };
 
   async function getLanguageLevels() {
@@ -29,32 +31,48 @@ export default function LanguageLevel({ navigation }) {
 
       setLanguageLevels(response.data);
     } catch (error) {
-      console.log(error);
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: ":(",
+        textBody: "An unexpected just happened in the LanguageLevel.jsx",
+        button: "Ok",
+        autoClose: 2000,
+      });
     }
   }
 
   async function updateUserLanguageLevel(id_language_level){
     try{
-      console.log('the data: ', user)
       let data = {
         id_user: user.id,
         id_language_level
         };
-      console.log('the data witch r gonna be sending to the controller: ', data)
+
       const response = await axios.put('http://192.168.1.10:5000/users/update-level-language', data);
 
       if(response.data.status == 'Successfull'){
 
-        //navigation.navigate("Login");
         navigation.navigate("PickAvatar");
         playAudioNext();
 
       }else {
-        //notification that somethings goes wrong
+        Dialog.show({
+          type: ALERT_TYPE.WARNING,
+          title: ":(",
+          textBody: "Something unexpected just happened in the Login.jsx",
+          button: "Ok",
+          autoClose: 2000,
+        });
       }
 
     }catch(error){
-      console.log(error)
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: ":(",
+        textBody: "Something unexpected just happened in the Login.jsx",
+        button: "Ok",
+        autoClose: 2000,
+      });
     }
   }
 

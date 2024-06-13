@@ -2,34 +2,9 @@ import { Request, Response } from "express";
 import UserModel from "../../models/users/user_model.js";
 import UserLanguageLevel from "../../models/user_language_level/user_language_model.js";
 
-export async function getUsers(req: Request, res: Response) {
-  try {
-    const { data } = req.params;
-
-    // const users = await UserModel.findAll({});
-
-    res.json({
-      sebas: "CEEEEEEEEEEEB",
-    });
-  } catch (error) {
-    res.json({
-      message: "Error trying to bring the users.",
-    });
-  }
-}
-
 export async function createUser(req: Request, res: Response) {
   try {
-    const {
-      name,
-      last_name,
-      second_last_name,
-      email,
-      password,
-      id_country,
-    } = req.body;
-
-    console.log(req.body);
+    const { name, last_name, second_last_name, email, password, id_country } = req.body;
 
     //Validacion para saber si ese correo ya existe en la bd
     const emailInUse = await UserModel.findOne({
@@ -38,9 +13,6 @@ export async function createUser(req: Request, res: Response) {
       },
       attributes: ["email"],
     });
-
-    console.log("emailInUse");
-    console.log(emailInUse);
 
     if (!emailInUse) {
       const userCreated = await UserModel.create({

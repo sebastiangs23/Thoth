@@ -1,12 +1,4 @@
-import {
-  ImageBackground,
-  View,
-  Text,
-  TextInput,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { ImageBackground, View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -32,6 +24,11 @@ export default function SignUp({ navigation }) {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [openB, setOpenB] = useState(false);
 
+  /*_______________________
+  |   PASSWORD VISIBLE   */
+  const [eyeOpen, setEyeOpen] = useState(false);
+  const [securePassword, setSecurePassword] = useState(true);
+
   useEffect(() => {
     renderCountries();
   }, []);
@@ -56,6 +53,13 @@ export default function SignUp({ navigation }) {
 
       setCountries(formattedCountries);
     } catch (error) {
+      Dialog.show({
+        type: ALERT_TYPE.WARNING,
+        title: ":(",
+        textBody: "An unexpected just happened trying to render the countries",
+        button: "Ok",
+        autoClose: 2000,
+      });
       console.log(error);
     }
   }
@@ -132,12 +136,17 @@ export default function SignUp({ navigation }) {
 
             break;
           }
-        }
+        };
 
-        console.log(response.data);
       }
     } catch (error) {
-      console.log(error.message);
+      Dialog.show({
+        type: ALERT_TYPE.WARNING,
+        title: ":(",
+        textBody: "An unexpected just happened trying to create the user",
+        button: "Ok",
+        autoClose: 2000,
+      });
     }
   }
 
@@ -145,6 +154,11 @@ export default function SignUp({ navigation }) {
   |   FUNCTIONS   */
   function logIn() {
     navigation.navigate("Login");
+  }
+
+  function passwordVisible(boolean) {
+    setEyeOpen(boolean);
+    setSecurePassword(!boolean);
   }
 
   return (
@@ -214,7 +228,13 @@ export default function SignUp({ navigation }) {
               placeholder="Country of birth"
               dropDownContainerStyle={styles.dropdownContainer}
               itemSeparator={true}
+              maxHeight={200}
+              maxWidth={200}
               style={styles.dropdown}
+              placeholderStyle={{
+                color: "grey",
+                fontWeight: "bold",
+              }}
               customItemContainer={({ label, icon }) => (
                 <View style={styles.itemContainer}>
                   {icon && icon()}
@@ -226,12 +246,28 @@ export default function SignUp({ navigation }) {
 
           <DatePicker format={"date"} />
 
-          <View style={styles.container_input}>
+          <View style={styles.container_input_password}>
             <TextInput
               placeholder="Password"
               style={styles.input}
+              secureTextEntry={securePassword}
               onChangeText={(text) => setPassword(text)}
             />
+            <View style={styles.container_eye}>
+              {eyeOpen == false ? (
+                <Icon
+                  name="eye-off-outline"
+                  type="ionicon"
+                  onPress={() => passwordVisible(true)}
+                />
+              ) : (
+                <Icon
+                  name="eye-outline"
+                  type="ionicon"
+                  onPress={() => passwordVisible(false)}
+                />
+              )}
+            </View>
           </View>
         </View>
 
@@ -254,9 +290,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container_back_button: {
-    position: 'absolute', 
-    top: 8,               
-    left: 8,             
+    position: "absolute",
+    top: 8,
+    left: 8,
     marginTop: 5,
     height: 35,
     justifyContent: "center",
@@ -296,9 +332,21 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: "60%",
   },
-  dropdown: {
-    height: 50,
+  container_input_password: {
+    flexDirection: "row", 
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#FFFFFF",
+    padding: 5,
     width: "65%",
+    borderRadius: 8,
+    flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  dropdown: {
+    width: "65%",
+    color: "#fff",
   },
   flag: {
     width: 30,
@@ -310,7 +358,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontSize: 16,
+    fontSize: 24,
   },
   create_button_container: {
     margin: 3,

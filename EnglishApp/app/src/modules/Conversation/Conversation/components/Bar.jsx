@@ -4,9 +4,8 @@ import * as Font from 'expo-font';
 import { Icon } from "react-native-elements";
 
 export function Bar({ type, porcentaje, icon_name, icon_type }) {
-  const animatedWidth = useRef(new Animated.Value(0)).current;
 
-  const [fontsLoaded, setFontsLoaded] = useState(false);
+  const animatedWidth = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.timing(animatedWidth, {
@@ -20,10 +19,7 @@ export function Bar({ type, porcentaje, icon_name, icon_type }) {
   }, [porcentaje]);
 
   async function loadFonts() {
-    await Font.loadAsync({
-      'Roboto-Italic': require('../../../../assets/fonts/titles/Roboto-Italic.ttf'),  // Asegúrate de usar el path correcto
-    });
-    setFontsLoaded(true);
+    await Font.loadAsync({'Roboto-Italic': require('../../../../assets/fonts/titles/Roboto-Italic.ttf')});
   }
 
 
@@ -46,7 +42,6 @@ export function Bar({ type, porcentaje, icon_name, icon_type }) {
             },
           ]}
         >
-          {/* Texto dentro de la barra */}
           <Text style={styles.barraTexto}>{porcentaje ? porcentaje : ""}</Text>
         </Animated.View>
       </View>

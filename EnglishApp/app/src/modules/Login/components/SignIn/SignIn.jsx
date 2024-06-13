@@ -4,23 +4,18 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Alert,
   TouchableOpacity,
-  Image,
-  KeyboardAvoidingView,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import { Icon } from "react-native-elements";
-import { useDispatch } from "react-redux";
 import { saveUserSession } from "../../../../common/user/functions";
 import { playAudioNext } from "../../../../common/audio/functions";
 
 import imagebg from "../../../../assets/logos/login_wallpaper_full.webp";
 
 export default function SignIn({ navigation }) {
-  const dispatch = useDispatch();
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -31,7 +26,6 @@ export default function SignIn({ navigation }) {
   |   REQUEST TO THE SERVER   */
   async function sendUserData() {
     try {
-      console.log("1 ", email, " 2 ", password);
 
       if (!email || !password) {
         Dialog.show({
@@ -64,9 +58,9 @@ export default function SignIn({ navigation }) {
 
           if (response.data.user.id_user_type == 2) {
             playAudioNext();
-            //TopicConversation();
             LanguageLevel();
             break;
+
           } else if (response.data.user.id_user_type == 1) {
             //DASHBOARD ADMIN
           } else {
@@ -99,7 +93,13 @@ export default function SignIn({ navigation }) {
         }
       }
     } catch (error) {
-      console.log(error);
+      Dialog.show({
+        type: ALERT_TYPE.WARNING,
+        title: ":(",
+        textBody: "Something issues trying to send the form.",
+        button: "Ok",
+        autoClose: 2000,
+      });
     }
   }
 
@@ -181,20 +181,6 @@ export default function SignIn({ navigation }) {
             <Icon name="log-in-outline" type="ionicon" color="white" />
           </TouchableOpacity>
         </View>
-
-        {/* <View style={styles.button_container}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() =>
-              Alert.alert(
-                "Here its where the user are gonna be redirect to recovery his password throw email"
-              )
-            }
-          >
-            <Text style={styles.text}>Recovery password</Text>
-            <Icon name="lock-open-outline" type="ionicon" color="white" />
-          </TouchableOpacity>
-        </View> */}
       </ImageBackground>
     </View>
   );

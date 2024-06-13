@@ -45,7 +45,6 @@ export default function Conversation({ navigation }) {
   async function getAvatarImg() {
     const response = await getAvatarPicked();
 
-    console.log(response);
     setAvatarImg(response);
   }
 
@@ -60,15 +59,7 @@ export default function Conversation({ navigation }) {
   }
 
   function verificationAllApproved() {
-    let verification = dialogs.filter((dialog) => dialog.approved == true)
-      .length;
-
-    console.log(
-      "dialogs.length ",
-      dialogs.length,
-      "allapproved ",
-      verification
-    );
+    let verification = dialogs.filter((dialog) => dialog.approved == true).length;
 
     if (dialogs.length == verification) {
       Message.show({
@@ -172,9 +163,6 @@ export default function Conversation({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  idk: {
-    // height: 5000
-  },
   main_container: {
     backgroundColor: "#FFFFFF",
   },
@@ -256,7 +244,7 @@ const styles = StyleSheet.create({
   container_all_dialog_bot: {
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "#2891BC",
+    backgroundColor: "#7BAEF8",
     padding: 5,
     margin: 5,
     borderBottomLeftRadius: 40,

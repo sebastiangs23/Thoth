@@ -1,14 +1,12 @@
-import { StyleSheet,View, Text, ImageBackground, TouchableOpacity } from "react-native";
-import React, {  useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { playAudioNext } from "../../common/audio/functions";
+import { StyleSheet,View, Text, ImageBackground,TouchableOpacity } from "react-native";
 import axios from "axios";
-import { getUserSession, removeUserSession } from "../../common/user/functions";
-import { setCountries } from "../../store/slices/countries/slice";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import logo from "../../assets/logos/logo2.png";
+import { setCountries } from "../../store/slices/countries/slice";
+import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+import { playAudioNext } from "../../common/audio/functions";
+import { getUserSession, removeUserSession } from "../../common/user/functions";
 import image from "../../assets/logos/login_wallpaper_full.webp";
-
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
@@ -20,32 +18,40 @@ export default function Login({ navigation }) {
 
   /*_______________________________________
   |   REQUEST TO SERVER (GLOBAL STATES)   */
-  async function getCountries(){
-    const response = await axios.get(
-      "http://192.168.1.10:5000/countries/get-countries-db"
-    );
+  async function getCountries() {
+    try {
+      const response = await axios.get(
+        "http://192.168.1.10:5000/countries/get-countries-db"
+      );
 
-    dispatch(setCountries(response.data));
+      dispatch(setCountries(response.data));
+    } catch (error) {
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: ":(",
+        textBody: "Something unexpected just happened in the Login.jsx",
+        button: "Ok",
+        autoClose: 2000,
+      });
+    }
   }
 
   /*________________
   |   FUNCTIONS   */
-  async function activeSession(){
-    //await removeUserSession();
+  async function activeSession() {
     const response = await getUserSession();
 
-    if(response){
+    if (response) {
       navigation.navigate("LanguageLevel");
     }
-  };
+  }
 
-  function signIn(){
+  function signIn() {
     navigation.navigate("SignIn");
-    //navigation.navigate("LanguageLevel")
     playAudioNext();
   }
 
-  function signUp(){
+  function signUp() {
     navigation.navigate("SignUp");
     playAudioNext();
   }
@@ -53,7 +59,6 @@ export default function Login({ navigation }) {
   return (
     <View style={styles.main_container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-
         <View styles={styles.login_form}>
           <View style={styles.title_container}>
             <Text style={styles.title}>Welcome to Thoth /. </Text>
@@ -85,8 +90,6 @@ export default function Login({ navigation }) {
               <Text style={styles.text}>Sign up</Text>
             </TouchableOpacity>
           </View>
-
-       
         </View>
       </ImageBackground>
     </View>
