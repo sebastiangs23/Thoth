@@ -1,46 +1,48 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import UserTypeModel from "../../models/user_type/user_type_model.js";
-import UserModel from "../../models/users/user_model.js";
+import bcrypt from "bcrypt";
 import ViewUserModel from "../../models/users/view_user_model.js";
 import LanguageLevel from "../../models/language_levels/language_levels_model.js";
 
 export async function logInUser(req: Request, res: Response) {
   try {
     const { email, password } = req.query;
-    
+
     const user = await ViewUserModel.findOne({
       where: {
-        email
+        email,
       },
     });
 
-    if(user){
-      if((user as any).password == password){
-        res.json({
-          status: 'Successful',
-          message: 'Welcome back',
-          user,
+    if (user) {
+      bcrypt.compare(password as string, (user as any).password).then(function (result) {
+          
+          if (result == true) {
+            res.json({
+              status: "Successful",
+              message: "Welcome back",
+              user,
+            });
+          } else {
+            res.json({
+              status: "WrongPassword",
+              message: "The password it´s incorrect. ",
+            });
+          }
         });
-      }else {
-        res.json({
-          status: 'WrongPassword',
-          message: 'The password it´s incorrect. '
-        })
-      }
-    }else {
-      res.json({
-        status: 'Unauthorized',
-        message: 'The email doesn´t exists.'
-      })
-    }
 
+    } else {
+      res.json({
+        status: "Unauthorized",
+        message: "The email doesn´t exists.",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.json({
-      status: 'Warning',
-      message: 'Something goes wrong!'
-    })
+      status: "Warning",
+      message: "Something goes wrong!",
+    });
   }
 }
 

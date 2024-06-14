@@ -34,7 +34,7 @@ const UserModel = db.define('users', {
         allowNull: false,
     },
     password: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(100),
         allowNull: false
     },
     id_country: {

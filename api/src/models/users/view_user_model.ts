@@ -22,7 +22,7 @@ const ViewUserModel = db.define('view_users', {
         type: DataTypes.STRING(60),
     },
     password: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(100),
     },
     id_country: {
         type: DataTypes.INTEGER,

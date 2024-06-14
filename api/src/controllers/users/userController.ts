@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
 import UserModel from "../../models/users/user_model.js";
 import ViewUserModel from "../../models/users/view_user_model.js";
 import UserLanguageLevel from "../../models/user_language_level/user_language_model.js";
@@ -16,13 +17,16 @@ export async function createUser(req: Request, res: Response) {
     });
 
     if (!emailInUse) {
+      const saltRounds = 5;
+      const hashedPassword =  await bcrypt.hash(password, saltRounds);
+
       const userCreated = await UserModel.create({
         id_user_type: 2,
         name,
         last_name,
         second_last_name,
         email,
-        password,
+        password: hashedPassword,
         id_country,
       });
 
