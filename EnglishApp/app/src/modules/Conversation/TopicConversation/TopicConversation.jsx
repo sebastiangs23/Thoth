@@ -1,13 +1,17 @@
 import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Icon } from "react-native-elements";
 import { setDialog } from "../../../store/slices/dialog/slice";
+import { getUserSession } from "../../../common/user/functions";
+
+import { Icon } from "react-native-elements";
 import { playAudioNext } from "../../../common/audio/functions";
-import axios from "axios";
+import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
 export default function TopicConversation({ navigation }) {
   const dispatch = useDispatch();
+
   const [conversationContext, setConversationContext] = useState([]);
 
   useEffect(() => {
@@ -15,18 +19,35 @@ export default function TopicConversation({ navigation }) {
   }, []);
 
   /*__________________________
-|   REQUEST TO THE SERVER   */
+  |   REQUEST TO THE SERVER   */
   async function getConversationContexts() {
     try {
-      //ESTE MODELO VA DESAPARECER Y TENGO QUE CONSUMIR LA TABLA 'CONVERSATIONS'
-      const response = await axios.get(
-        "http://192.168.1.10:5000/conversation/get-conversation-topic"
-      );
+      const user = await getUserSession();
+      
+      let id_language_level = user.id_language_level;
 
-      setConversationContext(response.data);
+      if (id_language_level) {
+        const response = await axios.get(`http://192.168.1.10:5000/conversation/get-conversations-topic-by-level/${id_language_level}`);
+
+        setConversationContext(response.data);
+      } else {
+        Dialog.show({
+          type: ALERT_TYPE.WARNING,
+          title: ":(",
+          textBody: "The user doesn´t have a level, please choose one",
+          button: "close",
+        });
+
+        navigation.navigate("LanguageLevel")
+      }
     } catch (error) {
-      console.log("error en function getConversationContexts");
-      console.log(error);
+      console.log('errroww: ', error)
+      Dialog.show({
+        type: ALERT_TYPE.WARNING,
+        title: ":(",
+        textBody: "An unexpected happened in TopicConversation.jsx",
+        button: "close",
+      });
     }
   }
 
@@ -39,12 +60,13 @@ export default function TopicConversation({ navigation }) {
       dispatch(setDialog(response.data));
       playAudioNext();
       navigateToConversation();
-      
     } catch (error) {
       console.log(error.message);
     }
   }
 
+  /*________________
+  |   FUNCTIONS   */
   function navigateToConversation() {
     navigation.navigate("Conversation");
   }

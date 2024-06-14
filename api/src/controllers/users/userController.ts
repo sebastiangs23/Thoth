@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import UserModel from "../../models/users/user_model.js";
+import ViewUserModel from "../../models/users/view_user_model.js";
 import UserLanguageLevel from "../../models/user_language_level/user_language_model.js";
 
 export async function createUser(req: Request, res: Response) {
@@ -62,8 +63,15 @@ export async function updateUserLanguageLevel(req: Request, res: Response) {
       }
     );
 
+    const userUpdate = await ViewUserModel.findOne({
+      where: {
+        id: id_user
+      }
+    })
+
     res.status(200).json({
       status: "Successfull",
+      data: userUpdate,
       message: "The level was successfully edited.",
     });
   } catch (error) {

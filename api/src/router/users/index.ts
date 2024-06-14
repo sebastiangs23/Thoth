@@ -1,11 +1,7 @@
 import { Router } from "express";
-import { getUsers, createUser, updateUserLanguageLevel, updateUserAvatar } from "../../controllers/users/userController.js"
+import { createUser, updateUserLanguageLevel, updateUserAvatar } from "../../controllers/users/userController.js"
 
 const router = Router();
-
-/*_________________
-|   BRING USER   */
-router.get('/', getUsers);
 
 /*__________________
 |   CREATE USER   */

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { View, Text,StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text,StyleSheet, TouchableOpacity, Vibration } from "react-native";
 import { useDispatch } from "react-redux";
 import { setScore } from "../../../../store/slices/score/slice";
 import { setDialogsApproved } from "../../../../store/slices/dialog/slice";
@@ -54,6 +54,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       });
 
       console.log("Starting recording..");
+      Vibration.vibrate(100)
 
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
@@ -74,6 +75,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
   async function stopRecording() {
     try {
       console.log("Stopping recording..");
+      Vibration.vibrate(100);
 
       await recording.stopAndUnloadAsync();
       const uri = recording.getURI();

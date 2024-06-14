@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import db from "../../db/postgresql.js";
 import LanguageLevel from "../language_levels/language_levels_model.js";
 
-const ConversationModel = db.define('conversation', {
+const ConversationModel = db.define('conversations', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

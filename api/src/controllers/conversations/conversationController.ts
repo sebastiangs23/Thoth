@@ -5,9 +5,13 @@ import Dialogs from "../../models/dialogs/dialogs-model.js";
 
 async function getConversation(req: Request, res: Response) {
   try {
-    const { id_language_level } = req.query;
+    const { id_language_level } = req.params;
 
-    const conversation = await ConversationModel.findAll({});
+    const conversation = await ConversationModel.findAll({
+      where: {
+        id_language_level
+      }
+    });
 
     res.json(conversation);
   } catch (error) {
@@ -25,7 +29,7 @@ async function getDialogsConversation(req: Request, res: Response) {
       },
     });
 
-    //Add the property witch made able to render just the firts two dialogs
+    //Add the property which made able to render just the first two dialogs
     let dialogsConversationsApproved = dialogsConversation.map(
       (item, index) => {
         let dialog = item.toJSON();

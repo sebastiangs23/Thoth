@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
 import { playAudioNext } from "../../common/audio/functions";
-import { getUserSession } from "../../common/user/functions";
+import { getUserSession, saveUserSession } from "../../common/user/functions";
 
 export default function LanguageLevel({ navigation }) {
   const [languageLevels, setLanguageLevels] = useState([]);
@@ -52,6 +52,7 @@ export default function LanguageLevel({ navigation }) {
 
       if(response.data.status == 'Successfull'){
 
+        saveUserSession(response.data.data);
         navigation.navigate("PickAvatar");
         playAudioNext();
 

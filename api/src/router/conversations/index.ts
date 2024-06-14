@@ -5,7 +5,7 @@ const router = Router();
 
 /*___________________________
    GET CONVERSATION TOPIC  */
-router.get('/get-conversation-topic', getConversation);
+router.get('/get-conversations-topic-by-level/:id_language_level', getConversation);
 
 /*_____________________
    GET CONVERSATION  */
