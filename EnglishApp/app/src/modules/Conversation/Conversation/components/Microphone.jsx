@@ -8,8 +8,9 @@ import { setAudioUri } from "../../../../store/slices/audioUri/slice";
 import { getUserSession } from "../../../../common/user/functions";
 
 import { Icon } from "react-native-elements";
-import { Audio } from "expo-av";
 import * as Speech from "expo-speech";
+import { Audio } from "expo-av";
+import { playFail, playGood } from "../../../../common/audio/functions";
 import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
 
 
@@ -151,7 +152,10 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
 
       if(average >= 75){
         dispatch(setDialogsApproved());
+        playGood()
         allApproved;
+      }else if(average <= 60){
+        playFail()
       }
 
     } catch (error) {

@@ -1,16 +1,10 @@
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { ScrollView, View, StyleSheet, Text, Image, TouchableOpacity, Vibration} from "react-native";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteScore } from "../../../store/slices/score/slice";
 import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
+import { playApprove } from "../../../common/audio/functions";
 import * as Font from "expo-font";
 import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
 
@@ -62,6 +56,8 @@ export default function Conversation({ navigation }) {
     let verification = dialogs.filter((dialog) => dialog.approved == true).length;
 
     if (dialogs.length == verification) {
+      Vibration.vibrate(2000);
+
       Message.show({
         type: ALERT_TYPE.SUCCESS,
         title: "Well Done!",
