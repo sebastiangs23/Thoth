@@ -98,13 +98,15 @@ export default function TopicConversation({ navigation }) {
       <View style={styles.container_card}>
         {conversationContext &&
           conversationContext.map((item) => {
+            const contextWithNewLines = item.context.replace(/\\n/g, '\n');
+
             return (
               <TouchableOpacity
                 key={item.id}
-                style={styles.button}
+                style={styles.card}
                 onPress={() => selectContext(item)}
               >
-                <Text style={styles.text}>{item.context}</Text>
+                <Text style={styles.text}>{contextWithNewLines}</Text>
               </TouchableOpacity>
             );
           })}
@@ -144,10 +146,10 @@ const styles = StyleSheet.create({
     flexWrap: "wrap", // Permite que los items se envuelvan a la línea siguiente si no hay espacio
     justifyContent: "flex-start",
   },
-  button: {
-    width: 100,
-    height: 100,
-    padding: 10,
+  card: {
+    width: 130,
+    height: 120,
+    padding: 5,
     margin: 10,
     backgroundColor: "#3790F5",
     justifyContent: "center",
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   text: {
-    fontSize: 23,
+    fontSize: 19,
     color: "#FFFFFF",
     fontWeight: "bold",
   },

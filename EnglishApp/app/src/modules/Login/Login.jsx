@@ -6,6 +6,7 @@ import { setCountries } from "../../store/slices/countries/slice";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import { playAudioNext } from "../../common/audio/functions";
 import { getUserSession, removeUserSession } from "../../common/user/functions";
+import { StatusBar } from 'expo-status-bar';
 import image from "../../assets/logos/login_wallpaper_full.webp";
 
 export default function Login({ navigation }) {

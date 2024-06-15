@@ -3,8 +3,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
+import { Icon } from "react-native-elements";
 import { playAudioNext } from "../../common/audio/functions";
-import { getUserSession, saveUserSession } from "../../common/user/functions";
+import { getUserSession, saveUserSession, removeUserSession } from "../../common/user/functions";
 
 export default function LanguageLevel({ navigation }) {
   const [languageLevels, setLanguageLevels] = useState([]);
@@ -77,8 +78,19 @@ export default function LanguageLevel({ navigation }) {
     }
   }
 
+  /*________________
+  |   FUNCTIONS   */
+  function logOut(){
+    removeUserSession();
+    navigation.navigate("Login");
+  }
+
   return (
     <View>
+      <TouchableOpacity>
+        <Icon name="power-off" type="font-awesome" reverse onPress={logOut}  />
+      </TouchableOpacity>
+
       <View style={styles.title_container}>
         <Text style={styles.title}>Select the level that represents your current ability</Text>
       </View>

@@ -2,13 +2,13 @@
   "expo": {
     "name": "EnglishApp",
     "slug": "EnglishApp",
-    "scheme": "EnglishApp",
+    "scheme": ["englishapp"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./app/src/assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./app/src/assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./app/src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -33,10 +33,18 @@
       "package": "com.anonymous.EnglishApp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./app/src/assets/favicon.png"
     },
-    "plugins": [ 
+    "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "dd12f5eb-1727-4b99-9853-c051c3fc85ab"
+      }
+    }
   }
 }
