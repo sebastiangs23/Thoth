@@ -31,7 +31,7 @@ async function getDialogsConversation(req: Request, res: Response) {
 
     //Add the property which made able to render just the first two dialogs
     let dialogsConversationsApproved = dialogsConversation.map(
-      (item, index) => {
+      (item:any, index:any) => {
         let dialog = item.toJSON();
         if (index < 2) {
           dialog.approved = true;
