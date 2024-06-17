@@ -5,7 +5,7 @@
     "scheme": ["englishapp"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/src/assets/icon.png",
+    "icon": "./app/src/assets/logos/main_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./app/src/assets/logos/main_logo.png",
