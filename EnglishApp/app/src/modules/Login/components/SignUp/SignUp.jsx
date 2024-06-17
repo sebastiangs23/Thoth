@@ -93,7 +93,7 @@ export default function SignUp({ navigation }) {
         };
 
         const response = await axios.post(
-          "http://192.168.1.10:5000/users/create/",
+          "http://52.0.85.235:5000/users/create/",
           data
         );
 

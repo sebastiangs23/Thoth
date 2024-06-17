@@ -22,7 +22,7 @@ export default function Login({ navigation }) {
   async function getCountries() {
     try {
       const response = await axios.get(
-        "http://192.168.1.10:5000/countries/get-countries-db" //I'm going to change all the endpoints for the deploy
+        "http://52.0.85.235:5000/countries/get-countries-db" //I'm going to change all the endpoints for the deploy
       );
 
       dispatch(setCountries(response.data));

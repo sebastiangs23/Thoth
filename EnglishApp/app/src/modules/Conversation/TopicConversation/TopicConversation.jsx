@@ -27,7 +27,7 @@ export default function TopicConversation({ navigation }) {
       let id_language_level = user.id_language_level;
 
       if (id_language_level) {
-        const response = await axios.get(`http://192.168.1.10:5000/conversation/get-conversations-topic-by-level/${id_language_level}`);
+        const response = await axios.get(`http://52.0.85.235:5000/conversation/get-conversations-topic-by-level/${id_language_level}`);
 
         setConversationContext(response.data);
       } else {
@@ -54,7 +54,7 @@ export default function TopicConversation({ navigation }) {
   async function selectContext(item) {
     try {
       const response = await axios.get(
-        `http://192.168.1.10:5000/conversation/get-dialogs-conversation/${item.id}`
+        `http://52.0.85.235:5000/conversation/get-dialogs-conversation/${item.id}`
       );
 
       dispatch(setDialog(response.data));

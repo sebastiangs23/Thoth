@@ -126,7 +126,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       });
 
       const response = await axios.post(
-        "http://192.168.1.10:5000/score/audio",
+        "http://52.0.85.235:5000/score/audio",
         formData,
         {
           headers: {
