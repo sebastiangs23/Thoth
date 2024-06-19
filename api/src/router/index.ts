@@ -5,8 +5,13 @@ import conversationRouter from './conversations/index.js';
 import LanguageRouter from './language/index.js';
 import scoreRouter from './score/index.js';
 import CountriesRouter from './countries/index.js';
+import RootRouter from './root/index.js';
 
 const router = Router();
+
+/*___________________
+|   ROUTES ROOT   */
+router.use('/', RootRouter);
 
 /*___________________
 |   ROUTES LOGIN   */

@@ -12,10 +12,10 @@ import image from "../../assets/logos/login_wallpaper_full.webp";
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
 
-  const [texto,setTexto] = useState(null)
+  // const [texto,setTexto] = useState(null)
 
   useEffect(() => {
-    getSomething();
+    // getSomething();
     activeSession();
     getCountries();
   }, []);
@@ -40,14 +40,6 @@ export default function Login({ navigation }) {
     }
   }
 
-  async function getSomething(){
-    try{
-      const response = await axios.get('https://azurespeech.ibcidiomas.com/api/conversations/conversation-sentences/id_lesson/65b7bae328da1846a8dce466');
-      setTexto(response.data.context);
-    }catch(error){
-      console.log('esto lo borrare luego')
-    }
-  }
 
   /*________________
   |   FUNCTIONS   */
@@ -82,12 +74,12 @@ export default function Login({ navigation }) {
               Practice, learn and improve conversations that you will use in
               your daily life with AI.
             </Text>
-
+{/* 
             {
               texto && (
                 <Text style={styles.text}> nose: {texto} </Text>
               )
-            } 
+            }  */}
           </View>
 
           <View style={styles.button_container}>
