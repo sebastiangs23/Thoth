@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import axios from "axios";
-import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+import { ALERT_TYPE, Dialog, Toast} from "react-native-alert-notification";
 import { Icon } from "react-native-elements";
 import { saveUserSession } from "../../../../common/user/functions";
 import { playAudioNext } from "../../../../common/audio/functions";
@@ -48,12 +48,11 @@ export default function SignIn({ navigation }) {
         case "Successful": {
           saveUserSession(response.data.user);
 
-          Dialog.show({
+          Toast.show({
             type: ALERT_TYPE.SUCCESS,
             title: response.data.message,
             textBody: "Its good to see you again",
-            button: "Ok",
-            autoClose: 100,
+            autoClose: 2000,
           });
 
           if (response.data.user.id_user_type == 2) {
@@ -73,7 +72,7 @@ export default function SignIn({ navigation }) {
           Dialog.show({
             type: ALERT_TYPE.DANGER,
             title: response.data.message,
-            textBody: "The fuck are you doing here",
+            textBody: "You don´t have authorization to be here",
             button: "close",
           });
           break;

@@ -169,7 +169,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
   }
 
   return (
-    <View style={styles.container}>
+    <View key={id_conversation} style={styles.container}>
       {person == 2 ? (
         <View style={styles.button_container}>
           <TouchableOpacity
@@ -192,7 +192,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
 
       <View style={styles.button_container}>
         <TouchableOpacity style={styles.button_hear} onPress={speak}>
-          <Icon name="ear-outline" type="ionicon" size={20} />
+          <Icon name="play" type="font-awesome" size={20} />
         </TouchableOpacity>
       </View>
     </View>

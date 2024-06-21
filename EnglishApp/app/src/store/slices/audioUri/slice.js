@@ -8,8 +8,11 @@ export const AudioUriSlice = createSlice({
     reducers: {
         setAudioUri: (state, action) => {
             state.value = action.payload;
+        },
+        deleteAudioUri: (state) => {
+            state.value = "";
         }
     }
 });
 
-export const { setAudioUri } = AudioUriSlice.actions;
+export const { setAudioUri, deleteAudioUri } = AudioUriSlice.actions;

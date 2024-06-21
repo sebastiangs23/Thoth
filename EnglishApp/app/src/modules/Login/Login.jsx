@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCountries } from "../../store/slices/countries/slice";
-import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import { playAudioNext } from "../../common/audio/functions";
 import { getUserSession, removeUserSession } from "../../common/user/functions";
 import { StatusBar } from 'expo-status-bar';
@@ -63,20 +63,13 @@ export default function Login({ navigation }) {
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View styles={styles.login_form}>
           <View style={styles.title_container}>
-            <Text style={styles.title}>Welcome to Thoth /. </Text>
+            <Text style={styles.title}>Welcome to Mammoth /. </Text>
           </View>
 
           <View style={styles.subtitle_container}>
             <Text style={styles.subtitle}>
-              Practice, learn and improve conversations that you will use in
-              your daily life with AI.
+              Perfecciona tu pronunciación y habilidades comunicativas con conversaciones que usarás en tu vida diaria y en diferentes escenarios a través de nuestro Chat AI.
             </Text>
-{/* 
-            {
-              texto && (
-                <Text style={styles.text}> nose: {texto} </Text>
-              )
-            }  */}
           </View>
 
           <View style={styles.button_container}>

@@ -1,11 +1,15 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
 import { Icon } from "react-native-elements";
 import { playAudioNext } from "../../common/audio/functions";
-import { getUserSession, saveUserSession, removeUserSession } from "../../common/user/functions";
+import {
+  getUserSession,
+  saveUserSession,
+  removeUserSession,
+} from "../../common/user/functions";
 
 export default function LanguageLevel({ navigation }) {
   const [languageLevels, setLanguageLevels] = useState([]);
@@ -18,11 +22,10 @@ export default function LanguageLevel({ navigation }) {
 
   /*________________________________________
   |   REQUEST TO SERVER (GLOBAL STATES)   */
-  async function getUser(){
+  async function getUser() {
     const response = await getUserSession();
     setUser(response);
-
-  };
+  }
 
   async function getLanguageLevels() {
     try {
@@ -42,22 +45,23 @@ export default function LanguageLevel({ navigation }) {
     }
   }
 
-  async function updateUserLanguageLevel(id_language_level){
-    try{
+  async function updateUserLanguageLevel(id_language_level) {
+    try {
       let data = {
         id_user: user.id,
-        id_language_level
-        };
+        id_language_level,
+      };
 
-      const response = await axios.put('https://sgsdeveloper.com/users/update-level-language', data);
+      const response = await axios.put(
+        "https://sgsdeveloper.com/users/update-level-language",
+        data
+      );
 
-      if(response.data.status == 'Successfull'){
-
+      if (response.data.status == "Successfull") {
         saveUserSession(response.data.data);
         navigation.navigate("PickAvatar");
         playAudioNext();
-
-      }else {
+      } else {
         Dialog.show({
           type: ALERT_TYPE.WARNING,
           title: ":(",
@@ -66,8 +70,7 @@ export default function LanguageLevel({ navigation }) {
           autoClose: 2000,
         });
       }
-
-    }catch(error){
+    } catch (error) {
       Dialog.show({
         type: ALERT_TYPE.DANGER,
         title: ":(",
@@ -80,7 +83,7 @@ export default function LanguageLevel({ navigation }) {
 
   /*________________
   |   FUNCTIONS   */
-  function logOut(){
+  function logOut() {
     removeUserSession();
     navigation.navigate("Login");
   }
@@ -88,20 +91,36 @@ export default function LanguageLevel({ navigation }) {
   return (
     <View>
       <TouchableOpacity>
-        <Icon name="power-off" type="font-awesome" reverse onPress={logOut}  />
+        <Icon name="power-off" type="font-awesome" reverse onPress={logOut} />
       </TouchableOpacity>
 
       <View style={styles.title_container}>
-        <Text style={styles.title}>Select the level that represents your current ability</Text>
+        <Text style={styles.title}>
+          Select the level that represents your current ability
+        </Text>
       </View>
 
       <View style={styles.container_card}>
         {languageLevels &&
           languageLevels.map((item) => {
             return (
-              <TouchableOpacity key={item.id} style={styles.button} onPress={() => updateUserLanguageLevel(item.id)}>
-                <Text style={styles.text}> {item.level} </Text>
-              </TouchableOpacity>
+              <View>
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.button}
+                  onPress={() => updateUserLanguageLevel(item.id)}
+                >
+                  <Text style={styles.text}> {item.level} </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => Alert.alert(item.description_cefr)}>
+                  <Icon
+                    name="information-circle-outline"
+                    type="ionicon"
+                    size={30}
+                    color="white"
+                  />
+                </TouchableOpacity>
+              </View>
             );
           })}
       </View>
@@ -128,8 +147,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   button: {
-    width: 100,
-    height: 100,
+    width: 110,
+    height: 110,
     padding: 10,
     margin: 10,
     backgroundColor: "#3790F5",

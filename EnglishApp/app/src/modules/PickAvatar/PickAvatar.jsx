@@ -42,7 +42,7 @@ export default function PickAvatar({ navigation }) {
       </TouchableOpacity>
 
       <View style={styles.title_container}>
-        <Text style={styles.title}>Select the IA you would like to talk to</Text>
+        <Text style={styles.title}>Select the IA Tutor you would like to chat with</Text>
       </View>
 
       <View style={styles.container_card}>

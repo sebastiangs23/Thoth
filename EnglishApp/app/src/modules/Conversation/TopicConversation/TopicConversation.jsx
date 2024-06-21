@@ -91,7 +91,7 @@ export default function TopicConversation({ navigation }) {
 
       <View style={styles.title_container}>
         <Text style={styles.title}>
-          Select a topic you would like to talk about
+          Select a topic you would like to chat about
         </Text>
       </View>
 

@@ -1,12 +1,15 @@
-import { ScrollView, View, StyleSheet, Text, Image, TouchableOpacity, Vibration} from "react-native";
+import {
+  ScrollView, View, StyleSheet, Text, Image, TouchableOpacity, Vibration, Alert
+} from "react-native";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteScore } from "../../../store/slices/score/slice";
+import { deleteAudioUri } from "../../../store/slices/audioUri/slice";
 import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
 import { playApprove } from "../../../common/audio/functions";
 import * as Font from "expo-font";
-import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
+import { ALERT_TYPE, Dialog as Message, Toast } from "react-native-alert-notification";
 
 import Microphone from "./components/Microphone";
 import Dialog from "./components/Dialog";
@@ -21,6 +24,7 @@ export default function Conversation({ navigation }) {
   const audioUri = useSelector((state) => state.audioUri.value);
 
   const [avatarImg, setAvatarImg] = useState("");
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   useEffect(() => {
     getAvatarImg();
@@ -43,17 +47,29 @@ export default function Conversation({ navigation }) {
   }
 
   async function playAudio() {
-    const { sound } = await Audio.Sound.createAsync({ uri: audioUri });
-    await sound.playAsync();
+    if (audioUri != "") {
+      const { sound } = await Audio.Sound.createAsync({ uri: audioUri });
+      await sound.playAsync();
+
+    } else {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Wait",
+        textBody: "You have to record an audio firts to be able to listen to it",
+        autoClose: 2000
+      });
+    }
   }
 
   function TopicConversation() {
     navigation.navigate("TopicConversation");
     dispatch(deleteScore());
+    dispatch(deleteAudioUri());
   }
 
   function verificationAllApproved() {
-    let verification = dialogs.filter((dialog) => dialog.approved == true).length;
+    let verification = dialogs.filter((dialog) => dialog.approved == true)
+      .length;
 
     if (dialogs.length == verification) {
       Vibration.vibrate(2000);
@@ -61,7 +77,8 @@ export default function Conversation({ navigation }) {
       Message.show({
         type: ALERT_TYPE.SUCCESS,
         title: "Well Done!",
-        textBody: "You've just approved all the dialogs. Please choose another.",
+        textBody:
+          "You've just approved all the dialogs. Please choose another.",
         button: "close",
       });
 
@@ -72,22 +89,24 @@ export default function Conversation({ navigation }) {
     }
   }
 
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <ScrollView style={styles.main_container}>
       <View style={styles.container_score_board}>
         <View style={styles.container_ear_button}>
-          {audioUri && (
-            <TouchableOpacity onPress={playAudio} style={styles.own_audio}>
-              <Icon
-                name="ear-outline"
-                reverseColor="#000000"
-                type="ionicon"
-                color="white"
-                size={20}
-                reverse
-              />
-            </TouchableOpacity>
-          )}
+          <TouchableOpacity onPress={playAudio} style={styles.own_audio}>
+            <Text>Your audio</Text>
+            <Icon
+              name="ear-outline"
+              reverseColor="#000000"
+              type="ionicon"
+              color="black"
+              size={20}
+            />
+          </TouchableOpacity>
         </View>
 
         <Score />
@@ -265,14 +284,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   own_audio: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: 5,
+    paddingRight: 5,
+    backgroundColor: "#fff",
     height: 35,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 8,
+    borderRadius: 12,
+    borderWidth: 1,
   },
 });
