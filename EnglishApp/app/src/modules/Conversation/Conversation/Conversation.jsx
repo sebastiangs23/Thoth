@@ -85,6 +85,7 @@ export default function Conversation({ navigation }) {
       setTimeout(() => {
         navigation.navigate("TopicConversation");
         dispatch(deleteScore());
+        dispatch(deleteAudioUri());
       }, 3000);
     }
   }
