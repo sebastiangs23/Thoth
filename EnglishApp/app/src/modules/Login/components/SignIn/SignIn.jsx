@@ -40,7 +40,7 @@ export default function SignIn({ navigation }) {
       let data = { email: email, password: password };
 
       let response = await axios.get(
-        "http://52.0.85.235:5000/login/login-user",
+        "https://sgsdeveloper.com/login/login-user",
         { params: data }
       );
 

@@ -27,7 +27,7 @@ export default function LanguageLevel({ navigation }) {
   async function getLanguageLevels() {
     try {
       const response = await axios.get(
-        "http://52.0.85.235:5000/languages/get-languages-levels"
+        "https://sgsdeveloper.com/languages/get-languages-levels"
       );
 
       setLanguageLevels(response.data);
@@ -49,7 +49,7 @@ export default function LanguageLevel({ navigation }) {
         id_language_level
         };
 
-      const response = await axios.put('http://52.0.85.235:5000/users/update-level-language', data);
+      const response = await axios.put('https://sgsdeveloper.com/users/update-level-language', data);
 
       if(response.data.status == 'Successfull'){
 

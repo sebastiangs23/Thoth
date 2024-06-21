@@ -12,10 +12,7 @@ import image from "../../assets/logos/login_wallpaper_full.webp";
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
 
-  // const [texto,setTexto] = useState(null)
-
   useEffect(() => {
-    // getSomething();
     activeSession();
     getCountries();
   }, []);
@@ -25,7 +22,7 @@ export default function Login({ navigation }) {
   async function getCountries() {
     try {
       const response = await axios.get(
-        "http://52.0.85.235:5000/countries/get-countries-db" 
+        "https://sgsdeveloper.com/countries/get-countries-db" 
       );
 
       dispatch(setCountries(response.data));
