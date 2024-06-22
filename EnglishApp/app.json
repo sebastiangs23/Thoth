@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "EnglishApp",
-    "slug": "EnglishApp",
+    "name": "Chat Tutor Ingles IA - Mammoth",
+    "slug": "Ingles",
     "scheme": ["englishapp"],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/src/assets/logos/main_logo.png",
+    "icon": "./app/src/assets/logos/mammoth_logo1.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/src/assets/logos/main_logo.png",
+      "image": "./app/src/assets/splash/mammoth_splash.png", 
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,7 +23,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./app/src/assets/adaptive-icon.png",
+        "foregroundImage": "./app/src/assets/logos/mammoth_logo1.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -33,7 +33,7 @@
       "package": "com.anonymous.EnglishApp"
     },
     "web": {
-      "favicon": "./app/src/assets/favicon.png"
+      "favicon": "./app/src/assets/logos/mammoth_logo1.png"
     },
     "plugins": [
       "expo-router"

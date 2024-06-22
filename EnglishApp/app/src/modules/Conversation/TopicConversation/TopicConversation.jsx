@@ -76,7 +76,7 @@ export default function TopicConversation({ navigation }) {
   }
 
   return (
-    <View>
+    <View style={styles.topicConversation_container} >
       <View style={styles.container_back_button}>
         <Icon
           name="arrow-back-outline"
@@ -116,6 +116,9 @@ export default function TopicConversation({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  topicConversation_container: {
+    alignItems: "center",
+  },
   container_back_button: {
     alignSelf: "flex-start",
     margin: 8,
