@@ -39,7 +39,7 @@ export default function DatePicker({ format }) {
     <SafeAreaView style={styles.button_container}>
       <TouchableOpacity onPress={showDatepicker} style={styles.button}>
         {/* <Button onPress={showTimepicker} title="Show time picker!" /> */}
-        <Text style={styles.text}>Birthday: {date.toLocaleString()}</Text>
+        <Text style={styles.text}>Birthday: {date.toLocaleDateString()}</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

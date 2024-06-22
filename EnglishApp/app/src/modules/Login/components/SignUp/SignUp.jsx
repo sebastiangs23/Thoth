@@ -1,4 +1,12 @@
-import { ImageBackground, View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  ImageBackground,
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import DropDownPicker from "react-native-dropdown-picker";
@@ -82,6 +90,26 @@ export default function SignUp({ navigation }) {
           button: "Ok",
           autoClose: 2000,
         });
+      } else if (password.length < 6 || !/\d/.test(password)) {
+        Dialog.show({
+          type: ALERT_TYPE.WARNING,
+          title: "Invalid Password",
+          textBody:
+            "Password must be at least 6 characters long and contain at least one number",
+          button: "Ok",
+          autoClose: 2000,
+        });
+      } else if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
+        !/(@gmail\.com|@hotmail\.com)$/.test(email)
+      ) {
+        Dialog.show({
+          type: ALERT_TYPE.WARNING,
+          title: "Invalid Email",
+          textBody: "Your email should look like an email",
+          button: "Ok",
+          autoClose: 2000,
+        });
       } else {
         let data = {
           name: name,
@@ -136,8 +164,7 @@ export default function SignUp({ navigation }) {
 
             break;
           }
-        };
-
+        }
       }
     } catch (error) {
       Dialog.show({
@@ -333,7 +360,7 @@ const styles = StyleSheet.create({
     width: "60%",
   },
   container_input_password: {
-    flexDirection: "row", 
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "#FFFFFF",

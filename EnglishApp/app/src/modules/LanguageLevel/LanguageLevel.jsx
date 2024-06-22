@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 
 import { Icon } from "react-native-elements";
 import { playAudioNext } from "../../common/audio/functions";
@@ -87,6 +87,15 @@ export default function LanguageLevel({ navigation }) {
     removeUserSession();
     navigation.navigate("Login");
   }
+  
+  function showLevelInformation(level, description){
+    Toast.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: level,
+      textBody: description,
+      autoClose: 12000,
+    });
+  }
 
   return (
     <View>
@@ -104,15 +113,18 @@ export default function LanguageLevel({ navigation }) {
         {languageLevels &&
           languageLevels.map((item) => {
             return (
-              <View>
+              <View key={item.id} style={styles.card}>
                 <TouchableOpacity
-                  key={item.id}
-                  style={styles.button}
+                  style={styles.level_button}
                   onPress={() => updateUserLanguageLevel(item.id)}
                 >
-                  <Text style={styles.text}> {item.level} </Text>
+                  <Text style={styles.text}>{item.level} </Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => Alert.alert(item.description_cefr)}>
+
+                <TouchableOpacity
+                  style={styles.information_button}
+                  onPress={() => showLevelInformation(item.leven, item.description_cefr)}
+                >
                   <Icon
                     name="information-circle-outline"
                     type="ionicon"
@@ -146,9 +158,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap", // Permite que los items se envuelvan a la línea siguiente si no hay espacio
     justifyContent: "flex-start",
   },
-  button: {
-    width: 110,
-    height: 110,
+  card: {
+    width: 100,
+    height: 100,
     padding: 10,
     margin: 10,
     backgroundColor: "#3790F5",
@@ -156,9 +168,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
   },
+  level_button: {
+    padding: 8,
+    margin: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   text: {
     fontSize: 23,
     color: "#FFFFFF",
     fontWeight: "bold",
   },
+  information_button: {
+    position: 'absolute',
+    right: 4,
+    bottom: 4
+  }
 });
