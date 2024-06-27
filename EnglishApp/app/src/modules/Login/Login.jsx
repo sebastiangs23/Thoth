@@ -60,6 +60,7 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.main_container}>
+      {/* <StatusBar style="light" hidden={true} /> */}
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
         <View styles={styles.login_form}>
           <View style={styles.title_container}>
