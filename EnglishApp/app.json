@@ -3,7 +3,7 @@
     "name": "Chat Tutor Ingles IA - Mammoth",
     "slug": "EnglishApp",
     "scheme": ["englishapp"],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./app/src/assets/logos/Icon_square.png",
     "userInterfaceStyle": "light",
@@ -30,7 +30,8 @@
         "RECORD_AUDIO",
         "WRITE_EXTERNAL_STORAGE"
       ],
-      "package": "com.anonymous.EnglishApp"
+      "package": "com.anonymous.EnglishApp",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./app/src/assets/logos/Icon_square.png"
