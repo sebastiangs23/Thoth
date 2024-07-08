@@ -1,9 +1,13 @@
 import { View, Text } from "react-native";
+import { Icon } from "react-native-elements";
 
-export default function BottomTab(){
+export default function BottomTab({ navigation }){
     return(
         <View>
-            <Text>Here its where the Icons are gonna be</Text>
+            <View>
+                <Text>Home</Text>
+                <Text>Statistics</Text>
+            </View>
         </View>
     )
 };
