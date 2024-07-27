@@ -12,7 +12,8 @@ import PickAvatar from "./src/modules/PickAvatar/PickAvatar.jsx";
 import LanguageLevel from "./src/modules/LanguageLevel/LanguageLevel.jsx";
 import TopicConversation from "./src/modules/Conversation/TopicConversation/TopicConversation.jsx";
 import Conversation from "./src/modules/Conversation/Conversation/Conversation.jsx";
-
+import UserDashboard from "./src/modules/UserDashboard/UserDashboard.jsx";
+import BottomTab from "./src/modules/BottomTab/BottomTab.jsx";
 
 
 const Stack = createStackNavigator();
@@ -34,6 +35,8 @@ export default function Page() {
             <Stack.Screen name="LanguageLevel" component={LanguageLevel} />
             <Stack.Screen name="TopicConversation" component={TopicConversation}/>
             <Stack.Screen name="Conversation" component={Conversation} />
+            <Stack.Screen name="UserDashboard" component={UserDashboard} />
+            <Stack.Screen name="BottomTab" component={BottomTab} />
           </Stack.Navigator>
         </NavigationContainer>
       </AlertNotificationRoot>
