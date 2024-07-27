@@ -6,6 +6,7 @@ import { setScore } from "../../../../store/slices/score/slice";
 import { setDialogsApproved } from "../../../../store/slices/dialog/slice";
 import { setAudioUri } from "../../../../store/slices/audioUri/slice";
 import { getUserSession } from "../../../../common/user/functions";
+const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
 import * as Speech from "expo-speech";
@@ -126,7 +127,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       });
 
       const response = await axios.post(
-        "https://sgsdeveloper.com/score/audio",
+        `${api}/score/audio`,
         formData,
         {
           headers: {

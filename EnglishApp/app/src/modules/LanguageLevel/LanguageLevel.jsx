@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
+const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
 import { playAudioNext } from "../../common/audio/functions";
@@ -30,7 +31,7 @@ export default function LanguageLevel({ navigation }) {
   async function getLanguageLevels() {
     try {
       const response = await axios.get(
-        "https://sgsdeveloper.com/languages/get-languages-levels"
+        `${api}/languages/get-languages-levels`
       );
 
       setLanguageLevels(response.data);
@@ -53,7 +54,7 @@ export default function LanguageLevel({ navigation }) {
       };
 
       const response = await axios.put(
-        "https://sgsdeveloper.com/users/update-level-language",
+        "http://192.168.1.11:5000/users/update-level-language",
         data
       );
 
