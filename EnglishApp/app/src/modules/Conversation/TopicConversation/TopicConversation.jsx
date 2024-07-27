@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDialog } from "../../../store/slices/dialog/slice";
 import { getUserSession } from "../../../common/user/functions";
+const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
 import { playAudioNext } from "../../../common/audio/functions";
@@ -27,7 +28,7 @@ export default function TopicConversation({ navigation }) {
       let id_language_level = user.id_language_level;
 
       if (id_language_level) {
-        const response = await axios.get(`https://sgsdeveloper.com/conversation/get-conversations-topic-by-level/${id_language_level}`);
+        const response = await axios.get(`${api}/conversation/get-conversations-topic-by-level/${id_language_level}`);
 
         setConversationContext(response.data);
       } else {
@@ -54,7 +55,7 @@ export default function TopicConversation({ navigation }) {
   async function selectContext(item) {
     try {
       const response = await axios.get(
-        `https://sgsdeveloper.com/conversation/get-dialogs-conversation/${item.id}`
+        `http://192.168.1.11:5000/conversation/get-dialogs-conversation/${item.id}`
       );
 
       dispatch(setDialog(response.data));

@@ -15,6 +15,7 @@ import DatePicker from "../../../../../global/datePicker/datePicker";
 import { useSelector } from "react-redux";
 import { saveUserSession } from "../../../../common/user/functions";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import imagegb from "../../../../assets/logos/login_wallpaper_full.webp";
 
@@ -121,7 +122,7 @@ export default function SignUp({ navigation }) {
         };
 
         const response = await axios.post(
-          "https://sgsdeveloper.com/users/create/",
+          `${api}/users/create/`,
           data
         );
 

@@ -8,6 +8,7 @@ import { playAudioNext } from "../../common/audio/functions";
 import { getUserSession, removeUserSession } from "../../common/user/functions";
 import { StatusBar } from 'expo-status-bar';
 import image from "../../assets/logos/login_wallpaper_full.webp";
+const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 export default function Login({ navigation }) {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export default function Login({ navigation }) {
   async function getCountries() {
     try {
       const response = await axios.get(
-        "https://sgsdeveloper.com/countries/get-countries-db" 
+        `${api}/countries/get-countries-db`
       );
 
       dispatch(setCountries(response.data));

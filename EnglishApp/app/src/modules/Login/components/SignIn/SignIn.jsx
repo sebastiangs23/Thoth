@@ -12,6 +12,7 @@ import { ALERT_TYPE, Dialog, Toast} from "react-native-alert-notification";
 import { Icon } from "react-native-elements";
 import { saveUserSession } from "../../../../common/user/functions";
 import { playAudioNext } from "../../../../common/audio/functions";
+const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import imagebg from "../../../../assets/logos/login_wallpaper_full.webp";
 
@@ -40,7 +41,7 @@ export default function SignIn({ navigation }) {
       let data = { email: email, password: password };
 
       let response = await axios.get(
-        "https://sgsdeveloper.com/login/login-user",
+        `${api}/login/login-user`,
         { params: data }
       );
 
