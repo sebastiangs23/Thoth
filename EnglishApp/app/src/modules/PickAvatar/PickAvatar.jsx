@@ -1,21 +1,27 @@
-import { View, TouchableOpacity, Text, StyleSheet, Image } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+} from "react-native";
 import axios from "axios";
+import BottomTab from "../BottomTab/BottomTab";
 import { saveAvatarPicked } from "../../common/avatars/functions";
 import { avatars } from "../../common/avatars/functions";
 import { playAudioNext } from "../../common/audio/functions";
 import { Icon } from "react-native-elements";
 
 export default function PickAvatar({ navigation }) {
-
   /*_____________________________
     |   REQUEST TO THE SERVER   */
   async function avatarPicked(avatar) {
     try {
-      console.log(avatar)
+      console.log(avatar);
       saveAvatarPicked(avatar);
       playAudioNext();
       navigation.navigate("TopicConversation");
-
     } catch (error) {
       console.log(error);
     }
@@ -29,36 +35,44 @@ export default function PickAvatar({ navigation }) {
 
   return (
     <View style={styles.pick_avatar_container}>
-      <TouchableOpacity style={styles.container_back_button}>
-        <Icon
-          name="arrow-back-outline"
-          reverseColor="#000000"
-          type="ionicon"
-          color="white"
-          size={20}
-          reverse
-          onPress={LanguageLevel}
-        />
-      </TouchableOpacity>
+      <ScrollView>
+        <TouchableOpacity style={styles.container_back_button}>
+          <Icon
+            name="arrow-back-outline"
+            reverseColor="#000000"
+            type="ionicon"
+            color="white"
+            size={20}
+            reverse
+            onPress={LanguageLevel}
+          />
+        </TouchableOpacity>
 
-      <View style={styles.title_container}>
-        <Text style={styles.title}>Select the IA Tutor you would like to chat with</Text>
-      </View>
+        <View style={styles.title_container}>
+          <Text style={styles.title}>
+            Select the IA Tutor you would like to chat with
+          </Text>
+        </View>
 
-      <View style={styles.container_card}>
-        {avatars &&
-          avatars.map((item) => {
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.container_avatar_img}
-                onPress={() => avatarPicked(item)}
-              >
-                <Image source={item.img} style={styles.avatar_img} />
-                <Text style={styles.text_name}> {item.name} </Text>
-              </TouchableOpacity>
-            );
-          })}
+        <View style={styles.container_card}>
+          {avatars &&
+            avatars.map((item) => {
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.container_avatar_img}
+                  onPress={() => avatarPicked(item)}
+                >
+                  <Image source={item.img} style={styles.avatar_img} />
+                  <Text style={styles.text_name}> {item.name} </Text>
+                </TouchableOpacity>
+              );
+            })}
+        </View>
+      </ScrollView>
+
+      <View style={styles.container_bottom_tab}>
+        <BottomTab navigation={navigation} />
       </View>
     </View>
   );
@@ -66,7 +80,8 @@ export default function PickAvatar({ navigation }) {
 
 const styles = StyleSheet.create({
   pick_avatar_container: {
-    alignItems: "center",
+    flex: 1,
+    position: "relative",
   },
   container_back_button: {
     alignSelf: "flex-start",
@@ -97,7 +112,7 @@ const styles = StyleSheet.create({
     flexDirection: "row", // Asegura que los items se coloquen en línea horizontal
     flexWrap: "wrap", // Permite que los items se envuelvan a la línea siguiente si no hay espacio
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   container_avatar_img: {
     width: 160,
@@ -107,7 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#3790F5",
     borderRadius: 20,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   avatar_img: {
     width: 100,
@@ -115,8 +130,14 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 5,
   },
-  text_name:{
+  text_name: {
     color: "#fff",
-    fontWeight: "bold"
-  }
+    fontWeight: "bold",
+  },
+  container_bottom_tab: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 });

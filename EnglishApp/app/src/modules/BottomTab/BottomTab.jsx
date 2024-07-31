@@ -1,8 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LanguageLevel from "../LanguageLevel/LanguageLevel";
-import UserDashboard from "../UserDashboard/UserDashboard";
 
 export default function BottomTab({ navigation }) {
   /*________________
@@ -18,12 +15,12 @@ export default function BottomTab({ navigation }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.tab} onPress={languageLevel}>
-        <Icon name="log-in-outline" type="ionicon" color="black" />
+        <Icon name="home-outline" type="ionicon"color="black" />
         <Text style={styles.tabText}>Home</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.tab} onPress={userDashboard}>
-        <Icon name="log-in-outline" type="ionicon" color="black" />
+        <Icon name="person-circle-outline" type="ionicon" color="blue" />
         <Text style={styles.tabText}>Dashboard</Text>
       </TouchableOpacity>
     </View>

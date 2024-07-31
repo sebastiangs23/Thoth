@@ -106,7 +106,7 @@ export default function LanguageLevel({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView>
         <TouchableOpacity>
           <Icon name="power-off" type="font-awesome" reverse onPress={logOut} />
         </TouchableOpacity>
@@ -147,6 +147,7 @@ export default function LanguageLevel({ navigation }) {
             })}
         </View>
       </ScrollView>
+
       <View style={styles.container_bottom_tab}>
         <BottomTab navigation={navigation} />
       </View>
@@ -157,10 +158,7 @@ export default function LanguageLevel({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: "relative", // Añade esta línea
-  },
-  content: {
-    paddingBottom: 60,
+    position: "relative", //Posicionar el TabButton abajo
   },
   title_container: {
     justifyContent: "center",
