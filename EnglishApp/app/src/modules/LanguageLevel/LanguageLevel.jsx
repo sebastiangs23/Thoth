@@ -1,7 +1,15 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+  Alert,
+} from "react-native";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
+import BottomTab from "../BottomTab/BottomTab";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
@@ -30,9 +38,7 @@ export default function LanguageLevel({ navigation }) {
 
   async function getLanguageLevels() {
     try {
-      const response = await axios.get(
-        `${api}/languages/get-languages-levels`
-      );
+      const response = await axios.get(`${api}/languages/get-languages-levels`);
 
       setLanguageLevels(response.data);
     } catch (error) {
@@ -54,7 +60,7 @@ export default function LanguageLevel({ navigation }) {
       };
 
       const response = await axios.put(
-        "http://192.168.1.11:5000/users/update-level-language",
+        `${api}/users/update-level-language`,
         data
       );
 
@@ -88,8 +94,8 @@ export default function LanguageLevel({ navigation }) {
     removeUserSession();
     navigation.navigate("Login");
   }
-  
-  function showLevelInformation(level, description){
+
+  function showLevelInformation(level, description) {
     Toast.show({
       type: ALERT_TYPE.SUCCESS,
       title: level,
@@ -99,49 +105,61 @@ export default function LanguageLevel({ navigation }) {
   }
 
   return (
-    <View>
-      <TouchableOpacity>
-        <Icon name="power-off" type="font-awesome" reverse onPress={logOut} />
-      </TouchableOpacity>
+    <View style={styles.container}>
+      <ScrollView>
+        <TouchableOpacity>
+          <Icon name="power-off" type="font-awesome" reverse onPress={logOut} />
+        </TouchableOpacity>
 
-      <View style={styles.title_container}>
-        <Text style={styles.title}>
-          Select the level that represents your current ability
-        </Text>
-      </View>
+        <View style={styles.title_container}>
+          <Text style={styles.title}>
+            Select the level that represents your current ability
+          </Text>
+        </View>
 
-      <View style={styles.container_card}>
-        {languageLevels &&
-          languageLevels.map((item) => {
-            return (
-              <View key={item.id} style={styles.card}>
-                <TouchableOpacity
-                  style={styles.level_button}
-                  onPress={() => updateUserLanguageLevel(item.id)}
-                >
-                  <Text style={styles.text}>{item.level} </Text>
-                </TouchableOpacity>
+        <View style={styles.container_card}>
+          {languageLevels &&
+            languageLevels.map((item) => {
+              return (
+                <View key={item.id} style={styles.card}>
+                  <TouchableOpacity
+                    style={styles.level_button}
+                    onPress={() => updateUserLanguageLevel(item.id)}
+                  >
+                    <Text style={styles.text}>{item.level} </Text>
+                  </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={styles.information_button}
-                  onPress={() => showLevelInformation(item.leven, item.description_cefr)}
-                >
-                  <Icon
-                    name="information-circle-outline"
-                    type="ionicon"
-                    size={30}
-                    color="white"
-                  />
-                </TouchableOpacity>
-              </View>
-            );
-          })}
+                  <TouchableOpacity
+                    style={styles.information_button}
+                    onPress={() =>
+                      showLevelInformation(item.level, item.description_cefr)
+                    }
+                  >
+                    <Icon
+                      name="information-circle-outline"
+                      type="ionicon"
+                      size={30}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                </View>
+              );
+            })}
+        </View>
+      </ScrollView>
+
+      <View style={styles.container_bottom_tab}>
+        <BottomTab navigation={navigation} />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative", //Posicionar el TabButton abajo
+  },
   title_container: {
     justifyContent: "center",
     alignItems: "center",
@@ -155,8 +173,8 @@ const styles = StyleSheet.create({
   },
   container_card: {
     display: "flex",
-    flexDirection: "row", // Asegura que los items se coloquen en línea horizontal
-    flexWrap: "wrap", // Permite que los items se envuelvan a la línea siguiente si no hay espacio
+    flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "flex-start",
   },
   card: {
@@ -181,8 +199,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   information_button: {
-    position: 'absolute',
+    position: "absolute",
     right: 4,
-    bottom: 4
-  }
+    bottom: 4,
+  },
+  container_bottom_tab: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
 });

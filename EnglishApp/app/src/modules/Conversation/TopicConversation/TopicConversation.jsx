@@ -1,5 +1,13 @@
-import { View, StyleSheet, Text, Button, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  Button,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import axios from "axios";
+import BottomTab from "../../BottomTab/BottomTab";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setDialog } from "../../../store/slices/dialog/slice";
@@ -24,11 +32,13 @@ export default function TopicConversation({ navigation }) {
   async function getConversationContexts() {
     try {
       const user = await getUserSession();
-      
+
       let id_language_level = user.id_language_level;
 
       if (id_language_level) {
-        const response = await axios.get(`${api}/conversation/get-conversations-topic-by-level/${id_language_level}`);
+        const response = await axios.get(
+          `${api}/conversation/get-conversations-topic-by-level/${id_language_level}`
+        );
 
         setConversationContext(response.data);
       } else {
@@ -39,10 +49,10 @@ export default function TopicConversation({ navigation }) {
           button: "close",
         });
 
-        navigation.navigate("LanguageLevel")
+        navigation.navigate("LanguageLevel");
       }
     } catch (error) {
-      console.log('errroww: ', error)
+      console.log("errroww: ", error);
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: ":(",
@@ -77,40 +87,46 @@ export default function TopicConversation({ navigation }) {
   }
 
   return (
-    <View style={styles.topicConversation_container} >
-      <View style={styles.container_back_button}>
-        <Icon
-          name="arrow-back-outline"
-          reverseColor="#000000"
-          type="ionicon"
-          color="white"
-          size={20}
-          reverse
-          onPress={PickAvatar}
-        />
-      </View>
+    <View style={styles.topicConversation_container}>
+      <ScrollView>
+        <View style={styles.container_back_button}>
+          <Icon
+            name="arrow-back-outline"
+            reverseColor="#000000"
+            type="ionicon"
+            color="white"
+            size={20}
+            reverse
+            onPress={PickAvatar}
+          />
+        </View>
 
-      <View style={styles.title_container}>
-        <Text style={styles.title}>
-          Select a topic you would like to chat about
-        </Text>
-      </View>
+        <View style={styles.title_container}>
+          <Text style={styles.title}>
+            Select a topic you would like to chat about
+          </Text>
+        </View>
 
-      <View style={styles.container_card}>
-        {conversationContext &&
-          conversationContext.map((item) => {
-            const contextWithNewLines = item.context.replace(/\\n/g, '\n');
+        <View style={styles.container_card}>
+          {conversationContext &&
+            conversationContext.map((item) => {
+              const contextWithNewLines = item.context.replace(/\\n/g, "\n");
 
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.card}
-                onPress={() => selectContext(item)}
-              >
-                <Text style={styles.text}>{contextWithNewLines}</Text>
-              </TouchableOpacity>
-            );
-          })}
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.card}
+                  onPress={() => selectContext(item)}
+                >
+                  <Text style={styles.text}>{contextWithNewLines}</Text>
+                </TouchableOpacity>
+              );
+            })}
+        </View>
+      </ScrollView>
+
+      <View style={styles.container_bottom_tab}>
+        <BottomTab navigation={navigation}  />
       </View>
     </View>
   );
@@ -118,7 +134,8 @@ export default function TopicConversation({ navigation }) {
 
 const styles = StyleSheet.create({
   topicConversation_container: {
-    alignItems: "center",
+    flex: 1,
+    position: "relative",
   },
   container_back_button: {
     alignSelf: "flex-start",
@@ -164,5 +181,11 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: "#FFFFFF",
     fontWeight: "bold",
+  },
+  container_bottom_tab: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });
