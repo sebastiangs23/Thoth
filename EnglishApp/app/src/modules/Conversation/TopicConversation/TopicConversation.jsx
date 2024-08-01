@@ -10,6 +10,7 @@ import axios from "axios";
 import BottomTab from "../../BottomTab/BottomTab";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { setTopics } from "../../../store/slices/specificTopics/slice";
 import { setDialog } from "../../../store/slices/dialog/slice";
 import { getUserSession } from "../../../common/user/functions";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
@@ -18,59 +19,72 @@ import { Icon } from "react-native-elements";
 import { playAudioNext } from "../../../common/audio/functions";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
+//Este componente se llamara Areas
 export default function TopicConversation({ navigation }) {
   const dispatch = useDispatch();
 
-  const [conversationContext, setConversationContext] = useState([]);
+  // const [conversationContext, setConversationContext] = useState([]);
+  const [areas, setAreas] = useState([]);
 
   useEffect(() => {
-    getConversationContexts();
+    // getConversationContexts();
+    getAreas();
   }, []);
 
   /*__________________________
   |   REQUEST TO THE SERVER   */
-  async function getConversationContexts() {
+  // async function getConversationContexts() {
+  //   try {
+  //     const user = await getUserSession();
+
+  //     let id_language_level = user.id_language_level;
+
+  //     if (id_language_level) {
+  //       const response = await axios.get(
+  //         `${api}/conversation/get-conversations-topic-by-level/${id_language_level}`
+  //       );
+
+  //       setConversationContext(response.data);
+  //     } else {
+  //       Dialog.show({
+  //         type: ALERT_TYPE.WARNING,
+  //         title: ":(",
+  //         textBody: "The user doesn´t have a level, please choose one",
+  //         button: "close",
+  //       });
+
+  //       navigation.navigate("LanguageLevel");
+  //     }
+  //   } catch (error) {
+  //     console.log("errroww: ", error);
+  //     Dialog.show({
+  //       type: ALERT_TYPE.WARNING,
+  //       title: ":(",
+  //       textBody: "An unexpected happened in TopicConversation.jsx",
+  //       button: "close",
+  //     });
+  //   }
+  // }
+
+  async function getAreas() {
     try {
-      const user = await getUserSession();
+      const response = await axios.get(`${api}/conversation/get-areas`);
 
-      let id_language_level = user.id_language_level;
-
-      if (id_language_level) {
-        const response = await axios.get(
-          `${api}/conversation/get-conversations-topic-by-level/${id_language_level}`
-        );
-
-        setConversationContext(response.data);
-      } else {
-        Dialog.show({
-          type: ALERT_TYPE.WARNING,
-          title: ":(",
-          textBody: "The user doesn´t have a level, please choose one",
-          button: "close",
-        });
-
-        navigation.navigate("LanguageLevel");
-      }
+      setAreas(response.data);
     } catch (error) {
-      console.log("errroww: ", error);
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: ":(",
-        textBody: "An unexpected happened in TopicConversation.jsx",
-        button: "close",
-      });
+      console.log(error);
     }
   }
 
-  async function selectContext(item) {
+  async function selectArea(id) {
     try {
       const response = await axios.get(
-        `http://192.168.1.11:5000/conversation/get-dialogs-conversation/${item.id}`
+        `${api}/conversation/get-specific-topics/${id}`
       );
 
-      dispatch(setDialog(response.data));
+      dispatch(setTopics(response.data));
       playAudioNext();
-      navigateToConversation();
+      specificTopic();
     } catch (error) {
       console.log(error.message);
     }
@@ -78,8 +92,12 @@ export default function TopicConversation({ navigation }) {
 
   /*________________
   |   FUNCTIONS   */
-  function navigateToConversation() {
-    navigation.navigate("Conversation");
+  // function navigateToConversation() {
+  //   navigation.navigate("Conversation");
+  // }
+
+  function specificTopic(){
+    navigation.navigate("SpecificTopic");
   }
 
   function PickAvatar() {
@@ -103,22 +121,20 @@ export default function TopicConversation({ navigation }) {
 
         <View style={styles.title_container}>
           <Text style={styles.title}>
-            Select a topic you would like to chat about
+            Select a profession you would like to chat about
           </Text>
         </View>
 
         <View style={styles.container_card}>
-          {conversationContext &&
-            conversationContext.map((item) => {
-              const contextWithNewLines = item.context.replace(/\\n/g, "\n");
-
+          {areas &&
+            areas.map((item) => {
               return (
                 <TouchableOpacity
                   key={item.id}
                   style={styles.card}
-                  onPress={() => selectContext(item)}
+                  onPress={() => selectArea(item.id)}
                 >
-                  <Text style={styles.text}>{contextWithNewLines}</Text>
+                  <Text style={styles.text}> {item.description} </Text>
                 </TouchableOpacity>
               );
             })}
@@ -126,7 +142,7 @@ export default function TopicConversation({ navigation }) {
       </ScrollView>
 
       <View style={styles.container_bottom_tab}>
-        <BottomTab navigation={navigation}  />
+        <BottomTab navigation={navigation} />
       </View>
     </View>
   );
