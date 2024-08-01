@@ -49,8 +49,10 @@ export default function Areas({ navigation }) {
       dispatch(setTopics(response.data));
       playAudioNext();
       specificTopic();
+
     } catch (error) {
       console.log(error.message);
+      //X
     }
   }
 
@@ -66,7 +68,7 @@ export default function Areas({ navigation }) {
 
   return (
     <View style={styles.topicConversation_container}>
-      <ScrollView>
+      <ScrollView style={styles.subcontainer}>
         <View style={styles.container_back_button}>
           <Icon
             name="arrow-back-outline"
@@ -112,6 +114,9 @@ const styles = StyleSheet.create({
   topicConversation_container: {
     flex: 1,
     position: "relative",
+  },
+  subcontainer: {
+    marginBottom: 60,
   },
   container_back_button: {
     alignSelf: "flex-start",

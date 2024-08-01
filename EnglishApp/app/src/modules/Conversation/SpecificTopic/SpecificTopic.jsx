@@ -5,35 +5,68 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setDialog } from "../../../store/slices/dialog/slice";
-import axios from "axios";
+import BottomTab from "../../BottomTab/BottomTab";
+
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
+
+import { Icon } from "react-native-elements";
+import { getUserSession } from "../../../common/user/functions";
 
 export default function SpecificTopic({ navigation }) {
   const topics = useSelector((state) => state.topics.value);
+  const [user, setUser] = useState({});
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
   async function getDialogs(id) {
-
-    const response = await axios.get(`${api}/conversation/get-dialogs/${id}`);
+    const response = await axios.get(
+      `${api}/conversation/get-dialogs/${id}/${user.id_language_level} `
+    );
 
     dispatch(setDialog(response.data));
     Conversation();
   }
 
+  async function getUser() {
+    const response = await getUserSession();
+    setUser(response);
+  }
+
   /*________________
   |   FUNCTIONS   */
-  function Conversation(){
+  function Conversation() {
     navigation.navigate("Conversation");
+  }
+
+  function Areas() {
+    navigation.navigate("Areas");
   }
 
   return (
     <View style={styles.specifictopic_container}>
-      <ScrollView>
+      <ScrollView style={styles.subcontainer}>
+        <View style={styles.container_back_button}>
+          <Icon
+            name="arrow-back-outline"
+            reverseColor="#000000"
+            type="ionicon"
+            color="white"
+            size={20}
+            reverse
+            onPress={Areas}
+          />
+        </View>
+
         <View style={styles.title_container}>
           <Text style={styles.title}>
             Select a topic you would like to talk
@@ -55,6 +88,10 @@ export default function SpecificTopic({ navigation }) {
             })}
         </View>
       </ScrollView>
+
+      <View style={styles.container_bottom_tab}>
+        <BottomTab navigation={navigation} />
+      </View>
     </View>
   );
 }
@@ -63,6 +100,22 @@ const styles = StyleSheet.create({
   specifictopic_container: {
     flex: 1,
     position: "relative",
+  },
+  subcontainer: {
+    marginBottom: 60,
+  },
+  container_back_button: {
+    alignSelf: "flex-start",
+    margin: 8,
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
   },
   title_container: {
     justifyContent: "center",
@@ -95,5 +148,11 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: "#FFFFFF",
     fontWeight: "bold",
+  },
+  container_bottom_tab: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 });

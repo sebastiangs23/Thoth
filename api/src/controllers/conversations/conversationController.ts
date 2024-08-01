@@ -1,7 +1,6 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import Areas from "../../models/areas/areas_model.js";
-import ConversationModel from "../../models/conversations/conversations_model.js";
 import Dialogs from "../../models/dialogs/dialogs-model.js";
 import SpecificTopics from "../../models/specific_topic/specific_topic_model.js";
 
@@ -36,13 +35,14 @@ async function getSpecificTopics(req: Request, res: Response) {
 
 async function getDialogs(req: Request, res: Response) {
   try {
-    const { id_specific_topic } = req.params;
+    const { id_specific_topic, id_language_level } = req.params;
 
     //Aca una lógica para que me traiga solo dialogos de un tema en espeficio de manrea random
 
     const dialogs = await Dialogs.findAll({
       where: {
         id_specific_topic,
+        id_language_level
       },
       attributes: [
         "id",
