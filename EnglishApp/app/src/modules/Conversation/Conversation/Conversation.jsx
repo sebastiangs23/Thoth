@@ -61,8 +61,8 @@ export default function Conversation({ navigation }) {
     }
   }
 
-  function TopicConversation() {
-    navigation.navigate("TopicConversation");
+  function SpecificTopic() {
+    navigation.navigate("SpecificTopic");
     dispatch(deleteScore());
     dispatch(deleteAudioUri());
   }
@@ -123,7 +123,7 @@ export default function Conversation({ navigation }) {
               color="white"
               size={20}
               reverse
-              onPress={TopicConversation}
+              onPress={SpecificTopic}
             />
           </TouchableOpacity>
           <Image source={avatarImg.img} style={styles.avatar} />

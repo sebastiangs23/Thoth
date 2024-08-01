@@ -49,8 +49,10 @@ export default function Areas({ navigation }) {
       dispatch(setTopics(response.data));
       playAudioNext();
       specificTopic();
+
     } catch (error) {
       console.log(error.message);
+      //X
     }
   }
 
