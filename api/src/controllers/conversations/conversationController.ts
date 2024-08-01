@@ -5,13 +5,14 @@ import ConversationModel from "../../models/conversations/conversations_model.js
 import Dialogs from "../../models/dialogs/dialogs-model.js";
 import SpecificTopics from "../../models/specific_topic/specific_topic_model.js";
 
-async function getAreas(req: Request, res: Response){
-  try{
-    const areas = await Areas.findAll();
+async function getAreas(req: Request, res: Response) {
+  try {
+    const areas = await Areas.findAll({
+      attributes: ["id", "description"],
+    });
 
     res.json(areas);
-
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
 }
@@ -22,8 +23,8 @@ async function getConversation(req: Request, res: Response) {
 
     const conversation = await ConversationModel.findAll({
       where: {
-        id_language_level
-      }
+        id_language_level,
+      },
     });
 
     res.json(conversation);
@@ -44,7 +45,7 @@ async function getDialogsConversation(req: Request, res: Response) {
 
     //Add the property which made able to render just the first two dialogs
     let dialogsConversationsApproved = dialogsConversation.map(
-      (item:any, index:any) => {
+      (item: any, index: any) => {
         let dialog = item.toJSON();
         if (index < 2) {
           dialog.approved = true;
@@ -63,19 +64,19 @@ async function getDialogsConversation(req: Request, res: Response) {
   }
 }
 
-async function getSpecificTopics(req: Request, res: Response){
-  try{
+async function getSpecificTopics(req: Request, res: Response) {
+  try {
     const { id_area } = req.params;
 
     const specific_topic = await SpecificTopics.findAll({
       where: {
-        id_area
-      }
+        id_area,
+      },
+      attributes: ["id", "description", "id_area"],
     });
 
     res.json(specific_topic);
-
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
 }
@@ -97,24 +98,28 @@ async function getSpecificTopics(req: Request, res: Response){
 //   }
 // }
 
-async function getDialogs(req: Request, res: Response){
-  try{
+async function getDialogs(req: Request, res: Response) {
+  try {
     const { id_specific_topic } = req.params;
-    
+
     //Aca una lógica para que me traiga solo dialogos de un tema en espeficio de manrea random
 
     const dialogs = await Dialogs.findAll({
       where: {
-        id_specific_topic
-      }
+        id_specific_topic,
+      },
     });
 
-
     res.json(dialogs);
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
 }
 
-
-export { getAreas ,getConversation, getDialogsConversation, getSpecificTopics, getDialogs };
+export {
+  getAreas,
+  getConversation,
+  getDialogsConversation,
+  getSpecificTopics,
+  getDialogs,
+};
