@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import db from "../../db/postgresql.js";
 import UserScores from "../../models/user_score/user_scores_model.js";
 import * as sdkazure from "microsoft-cognitiveservices-speech-sdk";
 import _ from "lodash";
@@ -40,7 +41,7 @@ function callback(error: any){
 
 /*__________________
 |   SCORE AUDIO   */
-export default async function audioScore(req: Request, res: Response) {
+export async function audioScore(req: Request, res: Response) {
   try {
     
     if (!req.file || !req.file.buffer) {
@@ -165,5 +166,42 @@ export default async function audioScore(req: Request, res: Response) {
   } catch (error) {
     console.log(error);
     res.json({ error });
+  }
+}
+
+/*_______________________
+|   GET AVERAGE USER   */
+export async function getUserScoreAverage(req: Request, res: Response){
+  try{
+    const { id_user } = req.params;
+
+    const userData = await db.query(`
+      SELECT
+      US.ID_USER,
+      D.ID_LANGUAGE_LEVEL,
+      ST.ID AS ID_SPECIFIC_TOPICS,
+      ST.DESCRIPTION,
+      AVG((US.SCORE->0->>'ACCURACY_SCORE')::NUMERIC) AS AVG_ACCURACY_SCORE,
+      AVG((US.SCORE->0->>'PRONUNCIATION_SCORE')::NUMERIC) AS AVG_PRONUNCIATION_SCORE,
+      AVG((US.SCORE->0->>'COMPLETENESS_SCORE')::NUMERIC) AS AVG_COMPLETENESS_SCORE,
+      AVG((US.SCORE->0->>'FLUENCY_SCORE')::NUMERIC) AS AVG_FLUENCY_SCORE,
+      AVG((US.SCORE->0->>'PROSODY_SCORE')::NUMERIC) AS AVG_PROSODY_SCORE
+      FROM USERS_SCORES US
+      JOIN DIALOGS D ON D.ID = US.ID_DIALOG
+      JOIN LANGUAGE_LEVELS LL ON LL.ID = D.ID_LANGUAGE_LEVEL
+      JOIN SPECIFIC_TOPICS ST ON ST.ID = D.ID_SPECIFIC_TOPIC
+      where US.ID_USER = :id_user
+      GROUP BY US.ID_USER, D.ID_LANGUAGE_LEVEL, ST.ID, ST.DESCRIPTION`, {
+      replacements: {
+        id_user
+      }
+    });
+
+    console.log('let me see ', userData[0]);
+
+    res.json(userData[0]);
+
+  }catch(error){
+    console.log(error);
   }
 }
