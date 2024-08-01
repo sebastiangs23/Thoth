@@ -83,7 +83,7 @@ export default function Conversation({ navigation }) {
       });
 
       setTimeout(() => {
-        navigation.navigate("TopicConversation");
+        navigation.navigate("SpecificTopic");
         dispatch(deleteScore());
         dispatch(deleteAudioUri());
       }, 3000);

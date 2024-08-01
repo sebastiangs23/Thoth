@@ -13,6 +13,6 @@ router.get('/get-specific-topics/:id_area', getSpecificTopics);
 
 /*________________
 |  GET DIALOGS  */
-router.get('/get-dialogs/:id_specific_topic', getDialogs);
+router.get('/get-dialogs/:id_specific_topic/:id_language_level', getDialogs);
 
 export default router;

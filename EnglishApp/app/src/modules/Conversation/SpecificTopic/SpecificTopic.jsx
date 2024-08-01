@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setDialog } from "../../../store/slices/dialog/slice";
 import BottomTab from "../../BottomTab/BottomTab";
@@ -13,19 +14,32 @@ import BottomTab from "../../BottomTab/BottomTab";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
+import { getUserSession } from "../../../common/user/functions";
 
 export default function SpecificTopic({ navigation }) {
   const topics = useSelector((state) => state.topics.value);
+  const [user, setUser] = useState({});
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
   async function getDialogs(id) {
-    const response = await axios.get(`${api}/conversation/get-dialogs/${id}`);
+    const response = await axios.get(
+      `${api}/conversation/get-dialogs/${id}/${user.id_language_level} `
+    );
 
     dispatch(setDialog(response.data));
     Conversation();
+  }
+
+  async function getUser() {
+    const response = await getUserSession();
+    setUser(response);
   }
 
   /*________________
@@ -34,13 +48,13 @@ export default function SpecificTopic({ navigation }) {
     navigation.navigate("Conversation");
   }
 
-  function Areas(){
+  function Areas() {
     navigation.navigate("Areas");
   }
 
   return (
     <View style={styles.specifictopic_container}>
-      <ScrollView style={styles.subcontainer} >
+      <ScrollView style={styles.subcontainer}>
         <View style={styles.container_back_button}>
           <Icon
             name="arrow-back-outline"
@@ -88,7 +102,7 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   subcontainer: {
-    marginBottom: 60
+    marginBottom: 60,
   },
   container_back_button: {
     alignSelf: "flex-start",

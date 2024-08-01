@@ -90,11 +90,6 @@ export default function LanguageLevel({ navigation }) {
 
   /*________________
   |   FUNCTIONS   */
-  function logOut() {
-    removeUserSession();
-    navigation.navigate("Login");
-  }
-
   function showLevelInformation(level, description) {
     Toast.show({
       type: ALERT_TYPE.SUCCESS,
@@ -107,9 +102,6 @@ export default function LanguageLevel({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <TouchableOpacity>
-          <Icon name="power-off" type="font-awesome" reverse onPress={logOut} />
-        </TouchableOpacity>
 
         <View style={styles.title_container}>
           <Text style={styles.title}>
