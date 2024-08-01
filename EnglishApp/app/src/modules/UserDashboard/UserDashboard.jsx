@@ -15,13 +15,15 @@ export default function UserDashboard({}) {
       <Text>HERE IS WHERE THE STATISTICS ARE GOING TO BE xd</Text>
       <Text>Statistics</Text>
       <Icon name="bar-chart-outline" type="ionicon" />
+      <Text>En que es mejor</Text>
       <Icon name="pie-chart-outline" type="ionicon" />
-      <View>
-        <Icon name="gift" type="font-awesome" />
-        <Text>New features coming soon</Text>
-      </View>
-
       <Text>Days</Text>
+      <Icon name="today-outline" type="ionicon" />
+
+      <View >
+        <Text>New features coming soon</Text>
+        <Icon name="gift" type="font-awesome" />
+      </View>
     </View>
   );
 }
