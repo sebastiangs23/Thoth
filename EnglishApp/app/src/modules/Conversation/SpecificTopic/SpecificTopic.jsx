@@ -5,33 +5,76 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setDialog } from "../../../store/slices/dialog/slice";
+import axios from "axios";
+const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
-export default function SpecificTopic() {
+export default function SpecificTopic({ navigation }) {
   const topics = useSelector((state) => state.topics.value);
+
+  const dispatch = useDispatch();
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
+  async function getDialogs(id) {
+
+    const response = await axios.get(`${api}/conversation/get-dialogs/${id}`);
+
+    dispatch(setDialog(response.data));
+    Conversation();
+  }
+
+  /*________________
+  |   FUNCTIONS   */
+  function Conversation(){
+    navigation.navigate("Conversation");
+  }
 
   return (
-    <View>
-      <Text>HERE I WILL NEED TO SELECT A SPECIFIC TOPIC OF A PROFESSION</Text>
+    <View style={styles.specifictopic_container}>
       <ScrollView>
-        <View style={styles.container_card}></View>
-        {topics &&
-          topics.map((item) => {
-            return (
-              <TouchableOpacity key={item.id} style={styles.card}>
-                <Text style={styles.text}> {item.description} </Text>
-              </TouchableOpacity>
-            );
-          })}
+        <View style={styles.title_container}>
+          <Text style={styles.title}>
+            Select a topic you would like to talk
+          </Text>
+        </View>
+
+        <View style={styles.container_card}>
+          {topics &&
+            topics.map((item) => {
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.card}
+                  onPress={() => getDialogs(item.id)}
+                >
+                  <Text style={styles.text}> {item.description} </Text>
+                </TouchableOpacity>
+              );
+            })}
+        </View>
       </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  specifictopic_container: {
+    flex: 1,
+    position: "relative",
+  },
+  title_container: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    margin: 5,
+    padding: 5,
+    fontSize: 45,
+    fontWeight: "bold",
+    color: "#000000",
+  },
   container_card: {
     display: "flex",
     flexDirection: "row", // Asegura que los items se coloquen en línea horizontal

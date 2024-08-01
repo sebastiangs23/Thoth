@@ -21,7 +21,7 @@ export default function PickAvatar({ navigation }) {
       console.log(avatar);
       saveAvatarPicked(avatar);
       playAudioNext();
-      navigation.navigate("TopicConversation");
+      navigation.navigate("Areas");
     } catch (error) {
       console.log(error);
     }

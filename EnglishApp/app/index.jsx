@@ -10,7 +10,7 @@ import SignIn from "./src/modules/Login/components/SignIn/SignIn.jsx";
 import SignUp from "./src/modules/Login/components/SignUp/SignUp.jsx";
 import PickAvatar from "./src/modules/PickAvatar/PickAvatar.jsx";
 import LanguageLevel from "./src/modules/LanguageLevel/LanguageLevel.jsx";
-import TopicConversation from "./src/modules/Conversation/TopicConversation/TopicConversation.jsx";//AREAS
+import Areas from "./src/modules/Conversation/Areas/Areas.jsx";
 import SpecificTopic from "./src/modules/Conversation/SpecificTopic/SpecificTopic.jsx";
 import Conversation from "./src/modules/Conversation/Conversation/Conversation.jsx";
 import UserDashboard from "./src/modules/UserDashboard/UserDashboard.jsx";
@@ -34,7 +34,7 @@ export default function Page() {
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="PickAvatar" component={PickAvatar} />
             <Stack.Screen name="LanguageLevel" component={LanguageLevel} />
-            <Stack.Screen name="TopicConversation" component={TopicConversation}/>
+            <Stack.Screen name="Areas" component={Areas}/>
             <Stack.Screen name="SpecificTopic" component={SpecificTopic}/>
             <Stack.Screen name="Conversation" component={Conversation} />
             <Stack.Screen name="UserDashboard" component={UserDashboard} />
