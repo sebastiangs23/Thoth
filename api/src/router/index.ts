@@ -5,6 +5,7 @@ import conversationRouter from './conversations/index.js';
 import LanguageRouter from './language/index.js';
 import scoreRouter from './score/index.js';
 import CountriesRouter from './countries/index.js';
+import ChatGptRouter from './chat-gpt/index.js';
 import RootRouter from './root/index.js';
 
 const router = Router();
@@ -36,5 +37,9 @@ router.use('/score', scoreRouter);
 /*__________________
 |  ROUTES SCORE   */
 router.use('/countries', CountriesRouter);
+
+/*______________________
+|   ROUTES CHAT-GPT   */
+router.use('/chat-gpt', ChatGptRouter);
 
 export default router;
