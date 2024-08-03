@@ -2,10 +2,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 
 export default function BottomTab({ navigation }) {
+  
   /*________________
   |   FUNCTIONS   */
   function languageLevel() {
-    navigation.navigate("LanguageLevel");
+    navigation.navigate("Plans");
   }
 
   function userDashboard() {
@@ -15,12 +16,12 @@ export default function BottomTab({ navigation }) {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.tab} onPress={languageLevel}>
-        <Icon name="home-outline" type="ionicon"color="black" />
-        <Text style={styles.tabText}>Home</Text>
+        <Icon name="rotate-right" type="font-awesome"color="black" />
+        <Text style={styles.tabText}>Select Mode</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.tab} onPress={userDashboard}>
-        <Icon name="person-circle-outline" type="ionicon" color="blue" />
+        <Icon name="user" type="font-awesome" color="black" />
         <Text style={styles.tabText}>Dashboard</Text>
       </TouchableOpacity>
     </View>
