@@ -93,6 +93,7 @@ export default function SignIn({ navigation }) {
         }
       }
     } catch (error) {
+      console.log(error)
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: ":(",

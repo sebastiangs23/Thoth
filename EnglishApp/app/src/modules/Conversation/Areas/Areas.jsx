@@ -35,6 +35,7 @@ export default function Areas({ navigation }) {
       const response = await axios.get(`${api}/conversation/get-areas`);
 
       setAreas(response.data);
+
     } catch (error) {
       console.log(error);
     }

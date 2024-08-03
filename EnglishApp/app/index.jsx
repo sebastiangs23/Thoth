@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { AlertNotificationRoot } from "react-native-alert-notification";
 import store from "./src/store/store.js";
 
+import Plans from "./src/modules/Plans/Plans.jsx";
 import Login from "./src/modules/Login/Login.jsx";
 import SignIn from "./src/modules/Login/components/SignIn/SignIn.jsx";
 import SignUp from "./src/modules/Login/components/SignUp/SignUp.jsx";
@@ -32,8 +33,9 @@ export default function Page() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
-            <Stack.Screen name="PickAvatar" component={PickAvatar} />
+            <Stack.Screen name="Plans" component={Plans} />
             <Stack.Screen name="LanguageLevel" component={LanguageLevel} />
+            <Stack.Screen name="PickAvatar" component={PickAvatar} />
             <Stack.Screen name="Areas" component={Areas}/>
             <Stack.Screen name="SpecificTopic" component={SpecificTopic}/>
             <Stack.Screen name="Conversation" component={Conversation} />
