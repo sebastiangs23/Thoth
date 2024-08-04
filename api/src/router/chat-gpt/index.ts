@@ -3,6 +3,6 @@ import { consumeChatGpt } from "../../controllers/chat-gpt/chatGptController.js"
 
 const router = Router();
 
-router.get('/answer/:nivel_ingles/:tema_conversacion', consumeChatGpt);
+router.post('/answer', consumeChatGpt);
 
 export default router;
