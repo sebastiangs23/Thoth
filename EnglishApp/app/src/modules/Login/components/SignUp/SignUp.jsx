@@ -139,7 +139,7 @@ export default function SignUp({ navigation }) {
             }
 
             saveUserSession(response.data.user);
-            navigation.navigate("LanguageLevel");
+            navigation.navigate("Plans");
             break;
 
           case "Warning": {
