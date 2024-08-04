@@ -58,7 +58,7 @@ export default function SignIn({ navigation }) {
 
           if (response.data.user.id_user_type == 2) {
             playAudioNext();
-            LanguageLevel();
+            Plans();
             break;
 
           } else if (response.data.user.id_user_type == 1) {
@@ -106,8 +106,8 @@ export default function SignIn({ navigation }) {
 
   /*________________
   |   FUNCTIONS   */
-  function LanguageLevel() {
-    navigation.navigate("LanguageLevel");
+  function Plans() {
+    navigation.navigate("Plans");
   }
 
   function logIn() {
