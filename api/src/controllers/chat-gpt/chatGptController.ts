@@ -13,14 +13,14 @@ const openai = new OpenAI({
 
 export async function consumeChatGpt(req: Request, res: Response) {
   try {
-    const { tema_conversacion, data } = req.body;
+    const { nombre_ia, nivel_ingles , tema_conversacion, data } = req.params;
 
     const stream = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "user",
-          content: `You a rea recruiter`,
+          content: `Simularemos una conversación entre 2 personas, tu seras el primero que hablara y el que normalmente hara las preguntas , pero yo te preguntare aveces cosas, hablaremos en este nivel de ingles ${nivel_ingles}, el tema sera ${tema_conversacion}, que tus respuestas sean metiendote exclusivamente en el personaje, solo responde los dialogos sin decir inicialmente "sure ..." ni nada de eso y que tus dialogos sean breves y directos`,
           //content: "Make me a questions like an interview about VueJS. Start with the questions, without saying anything else, start with one question",
         },
       ],
