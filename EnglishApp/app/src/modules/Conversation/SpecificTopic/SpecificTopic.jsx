@@ -9,6 +9,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setDialog } from "../../../store/slices/dialog/slice";
+import { setChosenTopic } from "../../../store/slices/chosenTopic/slice";
 import BottomTab from "../../BottomTab/BottomTab";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
@@ -28,24 +29,25 @@ export default function SpecificTopic({ navigation }) {
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
-  async function getDialogs(id) {
+  async function getDialogs(topic) {
     const response = await axios.get(
-      `${api}/conversation/get-dialogs/${id}/${user.id_language_level} `
+      `${api}/conversation/get-dialogs/${topic.id}/${user.id_language_level} `
     );
 
+    dispatch(setChosenTopic(topic.description));
     dispatch(setDialog(response.data));
     Conversation();
-  }
+  };
 
   async function getUser() {
     const response = await getUserSession();
     setUser(response);
-  }
+  };
 
   /*________________
   |   FUNCTIONS   */
   function Conversation() {
-    navigation.navigate("Conversation");
+    navigation.navigate("ChatGptConversation");
   }
 
   function Areas() {
@@ -80,7 +82,7 @@ export default function SpecificTopic({ navigation }) {
                 <TouchableOpacity
                   key={item.id}
                   style={styles.card}
-                  onPress={() => getDialogs(item.id)}
+                  onPress={() => getDialogs(item)}
                 >
                   <Text style={styles.text}> {item.description} </Text>
                 </TouchableOpacity>

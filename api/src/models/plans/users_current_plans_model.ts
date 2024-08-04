@@ -1,7 +1,7 @@
 import db from "../../db/postgresql.js";
 import { DataTypes } from "sequelize";
 import UserModel from "../users/user_model.js";
-import Plans from "./plans.js";
+import Plans from "./plans_model.js";
 
 const UserCurrentPlans = db.define('user_current_plan', {
     id: {

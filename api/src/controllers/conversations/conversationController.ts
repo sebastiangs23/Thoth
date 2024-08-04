@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import Areas from "../../models/areas/areas_model.js";
-import Dialogs from "../../models/dialogs/dialogs-model.js";
 import SpecificTopics from "../../models/specific_topic/specific_topic_model.js";
+import Situation from "../../models/situation/situation_model.js";
+import Dialogs from "../../models/dialogs/dialogs-model.js";
 
 async function getAreas(req: Request, res: Response) {
   try {
@@ -13,6 +14,7 @@ async function getAreas(req: Request, res: Response) {
     res.json(areas);
   } catch (error) {
     console.log(error);
+    res.status(500).send("Error in the getAreas controller.");
   }
 }
 
@@ -30,6 +32,18 @@ async function getSpecificTopics(req: Request, res: Response) {
     res.json(specific_topic);
   } catch (error) {
     console.log(error);
+    res.status(500).send('Error in the getSpecificTopics controller');
+  }
+}
+
+async function getSituations(req: Request, res : Response){
+  try{
+    const situations = await Situation.findAll();
+
+    res.json(situations);
+  }catch(error){
+    console.log(error);
+    res.status(500).send("Error in the getSituations controller.");
   }
 }
 
@@ -79,5 +93,6 @@ async function getDialogs(req: Request, res: Response) {
 export {
   getAreas,
   getSpecificTopics,
+  getSituations,
   getDialogs,
 };
