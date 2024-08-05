@@ -6,12 +6,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
-import { Icon } from "react-native-elements";
 import axios from "axios";
+
+import { useDispatch } from "react-redux";
+import { setSituation } from "../../../store/slices/situation/slice";
+import { Icon } from "react-native-elements";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 export default function Situation({ navigation }) {
+  const dispatch = useDispatch();
+
   const [situations, setSituations] = useState([]);
 
   useEffect(() => {
@@ -40,6 +45,11 @@ export default function Situation({ navigation }) {
     navigation.navigate('ChatGptConversation');
   }
 
+  function selectSituation(situation){
+    dispatch(setSituation(situation.description));
+    ChatGptConversation();
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -63,7 +73,7 @@ export default function Situation({ navigation }) {
           {situations &&
             situations.map((item) => {
               return (
-                <TouchableOpacity key={item.id} style={styles.card} onPress={() => ChatGptConversation()}>
+                <TouchableOpacity key={item.id} style={styles.card} onPress={() => selectSituation(item)}>
                   <Text style={styles.text}>{item.description}</Text>
                 </TouchableOpacity>
               );
