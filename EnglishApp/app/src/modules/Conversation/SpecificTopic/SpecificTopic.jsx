@@ -12,6 +12,7 @@ import { setDialog } from "../../../store/slices/dialog/slice";
 import { setChosenTopic } from "../../../store/slices/chosenTopic/slice";
 import BottomTab from "../../BottomTab/BottomTab";
 import BackButton from "../../../components/BackButton";
+import Titles from "../../../components/Titles";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
@@ -52,21 +53,13 @@ export default function SpecificTopic({ navigation }) {
     navigation.navigate("Situation");
   }
 
-  function Areas() {
-    navigation.navigate("Areas");
-  }
-
   return (
     <View style={styles.specifictopic_container}>
       <ScrollView style={styles.subcontainer}>
 
         <BackButton module={'Areas'} navigation={navigation} />
 
-        <View style={styles.title_container}>
-          <Text style={styles.title}>
-            Select a topic you would like to talk
-          </Text>
-        </View>
+        <Titles title={'Select a topic you would like to talk'} />
 
         <View style={styles.container_card}>
           {topics &&
@@ -98,17 +91,6 @@ const styles = StyleSheet.create({
   },
   subcontainer: {
     marginBottom: 60,
-  },
-  title_container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    margin: 5,
-    padding: 5,
-    fontSize: 45,
-    fontWeight: "bold",
-    color: "#000000",
   },
   container_card: {
     display: "flex",

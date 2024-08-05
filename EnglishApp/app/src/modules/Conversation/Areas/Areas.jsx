@@ -9,6 +9,7 @@ import {
 import axios from "axios";
 import BottomTab from "../../BottomTab/BottomTab";
 import BackButton from "../../../components/BackButton";
+import Titles from "../../../components/Titles";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setTopics } from "../../../store/slices/specificTopics/slice";
@@ -64,21 +65,13 @@ export default function Areas({ navigation }) {
     navigation.navigate("SpecificTopic");
   }
 
-  function PickAvatar() {
-    navigation.navigate("PickAvatar");
-  }
-
   return (
     <View style={styles.topicConversation_container}>
       <ScrollView style={styles.subcontainer}>
 
         <BackButton module={'PickAvatar'} navigation={navigation} />
 
-        <View style={styles.title_container}>
-          <Text style={styles.title}>
-            Select a profession you would like to chat about
-          </Text>
-        </View>
+        <Titles title={'Select a profession you would like to chat about'} />
 
         <View style={styles.container_card}>
           {areas &&
@@ -110,17 +103,6 @@ const styles = StyleSheet.create({
   },
   subcontainer: {
     marginBottom: 60,
-  },
-  title_container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    margin: 5,
-    padding: 5,
-    fontSize: 45,
-    fontWeight: "bold",
-    color: "#000000",
   },
   container_card: {
     display: "flex",
