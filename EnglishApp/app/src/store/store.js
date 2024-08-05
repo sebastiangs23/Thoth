@@ -10,8 +10,8 @@ import { AudioUriSlice } from "./slices/audioUri/slice.js";
 export default configureStore({
   reducer: {
     topics: TopicsSlice.reducer,
-    chosenTopic: ChosenTopicSlice.reducer,
-    situation: SituationSlice.reducer,
+    chosenTopic: ChosenTopicSlice.reducer, //X
+    situation: SituationSlice.reducer, //X
     dialog: DialogsSlice.reducer, //X
     score: ScoreSlice.reducer,
     countries: CountriesSlice.reducer,
