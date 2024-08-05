@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import BottomTab from "../BottomTab/BottomTab";
+import Titles from "../../components/Titles";
 
 import { Icon } from "react-native-elements";
 
@@ -20,9 +21,7 @@ export default function Plans({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={styles.title_container}>
-          <Text style={styles.title}>Select the mode</Text>
-        </View>
+        <Titles title={"Select the mode"} />
 
         <TouchableOpacity
           onPress={() => LanguageLevel("normal")}
@@ -59,17 +58,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
-  },
-  title_container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    margin: 5,
-    padding: 5,
-    fontSize: 45,
-    fontWeight: "bold",
-    color: "#000000",
   },
   card: {
     width: 130,
