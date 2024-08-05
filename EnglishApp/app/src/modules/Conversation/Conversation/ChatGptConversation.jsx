@@ -16,9 +16,6 @@ export default function ChatGptConversation() {
     getUser();
   }, []);
 
-  //NIVEL IGNELS
-  //TEMA
-
   /*____________________________
   |   REQUEST TO THE SERVER   */
   async function talkWithChatgpt(data) {

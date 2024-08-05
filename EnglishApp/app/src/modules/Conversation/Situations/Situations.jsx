@@ -5,59 +5,44 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import axios from "axios";
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setDialog } from "../../../store/slices/dialog/slice";
-import { setChosenTopic } from "../../../store/slices/chosenTopic/slice";
-import BottomTab from "../../BottomTab/BottomTab";
+import { Icon } from "react-native-elements";
+import axios from "axios";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
-import { Icon } from "react-native-elements";
-import { getUserSession } from "../../../common/user/functions";
-
-export default function SpecificTopic({ navigation }) {
-  const topics = useSelector((state) => state.topics.value);
-  const [user, setUser] = useState({});
-
-  const dispatch = useDispatch();
+export default function Situation({ navigation }) {
+  const [situations, setSituations] = useState([]);
 
   useEffect(() => {
-    getUser();
+    getSituations();
   }, []);
 
   /*____________________________
-  |   REQUEST TO THE SERVER   */
-  async function getDialogs(topic) {
-    const response = await axios.get(
-      `${api}/conversation/get-dialogs/${topic.id}/${user.id_language_level} `
-    );
+    |   REQUEST TO THE SERVER   */
+  async function getSituations() {
+    try {
+      const response = await axios.get(`${api}/conversation/situations`);
 
-    dispatch(setChosenTopic(topic.description));
-    dispatch(setDialog(response.data));
-    Situation();
-  };
-
-  async function getUser() {
-    const response = await getUserSession();
-    setUser(response);
+      setSituations(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   /*________________
   |   FUNCTIONS   */
-  function Situation() {
-    //navigation.navigate("ChatGptConversation");
-    navigation.navigate("Situation");
+  function SpecificTopic() {
+    navigation.navigate('SpecificTopic');
   }
 
-  function Areas() {
-    navigation.navigate("Areas");
+  function ChatGptConversation(){
+    navigation.navigate('ChatGptConversation');
   }
 
   return (
-    <View style={styles.specifictopic_container}>
-      <ScrollView style={styles.subcontainer}>
+    <View style={styles.container}>
+      <ScrollView>
         <View style={styles.container_back_button}>
           <Icon
             name="arrow-back-outline"
@@ -66,35 +51,25 @@ export default function SpecificTopic({ navigation }) {
             color="white"
             size={20}
             reverse
-            onPress={Areas}
+            onPress={SpecificTopic}
           />
         </View>
 
         <View style={styles.title_container}>
-          <Text style={styles.title}>
-            Select a topic you would like to talk
-          </Text>
+          <Text style={styles.title}>Select the scenario</Text>
         </View>
 
         <View style={styles.container_card}>
-          {topics &&
-            topics.map((item) => {
+          {situations &&
+            situations.map((item) => {
               return (
-                <TouchableOpacity
-                  key={item.id}
-                  style={styles.card}
-                  onPress={() => getDialogs(item)}
-                >
-                  <Text style={styles.text}> {item.description} </Text>
+                <TouchableOpacity key={item.id} style={styles.card} onPress={() => ChatGptConversation()}>
+                  <Text style={styles.text}>{item.description}</Text>
                 </TouchableOpacity>
               );
             })}
         </View>
       </ScrollView>
-
-      <View style={styles.container_bottom_tab}>
-        <BottomTab navigation={navigation} />
-      </View>
     </View>
   );
 }
@@ -103,9 +78,6 @@ const styles = StyleSheet.create({
   specifictopic_container: {
     flex: 1,
     position: "relative",
-  },
-  subcontainer: {
-    marginBottom: 60,
   },
   container_back_button: {
     alignSelf: "flex-start",
@@ -151,11 +123,5 @@ const styles = StyleSheet.create({
     fontSize: 19,
     color: "#FFFFFF",
     fontWeight: "bold",
-  },
-  container_bottom_tab: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
   },
 });
