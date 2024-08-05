@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import axios from "axios";
 import BottomTab from "../BottomTab/BottomTab";
+import BackButton from "../../components/BackButton";
+
 import { saveAvatarPicked } from "../../common/avatars/functions";
 import { avatars } from "../../common/avatars/functions";
 import { playAudioNext } from "../../common/audio/functions";
@@ -18,10 +20,11 @@ export default function PickAvatar({ navigation }) {
     |   REQUEST TO THE SERVER   */
   async function avatarPicked(avatar) {
     try {
-      console.log(avatar);
+
       saveAvatarPicked(avatar);
       playAudioNext();
       navigation.navigate("Areas");
+
     } catch (error) {
       console.log(error);
     }
@@ -36,17 +39,8 @@ export default function PickAvatar({ navigation }) {
   return (
     <View style={styles.pick_avatar_container}>
       <ScrollView>
-        <TouchableOpacity style={styles.container_back_button}>
-          <Icon
-            name="arrow-back-outline"
-            reverseColor="#000000"
-            type="ionicon"
-            color="white"
-            size={20}
-            reverse
-            onPress={LanguageLevel}
-          />
-        </TouchableOpacity>
+
+        <BackButton module={LanguageLevel} navigation={navigation} />
 
         <View style={styles.title_container}>
           <Text style={styles.title}>
@@ -82,19 +76,6 @@ const styles = StyleSheet.create({
   pick_avatar_container: {
     flex: 1,
     position: "relative",
-  },
-  container_back_button: {
-    alignSelf: "flex-start",
-    margin: 8,
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 8,
   },
   title_container: {
     justifyContent: "center",

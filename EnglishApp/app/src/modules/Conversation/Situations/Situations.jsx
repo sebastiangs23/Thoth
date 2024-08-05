@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import BackButton from "../../../components/BackButton";
 
 import { useDispatch } from "react-redux";
 import { setSituation } from "../../../store/slices/situation/slice";
@@ -53,17 +54,8 @@ export default function Situation({ navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={styles.container_back_button}>
-          <Icon
-            name="arrow-back-outline"
-            reverseColor="#000000"
-            type="ionicon"
-            color="white"
-            size={20}
-            reverse
-            onPress={SpecificTopic}
-          />
-        </View>
+
+        <BackButton module={'SpecificTopic'} navigation={navigation} />
 
         <View style={styles.title_container}>
           <Text style={styles.title}>Select the scenario</Text>
@@ -88,19 +80,6 @@ const styles = StyleSheet.create({
   specifictopic_container: {
     flex: 1,
     position: "relative",
-  },
-  container_back_button: {
-    alignSelf: "flex-start",
-    margin: 8,
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 8,
   },
   title_container: {
     justifyContent: "center",
