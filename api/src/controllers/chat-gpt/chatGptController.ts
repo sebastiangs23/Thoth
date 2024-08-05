@@ -19,7 +19,7 @@ export async function consumeChatGpt(req: Request, res: Response) {
       where: {
         id: data.id_language_level
       },
-      attributes: ['id']
+      attributes: ['level']
     });
 
     if(englishLevel){
@@ -28,8 +28,7 @@ export async function consumeChatGpt(req: Request, res: Response) {
         messages: [
           {
             role: "user",
-            content: `Simularemos una conversación, empezaras hablando , hablaremos en este nivel de ingles ${englishLevel.id}, el tema sera ${data.topic}, que tus respuestas sean metiendote exclusivamente en el personaje, solo responde los dialogos sin decir inicialmente "sure ..." ni nada de eso y que tus dialogos sean breves y directos`,
-            //content: "Make me a questions like an interview about VueJS. Start with the questions, without saying anything else, start with one question",
+            content: `We are in a ${data.situation}. My name is ${data.name} ${data.last_name}. You will take on the role appropriate to the situation and lead the conversation about ${data.topic}. Please simulate a real-life conversation without acknowledging that you are an AI and avoid starting responses with labels like "Interviewer:". For example, if the situation is a daily standup, act as a project manager and ask me relevant questions about the project's progress. Keep the conversation natural, focus on relevant questions, and avoid any meta-commentary about being a bot or AI. The convesation is in this English level ${englishLevel.level}`
           },
         ],
         stream: true,

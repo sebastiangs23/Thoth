@@ -11,6 +11,7 @@ export default function ChatGptConversation() {
   const [chat, setChat] = useState([]);
 
   const topic = useSelector((state) => state.chosenTopic.value);
+  const situation = useSelector((state) => state.situation.value);
 
   useEffect(() => {
     getUser();
@@ -42,7 +43,8 @@ export default function ChatGptConversation() {
         name: response.name,
         last_name: response.last_name,
         id_language_level: response.id_language_level,
-        topic
+        topic,
+        situation
       };
       
       console.log('before send', data)
