@@ -38,7 +38,9 @@ async function getSpecificTopics(req: Request, res: Response) {
 
 async function getSituations(req: Request, res : Response){
   try{
-    const situations = await Situation.findAll();
+    const situations = await Situation.findAll({
+      attributes: ['id', 'description']
+    });
 
     res.json(situations);
   }catch(error){
