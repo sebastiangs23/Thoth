@@ -110,20 +110,20 @@ export default function LanguageLevel({ navigation }) {
 
         <Titles title={'Select the level that represents your current ability'} />
 
-        <View style={styles.container_card}>
+        <View style={globalStyles.container_card}>
           {languageLevels &&
             languageLevels.map((item) => {
               return (
-                <View key={item.id} style={styles.card}>
+                <View key={item.id} style={globalStyles.card}>
                   <TouchableOpacity
-                    style={styles.level_button}
+                    style={globalStyles.level_button}
                     onPress={() => updateUserLanguageLevel(item.id)}
                   >
-                    <Text style={styles.text}>{item.level} </Text>
+                    <Text style={globalStyles.text_medium}>{item.level} </Text>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={styles.information_button}
+                    style={globalStyles.information_button}
                     onPress={() =>
                       showLevelInformation(item.level, item.description_cefr)
                     }
@@ -141,50 +141,9 @@ export default function LanguageLevel({ navigation }) {
         </View>
       </ScrollView>
 
-      <View style={styles.container_bottom_tab}>
+      <View style={globalStyles.container_bottom_tab}>
         <BottomTab navigation={navigation} />
       </View>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container_card: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-  },
-  card: {
-    width: 100,
-    height: 100,
-    padding: 10,
-    margin: 10,
-    backgroundColor: "#3790F5",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-  },
-  level_button: {
-    padding: 8,
-    margin: 8,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 23,
-    color: "#FFFFFF",
-    fontWeight: "bold",
-  },
-  information_button: {
-    position: "absolute",
-    right: 4,
-    bottom: 4,
-  },
-  container_bottom_tab: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-});
+};

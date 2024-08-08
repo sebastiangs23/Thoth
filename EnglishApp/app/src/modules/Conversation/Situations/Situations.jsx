@@ -36,15 +36,15 @@ export default function Situation({ navigation }) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
   /*________________
   |   FUNCTIONS   */
-  function ChatGptConversation(){
-    navigation.navigate('ChatGptConversation');
+  function ChatGptConversation() {
+    navigation.navigate("ChatGptConversation");
   }
 
-  function selectSituation(situation){
+  function selectSituation(situation) {
     dispatch(setSituation(situation.description));
     ChatGptConversation();
   }
@@ -52,17 +52,20 @@ export default function Situation({ navigation }) {
   return (
     <View style={globalStyles.container}>
       <ScrollView style={globalStyles.subcontainer}>
+        <BackButton module={"SpecificTopic"} navigation={navigation} />
 
-        <BackButton module={'SpecificTopic'} navigation={navigation} />
+        <Titles title={"Select the scenario"} />
 
-        <Titles title={'Select the scenario'} />
-
-        <View style={styles.container_card}>
+        <View style={globalStyles.container_card}>
           {situations &&
             situations.map((item) => {
               return (
-                <TouchableOpacity key={item.id} style={styles.card} onPress={() => selectSituation(item)}>
-                  <Text style={styles.text}>{item.description}</Text>
+                <TouchableOpacity
+                  key={item.id}
+                  style={globalStyles.card_high}
+                  onPress={() => selectSituation(item)}
+                >
+                  <Text style={globalStyles.text_semi_small}>{item.description}</Text>
                 </TouchableOpacity>
               );
             })}
@@ -70,28 +73,4 @@ export default function Situation({ navigation }) {
       </ScrollView>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container_card: {
-    display: "flex",
-    flexDirection: "row", // Asegura que los items se coloquen en línea horizontal
-    flexWrap: "wrap", // Permite que los items se envuelvan a la línea siguiente si no hay espacio
-    justifyContent: "flex-start",
-  },
-  card: {
-    width: 130,
-    height: 120,
-    padding: 5,
-    margin: 10,
-    backgroundColor: "#3790F5",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-  },
-  text: {
-    fontSize: 19,
-    color: "#FFFFFF",
-    fontWeight: "bold",
-  },
-});
+};

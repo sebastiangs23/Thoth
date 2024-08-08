@@ -62,55 +62,25 @@ export default function SpecificTopic({ navigation }) {
 
         <Titles title={'Select a topic you would like to talk'} />
 
-        <View style={styles.container_card}>
+        <View style={globalStyles.container_card}>
           {topics &&
             topics.map((item) => {
               return (
                 <TouchableOpacity
                   key={item.id}
-                  style={styles.card}
+                  style={globalStyles.card}
                   onPress={() => getDialogs(item)}
                 >
-                  <Text style={styles.text}> {item.description} </Text>
+                  <Text style={globalStyles.text_semi_small}> {item.description} </Text>
                 </TouchableOpacity>
               );
             })}
         </View>
       </ScrollView>
 
-      <View style={styles.container_bottom_tab}>
+      <View style={globalStyles.container_bottom_tab}>
         <BottomTab navigation={navigation} />
       </View>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container_card: {
-    display: "flex",
-    flexDirection: "row", // Asegura que los items se coloquen en línea horizontal
-    flexWrap: "wrap", // Permite que los items se envuelvan a la línea siguiente si no hay espacio
-    justifyContent: "flex-start",
-  },
-  card: {
-    width: 130,
-    height: 120,
-    padding: 5,
-    margin: 10,
-    backgroundColor: "#3790F5",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-  },
-  text: {
-    fontSize: 19,
-    color: "#FFFFFF",
-    fontWeight: "bold",
-  },
-  container_bottom_tab: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-});
+};

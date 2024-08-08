@@ -43,27 +43,28 @@ export default function PickAvatar({ navigation }) {
       <ScrollView>
 
         <BackButton module={LanguageLevel} navigation={navigation} />
-        
+
         <Titles title={'Select the IA Tutor you would like to chat with'} />
 
-        <View style={styles.container_card}>
+        <View style={globalStyles.container_card}>
           {avatars &&
             avatars.map((item) => {
               return (
                 <TouchableOpacity
                   key={item.id}
-                  style={styles.container_avatar_img}
+                  style={styles.card_size_2}
+                  // globalStyles.card_size_2
                   onPress={() => avatarPicked(item)}
                 >
                   <Image source={item.img} style={styles.avatar_img} />
-                  <Text style={styles.text_name}> {item.name} </Text>
+                  <Text style={globalStyles.text_small}> {item.name} </Text>
                 </TouchableOpacity>
               );
             })}
         </View>
       </ScrollView>
 
-      <View style={styles.container_bottom_tab}>
+      <View style={globalStyles.container_bottom_tab}>
         <BottomTab navigation={navigation} />
       </View>
     </View>
