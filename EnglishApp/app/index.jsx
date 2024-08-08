@@ -8,6 +8,8 @@ import Plans from "./src/modules/Plans/Plans.jsx";
 import Login from "./src/modules/Login/Login.jsx";
 import SignIn from "./src/modules/Login/components/SignIn/SignIn.jsx";
 import SignUp from "./src/modules/Login/components/SignUp/SignUp.jsx";
+import Titles from "./src/global/components/Titles.jsx";
+import BackButton from "./src/global/components/BackButton.jsx";
 import PickAvatar from "./src/modules/PickAvatar/PickAvatar.jsx";
 import LanguageLevel from "./src/modules/LanguageLevel/LanguageLevel.jsx";
 import Areas from "./src/modules/Conversation/Areas/Areas.jsx";
@@ -34,6 +36,9 @@ export default function Page() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="BackButton" component={BackButton} />
+            <Stack.Screen name="Titles" component={Titles} />
+
             <Stack.Screen name="Plans" component={Plans} />
             <Stack.Screen name="LanguageLevel" component={LanguageLevel} />
             <Stack.Screen name="PickAvatar" component={PickAvatar} />

@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import BottomTab from "../BottomTab/BottomTab";
-import Titles from "../../components/Titles";
+import Titles from "../../global/components/Titles";
+import { globalStyles } from "../../global/styles/styles";
 
 import { Icon } from "react-native-elements";
 
@@ -19,7 +20,7 @@ export default function Plans({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       <ScrollView>
         <Titles title={"Select the mode"} />
 
@@ -55,10 +56,6 @@ export default function Plans({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: "relative",
-  },
   card: {
     width: 130,
     height: 120,

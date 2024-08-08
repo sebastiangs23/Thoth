@@ -10,7 +10,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import BottomTab from "../BottomTab/BottomTab";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../global/components/BackButton";
+import Titles from "../../global/components/Titles";
+import { globalStyles } from "../../global/styles/styles";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
@@ -101,16 +103,12 @@ export default function LanguageLevel({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.subcontainer}>
+    <View style={globalStyles.container}>
+      <ScrollView style={globalStyles.subcontainer}>
 
         <BackButton module={'Plans'} navigation={navigation} />
 
-        <View style={styles.title_container}>
-          <Text style={styles.title}>
-            Select the level that represents your current ability
-          </Text>
-        </View>
+        <Titles title={'Select the level that represents your current ability'} />
 
         <View style={styles.container_card}>
           {languageLevels &&
@@ -151,13 +149,7 @@ export default function LanguageLevel({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: "relative", //Posicionar el TabButton abajo
-  },
-  subcontainer: {
-    marginBottom: 60,
-  },
+
   title_container: {
     justifyContent: "center",
     alignItems: "center",
