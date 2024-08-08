@@ -21,7 +21,7 @@ export default function Plans({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <ScrollView>
+      <ScrollView style={globalStyles.subcontainer}>
         <Titles title={"Select the mode"} />
 
         <TouchableOpacity
@@ -31,7 +31,7 @@ export default function Plans({ navigation }) {
           {/*
         <Icon name="star" type="font-awesome" color="white"/> */}
           <Icon name="star-outline" type="ionicon" color="white" />
-          <Text style={styles.text}>Normal</Text>
+          <Text style={styles.text_medium}>Normal</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -44,7 +44,7 @@ export default function Plans({ navigation }) {
             color="white"
             size={30}
           />
-          <Text style={styles.text}>Pro</Text>
+          <Text style={styles.text_medium}>Pro</Text>
         </TouchableOpacity>
       </ScrollView>
 
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
   },
-  text: {
+  text_medium: {
     fontSize: 19,
     color: "#FFFFFF",
     fontWeight: "bold",
