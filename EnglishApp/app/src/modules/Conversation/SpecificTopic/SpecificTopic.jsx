@@ -13,6 +13,7 @@ import { setChosenTopic } from "../../../store/slices/chosenTopic/slice";
 import BottomTab from "../../BottomTab/BottomTab";
 import BackButton from "../../../global/components/BackButton";
 import Titles from "../../../global/components/Titles";
+import { globalStyles } from "../../../global/styles/styles";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
@@ -54,8 +55,8 @@ export default function SpecificTopic({ navigation }) {
   }
 
   return (
-    <View style={styles.specifictopic_container}>
-      <ScrollView style={styles.subcontainer}>
+    <View style={globalStyles.container}>
+      <ScrollView style={globalStyles.subcontainer}>
 
         <BackButton module={'Areas'} navigation={navigation} />
 
@@ -85,13 +86,6 @@ export default function SpecificTopic({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  specifictopic_container: {
-    flex: 1,
-    position: "relative",
-  },
-  subcontainer: {
-    marginBottom: 60,
-  },
   container_card: {
     display: "flex",
     flexDirection: "row", // Asegura que los items se coloquen en línea horizontal

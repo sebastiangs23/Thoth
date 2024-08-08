@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import BackButton from "../../../global/components/BackButton";
 import Titles from "../../../global/components/Titles";
+import { globalStyles } from "../../../global/styles/styles";
 
 import { useDispatch } from "react-redux";
 import { setSituation } from "../../../store/slices/situation/slice";
@@ -49,8 +50,8 @@ export default function Situation({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
+    <View style={globalStyles.container}>
+      <ScrollView style={globalStyles.subcontainer}>
 
         <BackButton module={'SpecificTopic'} navigation={navigation} />
 
@@ -72,10 +73,6 @@ export default function Situation({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  specifictopic_container: {
-    flex: 1,
-    position: "relative",
-  },
   container_card: {
     display: "flex",
     flexDirection: "row", // Asegura que los items se coloquen en línea horizontal
