@@ -15,6 +15,8 @@ import DatePicker from "../../../../../global/datePicker/datePicker";
 import { useSelector } from "react-redux";
 import { saveUserSession } from "../../../../common/user/functions";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+import { globalStyles } from "../../../../global/styles/styles";
+import BackButton from "../../../../global/components/BackButton";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import imagegb from "../../../../assets/logos/login_wallpaper_full.webp";
@@ -180,33 +182,20 @@ export default function SignUp({ navigation }) {
 
   /*________________
   |   FUNCTIONS   */
-  function logIn() {
-    navigation.navigate("Login");
-  }
-
   function passwordVisible(boolean) {
     setEyeOpen(boolean);
     setSecurePassword(!boolean);
   }
 
   return (
-    <View style={styles.sign_up_container}>
+    <View style={globalStyles.container}>
       <ImageBackground
         source={imagegb}
         resizeMode="cover"
         style={styles.image_bg}
       >
-        <View style={styles.container_back_button}>
-          <Icon
-            name="arrow-back-outline"
-            reverseColor="#000000"
-            type="ionicon"
-            color="white"
-            size={20}
-            reverse
-            onPress={logIn}
-          />
-        </View>
+
+        <BackButton module="Login" navigation={navigation} />
 
         <View style={styles.title_container}>
           <Text style={styles.title}>Sign Up</Text>
@@ -310,27 +299,9 @@ export default function SignUp({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  sign_up_container: {
-    flex: 1,
-  },
   image_bg: {
     flex: 1,
     justifyContent: "center",
-  },
-  container_back_button: {
-    position: "absolute",
-    top: 8,
-    left: 8,
-    marginTop: 5,
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 8,
   },
   title_container: {
     justifyContent: "center",

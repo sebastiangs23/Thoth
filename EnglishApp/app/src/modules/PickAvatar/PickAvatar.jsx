@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import axios from "axios";
 import BottomTab from "../BottomTab/BottomTab";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../global/components/BackButton";
 
 import { saveAvatarPicked } from "../../common/avatars/functions";
 import { avatars } from "../../common/avatars/functions";

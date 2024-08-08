@@ -7,8 +7,8 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import BackButton from "../../../components/BackButton";
-import Titles from "../../../components/Titles";
+import BackButton from "../../../global/components/BackButton";
+import Titles from "../../../global/components/Titles";
 
 import { useDispatch } from "react-redux";
 import { setSituation } from "../../../store/slices/situation/slice";

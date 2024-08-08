@@ -12,6 +12,9 @@ import { ALERT_TYPE, Dialog, Toast} from "react-native-alert-notification";
 import { Icon } from "react-native-elements";
 import { saveUserSession } from "../../../../common/user/functions";
 import { playAudioNext } from "../../../../common/audio/functions";
+import BackButton from "../../../../global/components/BackButton";
+import { globalStyles } from "../../../../global/styles/styles";
+
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import imagebg from "../../../../assets/logos/login_wallpaper_full.webp";
@@ -110,33 +113,19 @@ export default function SignIn({ navigation }) {
     navigation.navigate("Plans");
   }
 
-  function logIn() {
-    navigation.navigate("Login");
-  }
-
   function passwordVisible(boolean) {
     setEyeOpen(boolean);
     setSecurePassword(!boolean);
   }
 
   return (
-    <View style={styles.sign_in_container}>
+    <View style={globalStyles.container}>
       <ImageBackground
         source={imagebg}
         resizeMode="cover"
         style={styles.image_bg}
       >
-        <View style={styles.container_back_button}>
-          <Icon
-            name="arrow-back-outline"
-            reverseColor="#000000"
-            type="ionicon"
-            color="white"
-            size={20}
-            reverse
-            onPress={logIn}
-          />
-        </View>
+        <BackButton module="Login"  navigation={navigation} />
 
         <View style={styles.title_container}>
           <Text style={styles.title}>Log in</Text>
@@ -188,27 +177,9 @@ export default function SignIn({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  sign_in_container: {
-    flex: 1,
-  },
   image_bg: {
     flex: 1,
     justifyContent: "center",
-  },
-  container_back_button: {
-    position: 'absolute', 
-    top: 8,               
-    left: 8,             
-    marginTop: 5,
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 8,
   },
   title_container: {
     justifyContent: "center",

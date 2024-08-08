@@ -8,8 +8,8 @@ import {
 } from "react-native";
 import axios from "axios";
 import BottomTab from "../../BottomTab/BottomTab";
-import BackButton from "../../../components/BackButton";
-import Titles from "../../../components/Titles";
+import BackButton from "../../../global/components/BackButton";
+import Titles from "../../../global/components/Titles";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setTopics } from "../../../store/slices/specificTopics/slice";

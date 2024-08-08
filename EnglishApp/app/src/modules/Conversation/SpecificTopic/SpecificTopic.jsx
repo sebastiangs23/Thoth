@@ -11,8 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setDialog } from "../../../store/slices/dialog/slice";
 import { setChosenTopic } from "../../../store/slices/chosenTopic/slice";
 import BottomTab from "../../BottomTab/BottomTab";
-import BackButton from "../../../components/BackButton";
-import Titles from "../../../components/Titles";
+import BackButton from "../../../global/components/BackButton";
+import Titles from "../../../global/components/Titles";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
