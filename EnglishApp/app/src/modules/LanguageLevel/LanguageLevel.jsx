@@ -149,18 +149,6 @@ export default function LanguageLevel({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-
-  title_container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    margin: 5,
-    padding: 5,
-    fontSize: 45,
-    fontWeight: "bold",
-    color: "#000000",
-  },
   container_card: {
     display: "flex",
     flexDirection: "row",

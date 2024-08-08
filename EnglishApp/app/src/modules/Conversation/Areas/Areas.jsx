@@ -13,6 +13,7 @@ import Titles from "../../../global/components/Titles";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setTopics } from "../../../store/slices/specificTopics/slice";
+import { globalStyles } from "../../../global/styles/styles";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
@@ -66,8 +67,8 @@ export default function Areas({ navigation }) {
   }
 
   return (
-    <View style={styles.topicConversation_container}>
-      <ScrollView style={styles.subcontainer}>
+    <View style={globalStyles.container}>
+      <ScrollView style={globalStyles.subcontainer}>
 
         <BackButton module={'PickAvatar'} navigation={navigation} />
 
@@ -97,13 +98,6 @@ export default function Areas({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  topicConversation_container: {
-    flex: 1,
-    position: "relative",
-  },
-  subcontainer: {
-    marginBottom: 60,
-  },
   container_card: {
     display: "flex",
     flexDirection: "row", // Asegura que los items se coloquen en línea horizontal

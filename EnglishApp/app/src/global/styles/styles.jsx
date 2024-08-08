@@ -8,4 +8,5 @@ export const globalStyles = StyleSheet.create({
   subcontainer: {
     marginBottom: 60,
   },
+  //CARDS 
 });
