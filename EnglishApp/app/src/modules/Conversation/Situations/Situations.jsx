@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import BackButton from "../../../global/components/BackButton";
 import Titles from "../../../global/components/Titles";
+import BottomTab from "../../BottomTab/BottomTab";
 import { globalStyles } from "../../../global/styles/styles";
 
 import { useDispatch } from "react-redux";
@@ -65,12 +66,18 @@ export default function Situation({ navigation }) {
                   style={globalStyles.card_high}
                   onPress={() => selectSituation(item)}
                 >
-                  <Text style={globalStyles.text_semi_small}>{item.description}</Text>
+                  <Text style={globalStyles.text_semi_small}>
+                    {item.description}
+                  </Text>
                 </TouchableOpacity>
               );
             })}
         </View>
       </ScrollView>
+
+      <View style={globalStyles.container_bottom_tab}>
+        <BottomTab navigation={navigation} />
+      </View>
     </View>
   );
-};
+}
