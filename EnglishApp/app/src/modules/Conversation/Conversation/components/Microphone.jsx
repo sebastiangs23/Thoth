@@ -9,7 +9,6 @@ import { getUserSession } from "../../../../common/user/functions";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
-import * as Speech from "expo-speech";
 import { Audio } from "expo-av";
 import { playFail, playGood } from "../../../../common/audio/functions";
 import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
@@ -101,16 +100,6 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
     }
   }
 
-  function speak() {
-    const thingToSay = dialog;
-
-    Speech.speak(thingToSay, {
-      language: "en",
-      pitch: 1,
-      rate: 0.8,
-    });
-  }
-
   /*____________________________
   |   REQUEST TO THE SERVER   */
   async function audioScore(uri, dialog) {
@@ -190,12 +179,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       ) : (
         <></>
       )}
-
-      <View style={styles.button_container}>
-        <TouchableOpacity style={styles.button_hear} onPress={speak}>
-          <Icon name="play" type="font-awesome" size={20} />
-        </TouchableOpacity>
-      </View>
+      
     </View>
   );
 }
@@ -213,15 +197,6 @@ const styles = StyleSheet.create({
   button_container: {
     marginTop: 5,
     marginBottom: 5,
-  },
-  button_hear: {
-    height: 40,
-    width: 40,
-    backgroundColor: "#FFFFFF",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 50,
-    marginLeft: 6,
   },
   button_recording: {
     height: 40,

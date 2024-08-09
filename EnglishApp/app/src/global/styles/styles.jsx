@@ -22,6 +22,10 @@ export const globalStyles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  button_hear_container: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
 
   /*____________
   |   CARDS   */
@@ -87,6 +91,15 @@ export const globalStyles = StyleSheet.create({
     position: "absolute",
     right: 4,
     bottom: 4,
+  },
+  hear_button: {
+    height: 40,
+    width: 40,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    marginLeft: 6,
   },
 
 });

@@ -1,5 +1,12 @@
 import {
-  ScrollView, View, StyleSheet, Text, Image, TouchableOpacity, Vibration, Alert
+  ScrollView,
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+  Vibration,
+  Alert,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -9,8 +16,14 @@ import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
 import { playApprove } from "../../../common/audio/functions";
 import * as Font from "expo-font";
-import { ALERT_TYPE, Dialog as Message, Toast } from "react-native-alert-notification";
+import {
+  ALERT_TYPE,
+  Dialog as Message,
+  Toast,
+} from "react-native-alert-notification";
+import BackButton from "../../../global/components/BackButton";
 
+import PlayAudio from "./components/PlayAudio";
 import Microphone from "./components/Microphone";
 import Dialog from "./components/Dialog";
 import Score from "./components/Score";
@@ -50,13 +63,13 @@ export default function Conversation({ navigation }) {
     if (audioUri != "") {
       const { sound } = await Audio.Sound.createAsync({ uri: audioUri });
       await sound.playAsync();
-
     } else {
       Toast.show({
         type: ALERT_TYPE.WARNING,
         title: "Wait",
-        textBody: "You have to record an audio firts to be able to listen to it",
-        autoClose: 2000
+        textBody:
+          "You have to record an audio firts to be able to listen to it",
+        autoClose: 2000,
       });
     }
   }
@@ -68,8 +81,9 @@ export default function Conversation({ navigation }) {
   }
 
   function verificationAllApproved() {
-    let verification = dialogs.filter((dialog) => dialog.approved == true)
-      .length;
+    let verification = dialogs.filter(
+      (dialog) => dialog.approved == true
+    ).length;
 
     if (dialogs.length == verification) {
       Vibration.vibrate(2000);
@@ -115,17 +129,9 @@ export default function Conversation({ navigation }) {
 
       <View style={styles.container_conversation}>
         <View style={styles.avatar_section}>
-          <TouchableOpacity style={styles.back_button}>
-            <Icon
-              name="arrow-back-outline"
-              reverseColor="#000000"
-              type="ionicon"
-              color="white"
-              size={20}
-              reverse
-              onPress={SpecificTopic}
-            />
-          </TouchableOpacity>
+
+          <BackButton module={"Situation"} navigation={navigation} />
+
           <Image source={avatarImg.img} style={styles.avatar} />
 
           <View>
@@ -167,6 +173,9 @@ export default function Conversation({ navigation }) {
                     id_conversation={item.id}
                     allApproved={verificationAllApproved()}
                   />
+
+                  <PlayAudio dialog={item.dialog} />
+                  
                 </View>
               </View>
             ) : (
@@ -206,18 +215,6 @@ const styles = StyleSheet.create({
   avatar_section: {
     display: "flex",
     flexDirection: "row",
-  },
-  back_button: {
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 8,
-    marginTop: 5,
   },
   avatar: {
     borderRadius: 50,
@@ -285,8 +282,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   own_audio: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     paddingLeft: 5,
     paddingRight: 5,
     backgroundColor: "#fff",

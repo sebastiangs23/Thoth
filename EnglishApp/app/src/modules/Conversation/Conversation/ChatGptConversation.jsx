@@ -114,7 +114,10 @@ export default function ChatGptConversation() {
               </View>
             </View>
           );
-        })}
+        })};
+
+        {/* AÑADIRLE EL REPRODUCTOR && CREAR COMPONENTE REUTILIZABLE PARA LOS DIALOGS */}
+        {/* LUEGO MANDAR MI AUDIO, PERO ACA TENGO QUE CREAR UN CONTROLADOR QUE USE LA LOGICA DEL AZURE Y CHATGPT */}
     </ScrollView>
   );
 }
