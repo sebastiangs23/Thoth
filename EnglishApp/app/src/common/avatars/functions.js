@@ -31,7 +31,7 @@ export const avatars = [
 
 /*____________________________________________
 |    SAVE THE AVATAR IN THE ASYNC STORAGE   */
-export async function saveAvatarPicked(avatar) {
+export async function saveAvatarPicked(avatar) { //saveTutorPicked
   try {
     await AsyncStorage.setItem("avatar", JSON.stringify(avatar));
 
@@ -42,7 +42,7 @@ export async function saveAvatarPicked(avatar) {
 
 /*__________________________________________
 |   GET THE AVATAR IN THE ASYNC STORAGE   */
-export async function getAvatarPicked(){
+export async function getAvatarPicked(){ //cambiar nombre  a getTutorPicked
     const avatar = await AsyncStorage.getItem('avatar');
 
     return JSON.parse(avatar);

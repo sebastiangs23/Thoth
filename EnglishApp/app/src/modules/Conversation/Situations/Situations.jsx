@@ -43,6 +43,7 @@ export default function Situation({ navigation }) {
   |   FUNCTIONS   */
   function ChatGptConversation() {
     navigation.navigate("ChatGptConversation");
+    //navigation.navigate("Conversation");
   }
 
   function selectSituation(situation) {

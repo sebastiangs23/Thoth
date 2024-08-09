@@ -22,6 +22,63 @@ export const globalStyles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  container_back_button: {
+    alignSelf: "flex-start",
+    margin: 8,
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
+  },
+  container_score_board: {
+    padding: 5,
+    backgroundColor: "#EFEFEF",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
+  },
+  container_mini_score_board: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+  },
+  container_microphone: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    minWidth: 55,
+    margin: 5,
+    padding: 1,
+  },
+  container_button_hear: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  container_button_record: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  container_tutor: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  container_mini_online: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 5,
+  },
 
   /*____________
   |   CARDS   */
@@ -78,6 +135,14 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  text_cursive: {
+    fontFamily: "Roboto-Italic",
+    color: "#514F4F",
+  },
+  text_bold: {
+    fontWeight: "bold",
+  },
+
 
 
 
@@ -88,5 +153,45 @@ export const globalStyles = StyleSheet.create({
     right: 4,
     bottom: 4,
   },
+  hear_button: {
+    height: 40,
+    width: 40,
+    backgroundColor: "#FFFFFF",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 50,
+    marginLeft: 6,
+  },
 
+
+  /*_____________
+  |   IMAGES   */
+  img_avatar: {
+    borderRadius: 50,
+    width: 50,
+    height: 50,
+  },
+
+  /*____________
+  |   OTHER   */
+  green_point: {
+    borderRadius: 50,
+    borderColor: "#000000",
+    borderWidth: 1,
+    width: 10,
+    height: 10,
+    backgroundColor: "#81E362",
+  },
+  own_audio: {
+    display: "flex",
+    flexDirection: "row",
+    paddingLeft: 5,
+    paddingRight: 5,
+    backgroundColor: "#fff",
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 12,
+    borderWidth: 1,
+  }
 });

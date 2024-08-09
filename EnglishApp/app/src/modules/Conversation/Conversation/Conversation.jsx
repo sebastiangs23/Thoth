@@ -1,7 +1,13 @@
 import {
-  ScrollView, View, StyleSheet, Text, Image, TouchableOpacity, Vibration, Alert
+  ScrollView,
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  TouchableOpacity,
+  Vibration,
+  Alert,
 } from "react-native";
-import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteScore } from "../../../store/slices/score/slice";
 import { deleteAudioUri } from "../../../store/slices/audioUri/slice";
@@ -9,13 +15,20 @@ import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
 import { playApprove } from "../../../common/audio/functions";
 import * as Font from "expo-font";
-import { ALERT_TYPE, Dialog as Message, Toast } from "react-native-alert-notification";
+import {
+  ALERT_TYPE,
+  Dialog as Message,
+  Toast,
+} from "react-native-alert-notification";
+import BackButton from "../../../global/components/BackButton";
 
 import Microphone from "./components/Microphone";
 import Dialog from "./components/Dialog";
+import PlayAudio from "./components/PlayAudio";
+import TutorSection from "./components/TutorSection";
 import Score from "./components/Score";
 
-import { getAvatarPicked } from "../../../common/avatars/functions";
+import { globalStyles } from "../../../global/styles/styles";
 
 export default function Conversation({ navigation }) {
   const dispatch = useDispatch();
@@ -23,53 +36,27 @@ export default function Conversation({ navigation }) {
   const dialogs = useSelector((state) => state.dialog.value);
   const audioUri = useSelector((state) => state.audioUri.value);
 
-  const [avatarImg, setAvatarImg] = useState("");
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-
-  useEffect(() => {
-    getAvatarImg();
-    loadFonts();
-  }, []);
-
   /*________________
   |   FUNCTIONS   */
-  async function loadFonts() {
-    await Font.loadAsync({
-      "Roboto-Italic": require("../../../assets/fonts/titles/Roboto-Italic.ttf"),
-    });
-    setFontsLoaded(true);
-  }
-
-  async function getAvatarImg() {
-    const response = await getAvatarPicked();
-
-    setAvatarImg(response);
-  }
-
   async function playAudio() {
     if (audioUri != "") {
       const { sound } = await Audio.Sound.createAsync({ uri: audioUri });
       await sound.playAsync();
-
     } else {
       Toast.show({
         type: ALERT_TYPE.WARNING,
         title: "Wait",
-        textBody: "You have to record an audio firts to be able to listen to it",
-        autoClose: 2000
+        textBody:
+          "You have to record an audio firts to be able to listen to it",
+        autoClose: 2000,
       });
     }
   }
 
-  function SpecificTopic() {
-    navigation.navigate("SpecificTopic");
-    dispatch(deleteScore());
-    dispatch(deleteAudioUri());
-  }
-
   function verificationAllApproved() {
-    let verification = dialogs.filter((dialog) => dialog.approved == true)
-      .length;
+    let verification = dialogs.filter(
+      (dialog) => dialog.approved == true
+    ).length;
 
     if (dialogs.length == verification) {
       Vibration.vibrate(2000);
@@ -83,17 +70,12 @@ export default function Conversation({ navigation }) {
       });
 
       setTimeout(() => {
-        navigation.navigate("SpecificTopic");
+        navigation.navigate("Situation");
         dispatch(deleteScore());
         dispatch(deleteAudioUri());
       }, 3000);
     }
   }
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
   return (
     <ScrollView style={styles.main_container}>
       <View style={styles.container_score_board}>
@@ -114,29 +96,8 @@ export default function Conversation({ navigation }) {
       </View>
 
       <View style={styles.container_conversation}>
-        <View style={styles.avatar_section}>
-          <TouchableOpacity style={styles.back_button}>
-            <Icon
-              name="arrow-back-outline"
-              reverseColor="#000000"
-              type="ionicon"
-              color="white"
-              size={20}
-              reverse
-              onPress={SpecificTopic}
-            />
-          </TouchableOpacity>
-          <Image source={avatarImg.img} style={styles.avatar} />
 
-          <View>
-            <Text style={styles.text_name}> {avatarImg.name} </Text>
-
-            <View style={styles.mini_container_online}>
-              <View style={styles.green_point}></View>
-              <Text style={styles.text_online}>Online</Text>
-            </View>
-          </View>
-        </View>
+        <TutorSection navigation={navigation} />
 
         {dialogs &&
           dialogs.map((item) => {
@@ -167,6 +128,9 @@ export default function Conversation({ navigation }) {
                     id_conversation={item.id}
                     allApproved={verificationAllApproved()}
                   />
+
+                  <PlayAudio dialog={item.dialog} />
+
                 </View>
               </View>
             ) : (
@@ -199,52 +163,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 5,
   },
-
   container_conversation: {
     marginTop: 9,
-  },
-  avatar_section: {
-    display: "flex",
-    flexDirection: "row",
-  },
-  back_button: {
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 8,
-    marginTop: 5,
-  },
-  avatar: {
-    borderRadius: 50,
-    width: 50,
-    height: 50,
-  },
-  mini_container_online: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 5,
-  },
-  green_point: {
-    borderRadius: 50,
-    borderColor: "#000000",
-    borderWidth: 1,
-    width: 10,
-    height: 10,
-    backgroundColor: "#81E362",
-  },
-  text_name: {
-    // fontFamily: 'Roboto-Italic',
-    fontWeight: "bold",
-  },
-  text_online: {
-    fontFamily: "Roboto-Italic",
-    color: "#514F4F",
   },
   container_all_dialog: {
     display: "flex",
@@ -285,8 +205,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   own_audio: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     paddingLeft: 5,
     paddingRight: 5,
     backgroundColor: "#fff",
