@@ -5,18 +5,21 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { getUserSession } from "../../../common/user/functions";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Audio } from "expo-av";
 import Score from "./components/Score";
 import Dialog from "./components/Dialog";
+import PlayAudio from "./components/PlayAudio";
+import TutorSection from "./components/TutorSection";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 import { Icon } from "react-native-elements";
-import { getUserSession } from "../../../common/user/functions";
 import axios from "axios";
+import { globalStyles } from "../../../global/styles/styles";
 
-export default function ChatGptConversation() {
+export default function ChatGptConversation({ navigation }) {
   const [chat, setChat] = useState([]);
 
   const topic = useSelector((state) => state.chosenTopic.value);
@@ -84,9 +87,9 @@ export default function ChatGptConversation() {
 
   return (
     <ScrollView>
-      <View style={styles.container_score_board}>
-        <View style={styles.container_ear_button}>
-          <TouchableOpacity onPress={playAudio} style={styles.own_audio}>
+      <View style={globalStyles.container_score_board}>
+        <View style={globalStyles.container_mini_score_board}>
+          <TouchableOpacity onPress={playAudio} style={globalStyles.own_audio}>
             <Text>Your audio</Text>
             <Icon
               name="ear-outline"
@@ -101,6 +104,8 @@ export default function ChatGptConversation() {
         <Score />
       </View>
 
+      <TutorSection navigation={navigation} />
+
       {chat &&
         chat.map((item, index) => {
           return (
@@ -111,35 +116,16 @@ export default function ChatGptConversation() {
                   person={1}
                   dialog={item.message}
                 />
+              <PlayAudio dialog={item.message} />
               </View>
             </View>
           );
-        })};
-
-        {/* AÑADIRLE EL REPRODUCTOR && CREAR COMPONENTE REUTILIZABLE PARA LOS DIALOGS */}
-        {/* LUEGO MANDAR MI AUDIO, PERO ACA TENGO QUE CREAR UN CONTROLADOR QUE USE LA LOGICA DEL AZURE Y CHATGPT */}
+        })}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container_score_board: {
-    padding: 5,
-    backgroundColor: "#EFEFEF",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    borderRadius: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 8,
-  },
-  container_ear_button: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 5,
-  },
   own_audio: {
     display: "flex",
     flexDirection: "row",

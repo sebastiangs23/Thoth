@@ -35,6 +35,23 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 8,
   },
+  container_score_board: {
+    padding: 5,
+    backgroundColor: "#EFEFEF",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 8,
+  },
+  container_mini_score_board: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+  },
   container_microphone: {
     display: "flex",
     flexDirection: "row",
@@ -165,4 +182,16 @@ export const globalStyles = StyleSheet.create({
     height: 10,
     backgroundColor: "#81E362",
   },
+  own_audio: {
+    display: "flex",
+    flexDirection: "row",
+    paddingLeft: 5,
+    paddingRight: 5,
+    backgroundColor: "#fff",
+    height: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 12,
+    borderWidth: 1,
+  }
 });
