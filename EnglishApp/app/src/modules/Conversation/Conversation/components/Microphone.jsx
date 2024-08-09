@@ -12,6 +12,7 @@ import { Icon } from "react-native-elements";
 import { Audio } from "expo-av";
 import { playFail, playGood } from "../../../../common/audio/functions";
 import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
+import { globalStyles } from "../../../../global/styles/styles";
 
 
 export default function Microphone({ person, dialog, id_conversation, allApproved }) {
@@ -159,9 +160,9 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
   }
 
   return (
-    <View key={id_conversation} style={styles.container}>
+    <View key={id_conversation} style={globalStyles.container_microphone}>
       {person == 2 ? (
-        <View style={styles.button_container}>
+        <View style={globalStyles.container_button_record}>
           <TouchableOpacity
             style={
               recording ? styles.button_recording : styles.button_no_recording
@@ -179,25 +180,12 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       ) : (
         <></>
       )}
-      
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor: "transparent",
-    minWidth: 55,
-    margin: 5,
-    padding: 1,
-  },
-  button_container: {
-    marginTop: 5,
-    marginBottom: 5,
-  },
   button_recording: {
     height: 40,
     width: 40,
