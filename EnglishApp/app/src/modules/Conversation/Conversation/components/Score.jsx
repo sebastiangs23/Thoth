@@ -1,12 +1,48 @@
-import { View, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import { useSelector } from "react-redux";
+import { globalStyles } from "../../../../global/styles/styles.jsx";
+import { Audio } from "expo-av";
+import { ALERT_TYPE, Dialog as Message, Toast } from "react-native-alert-notification";
 import Bar from "../components/Bar.jsx";
 
+import { Icon } from "react-native-elements";
+
 export default function Score() {
+
   const score = useSelector((state) => state.score.value);
+  const audioUri = useSelector((state) => state.audioUri.value);
+
+  /*________________
+  |   FUNCTIONS   */
+  async function playAudio() {
+    if (audioUri != "") {
+      const { sound } = await Audio.Sound.createAsync({ uri: audioUri });
+      await sound.playAsync();
+    } else {
+      Toast.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Wait",
+        textBody:
+          "You have to record an audio firts to be able to listen to it",
+        autoClose: 2000,
+      });
+    }
+  }
 
   return (
-    <View style={styles.container_score}>
+    <View style={globalStyles.container_score_board}>
+      
+      <TouchableOpacity onPress={playAudio} style={globalStyles.own_audio}>
+        <Text>Your audio</Text>
+        <Icon
+          name="ear-outline"
+          reverseColor="#000000"
+          type="ionicon"
+          color="black"
+          size={20}
+        />
+      </TouchableOpacity>
+
       {score.pronunciation_level && (
         <View>
           <View>
@@ -37,17 +73,9 @@ export default function Score() {
               icon_name={"laugh-wink"}
               icon_type={"font-awesome-5"}
             />
-
-
           </View>
         </View>
       )}
     </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container_score: {
-    width: "100%",
-  },
-});
+  )
+};

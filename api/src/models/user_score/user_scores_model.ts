@@ -3,7 +3,20 @@ import { DataTypes } from "sequelize";
 import UserModel from "../users/user_model.js";
 import Dialogs from "../dialogs/dialogs-model.js";
 
-const UserScores = db.define('users_scores', {
+const 
+
+
+
+
+
+
+
+
+
+
+
+
+UserScores = db.define('users_scores', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -17,9 +30,9 @@ const UserScores = db.define('users_scores', {
             key: "id",
         }
     },
-    id_dialog: {
+    id_dialog: { //In case the id_dialog == null, thats mean that its a chatgpt dialog
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
             model: Dialogs,
             key: "id",

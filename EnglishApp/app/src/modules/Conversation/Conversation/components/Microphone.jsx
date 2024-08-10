@@ -15,7 +15,7 @@ import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
 import { globalStyles } from "../../../../global/styles/styles";
 
 
-export default function Microphone({ person, dialog, id_conversation, allApproved }) {
+export default function Microphone({ person, dialog, id_conversation, allApproved, id_plan }) {
   const dispatch = useDispatch();
 
   const [user, setUser] = useState(null);
@@ -110,6 +110,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       formData.append("dialog", dialog);
       formData.append("id_user", user.id);
       formData.append("id_dialog", id_conversation);
+      formData.append("id_plan", id_plan);
       formData.append("voice", {
         uri,
         type: "audio/wav",
@@ -144,7 +145,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       if(average >= 75){
         dispatch(setDialogsApproved());
         playGood()
-        allApproved;
+        //allApproved;
       }else if(average <= 60){
         playFail()
       }
