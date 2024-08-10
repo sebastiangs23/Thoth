@@ -162,6 +162,22 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 50,
     marginLeft: 6,
   },
+  button_recording: {
+    height: 40,
+    width: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
+  },
+  button_no_recording: {
+    height: 40,
+    width: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
+  },
 
 
   /*_____________

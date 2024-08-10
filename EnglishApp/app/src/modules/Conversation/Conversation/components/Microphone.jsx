@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { View, Text,StyleSheet, TouchableOpacity, Vibration } from "react-native";
+import { View, Text, TouchableOpacity, Vibration } from "react-native";
 import { useDispatch } from "react-redux";
 import { setScore } from "../../../../store/slices/score/slice";
 import { setDialogsApproved } from "../../../../store/slices/dialog/slice";
@@ -165,7 +165,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
         <View style={globalStyles.container_button_record}>
           <TouchableOpacity
             style={
-              recording ? styles.button_recording : styles.button_no_recording
+              recording ? globalStyles.button_recording : globalStyles.button_no_recording
             }
             onPress={recording ? stopRecording : startRecording}
           >
@@ -183,23 +183,4 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
 
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  button_recording: {
-    height: 40,
-    width: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 50,
-  },
-  button_no_recording: {
-    height: 40,
-    width: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 50,
-  },
-});
+};
