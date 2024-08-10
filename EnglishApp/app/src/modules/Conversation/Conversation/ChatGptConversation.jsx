@@ -117,6 +117,7 @@ export default function ChatGptConversation({ navigation }) {
                   dialog={item.message}
                 />
               <PlayAudio dialog={item.message} />
+              
               </View>
             </View>
           );
