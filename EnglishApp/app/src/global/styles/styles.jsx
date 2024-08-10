@@ -35,6 +35,12 @@ export const globalStyles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 8,
   },
+  container_conversation: {
+    backgroundColor: "#FFFFFF",
+  },
+  sub_container_dialogs: {
+    marginTop: 9,
+  },
   container_score_board: {
     padding: 5,
     backgroundColor: "#EFEFEF",
@@ -46,8 +52,15 @@ export const globalStyles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2,
     elevation: 8,
+    justifyContent: "center",
+    alignItems: "center",
   },
   container_mini_score_board: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+  },
+  subcontainer_ear_button: {
     alignItems: "center",
     justifyContent: "center",
     padding: 5,
@@ -117,12 +130,12 @@ export const globalStyles = StyleSheet.create({
   |   DIALOGS   */
   dialog_bot: {
     display: "flex",
-    flexDirection: "row",
     justifyContent: "flex-start",
+    flexDirection: "row",
     minHeight: 60,
     minWidth: 200,
     padding: 5,
-    margin:5 ,
+    margin: 5 ,
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
     borderTopRightRadius: 40,
@@ -130,12 +143,18 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#7BAEF8",
   },
   dialog_user: {
+    display: "flex",
+    justifyContent: "flex-end",
+    flexDirection: "row",
     minHeight: 60,
     minWidth: 200,
-    display: "flex",
     padding: 5,
-    flexDirection: "row",
-    justifyContent: "flex-end",
+    margin: 5 ,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    borderTopRightRadius: 40,
+    flexWrap: "wrap",
+    backgroundColor: "#35B8EE",
   },
 
   /*____________
@@ -224,15 +243,15 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#81E362",
   },
   own_audio: {
-    display: "flex",
     flexDirection: "row",
-    paddingLeft: 5,
-    paddingRight: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
     backgroundColor: "#fff",
     height: 35,
-    justifyContent: "center",
-    alignItems: "center",
+    maxWidth: 120,
     borderRadius: 12,
     borderWidth: 1,
+    marginVertical: 5,
   }
 });
