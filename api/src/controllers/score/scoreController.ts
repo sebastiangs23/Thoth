@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
 import db from "../../db/postgresql.js";
+import LanguageLevel from "../../models/language_levels/language_levels_model.js";
+
+/*____________________
+| ----- AZURE ----- */
 import UserScores from "../../models/user_score/user_scores_model.js";
 import * as sdkazure from "microsoft-cognitiveservices-speech-sdk";
 import _ from "lodash";
@@ -87,23 +91,22 @@ export async function audioScore(req: Request, res: Response) {
     const recognizer = new sdkazure.SpeechRecognizer(speechConfig, audioConfig);
     pronunciationAssesstmentConfig.applyTo(recognizer);
 
-
-    // 6) Hago uso de la function para extraer el resultado de la calificación
-    const pronunciation_level:any = [];
-    const words:any = [];
-    const statistics_sentece = {
-      accuracy_score: {},
-      pronunciation_score: {},
-      completeness_score: {},
-      fluency_score: {},
-      prosody_score: {},
-    };
-
     async function onRecognizedResult(result: any) {
       try {
         const resultPronunciation = sdkazure.PronunciationAssessmentResult.fromResult(
           result
         );
+
+        // 6) Hago uso de la function para extraer el resultado de la calificación
+        const pronunciation_level:any = [];
+        const words:any = [];
+        const statistics_sentece = {
+          accuracy_score: {},
+          pronunciation_score: {},
+          completeness_score: {},
+          fluency_score: {},
+          prosody_score: {},
+        };
 
         statistics_sentece.accuracy_score = resultPronunciation.accuracyScore;
         statistics_sentece.pronunciation_score = resultPronunciation.pronunciationScore;
@@ -129,13 +132,27 @@ export async function audioScore(req: Request, res: Response) {
         });
 
         pronunciation_level.push(words);
-
+        
         // 6.1) Guardo el registro del score del usuario
-        const user_score = await UserScores.create({
-         id_user: req.body.id_user,
-         id_dialog: req.body.id_dialog,
-         score:  pronunciation_level
-        });
+        if(req.body.id_plan === 2){
+          
+          await UserScores.create({
+            id_user: req.body.id_user,
+            id_dialog: null,
+            score:  pronunciation_level
+           });
+          
+        }else if(req.body.id_plan === 1){
+
+          await UserScores.create({
+            id_user: req.body.id_user,
+            id_dialog: req.body.id_dialog,
+            score:  pronunciation_level
+           });
+
+        }
+
+        
 
         recognizer.close();
         fs.unlink(tempFilePath, callback);
@@ -204,4 +221,69 @@ export async function getUserScoreAverage(req: Request, res: Response){
   }catch(error){
     console.log(error);
   }
-}
+};
+
+
+/*_________________________
+|-----   CHATGPT ------  */
+const key = String(process.env.KEY);
+import "dotenv/config.js";
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: key,
+});
+
+export async function consumeChatGpt(req: Request, res: Response) {
+  try {
+    const { data } = req.body;
+
+    console.log('lo que me llega', data)
+
+    const englishLevel: any = await LanguageLevel.findOne({
+      where: {
+        id: data.id_language_level
+      },
+      attributes: ['level']
+    });
+
+    if(englishLevel){
+      const stream = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "user",
+            content: `We are in a ${data.situation}. My name is ${data.name} ${data.last_name}. You will take on the role appropriate to the situation and lead the conversation about ${data.topic}. Please simulate a real-life conversation without acknowledging that you are an AI and avoid starting responses with labels like "Interviewer:". For example, if the situation is a daily standup, act as a project manager and ask me relevant questions about the project's progress. Keep the conversation natural, focus on relevant questions, and avoid any meta-commentary about being a bot or AI. The convesation is in this English level ${englishLevel.level}`
+          },
+        ],
+        stream: true,
+      });
+  
+      let chat_gpt_answer = "";
+  
+      for await (const chunk of stream) {
+        const context = chunk.choices[0]?.delta?.content || "";
+        if (context) {
+          chat_gpt_answer += context;
+        }
+      }
+  
+      console.log(chat_gpt_answer);
+      res.json({ message: chat_gpt_answer });
+    }else {
+      console.log('nose encontro ningun nivel con ese id')
+    }
+
+    
+  } catch (error) {
+    console.log(error);
+    if (error instanceof Error) {
+      return {
+        message: error.message,
+      };
+    }
+  }
+};
+
+
+//tengo que crear otro controlador porque no tengo usando la logica de arriba yo no tengo una "sentences" con cual comparar el audio del estudiante

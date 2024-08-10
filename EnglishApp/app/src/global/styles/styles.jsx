@@ -113,6 +113,31 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 20,
   },
 
+  /*______________
+  |   DIALOGS   */
+  dialog_bot: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    minHeight: 60,
+    minWidth: 200,
+    padding: 5,
+    margin:5 ,
+    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 40,
+    borderTopRightRadius: 40,
+    flexWrap: "wrap",
+    backgroundColor: "#7BAEF8",
+  },
+  dialog_user: {
+    minHeight: 60,
+    minWidth: 200,
+    display: "flex",
+    padding: 5,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+
   /*____________
   |   TEXTS   */
   text_small: {

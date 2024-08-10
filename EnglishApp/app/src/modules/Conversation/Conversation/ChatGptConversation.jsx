@@ -12,6 +12,7 @@ import { Audio } from "expo-av";
 import Score from "./components/Score";
 import Dialog from "./components/Dialog";
 import PlayAudio from "./components/PlayAudio";
+import Microphone from "./components/Microphone";
 import TutorSection from "./components/TutorSection";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
@@ -109,61 +110,17 @@ export default function ChatGptConversation({ navigation }) {
       {chat &&
         chat.map((item, index) => {
           return (
-            <View key={index} style={styles.individual_conversation_bot}>
-              <View style={styles.container_all_dialog_bot}>
-                <Dialog
-                  id_conversation={index}
-                  person={1}
-                  dialog={item.message}
-                />
+            <View key={index} style={globalStyles.dialog_bot}>
+              <Dialog
+                id_conversation={index}
+                person={1}
+                dialog={item.message}
+              />
               <PlayAudio dialog={item.message} />
-              
-              </View>
+              <Microphone person={2} dialog={item.message} />
             </View>
           );
         })}
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  own_audio: {
-    display: "flex",
-    flexDirection: "row",
-    paddingLeft: 5,
-    paddingRight: 5,
-    backgroundColor: "#fff",
-    height: 35,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 12,
-    borderWidth: 1,
-  },
-  individual_conversation: {
-    minHeight: 60,
-    minWidth: 200,
-    display: "flex",
-    padding: 5,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  individual_conversation_bot: {
-    minHeight: 60,
-    minWidth: 200,
-    display: "flex",
-    padding: 5,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-  },
-  container_all_dialog_bot: {
-    display: "flex",
-    flexDirection: "row",
-    backgroundColor: "#7BAEF8",
-    padding: 5,
-    margin: 5,
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40,
-    borderTopRightRadius: 40,
-    flexWrap: "wrap",
-  },
-});
