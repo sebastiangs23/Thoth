@@ -58,7 +58,7 @@ export default function ChatGptConversation({ navigation }) {
 
       console.log("before send", data);
 
-      await talkWithChatgpt(data);
+      await talkWithChatgpt(data, null);
     } catch (error) {
       Message.show({
         type: ALERT_TYPE.DANGER,
@@ -87,7 +87,7 @@ export default function ChatGptConversation({ navigation }) {
                 dialog={item.message}
               />
               <PlayAudio dialog={item.message} />
-              <Microphone person={2} dialog={item.message} />
+              <Microphone person={2} dialog={item.message_chatgpt} />
             </View>
           );
         })}

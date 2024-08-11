@@ -89,7 +89,9 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
         allowsRecordingIOS: false,
       });
 
-      audioScore(uri, dialog);
+      id_plan === 1 ? audioScoreNormal(uri, dialog) :  audioScorePro(uri);
+
+      
     } catch (error) {
       Message.show({
         type: ALERT_TYPE.DANGER,
@@ -103,7 +105,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
-  async function audioScore(uri, dialog) {
+  async function audioScoreNormal(uri, dialog) {
     try {
       const formData = new FormData();
 
@@ -151,6 +153,30 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       }
 
     } catch (error) {
+      Message.show({
+        type: ALERT_TYPE.WARNING,
+        title: "Something goes wrong :(",
+        textBody: "Please get closer to the microphone or speak louder!",
+        button: "close",
+      });
+    }
+  }
+
+  async function audioScorePro(uri){
+    try{
+      const formData = new FormData();
+
+      formData.append("id_user", user.id);
+      formData.append("id_plan", id_plan);
+      formData.append("voice", {
+        uri,
+        type: "audio/wav",
+        name: "audio.wav",
+      });
+
+      const response = await axios.post(`${api}/`);
+
+    }catch(error){
       Message.show({
         type: ALERT_TYPE.WARNING,
         title: "Something goes wrong :(",
