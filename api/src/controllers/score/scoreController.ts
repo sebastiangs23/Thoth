@@ -268,8 +268,7 @@ export async function consumeChatGpt(req: Request, res: Response) {
         }
       }
   
-      console.log(chat_gpt_answer);
-      res.json({ message: chat_gpt_answer });
+      res.json({ message_chatgpt: chat_gpt_answer });
     }else {
       console.log('nose encontro ningun nivel con ese id')
     }

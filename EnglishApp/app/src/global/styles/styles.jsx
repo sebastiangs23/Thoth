@@ -55,11 +55,6 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  container_mini_score_board: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 5,
-  },
   subcontainer_ear_button: {
     alignItems: "center",
     justifyContent: "center",
@@ -91,6 +86,9 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginLeft: 5,
+  },
+  container_dialog_sentence: {
+    marginTop: 15
   },
 
   /*____________
@@ -185,6 +183,9 @@ export const globalStyles = StyleSheet.create({
   },
   text_bold: {
     fontWeight: "bold",
+  },
+  text_dialog_sentence: {
+    color: 'white'
   },
 
 
