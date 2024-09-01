@@ -57,8 +57,8 @@ export async function consumeChatGpt(req: Request, res: Response) {
       }
     }
 
-    console.log({ message_chatgpt: chat_gpt_answer });
-    res.json({ message: chat_gpt_answer });
+    console.log({ system: chat_gpt_answer });
+    res.json({ system: chat_gpt_answer });
   } catch (error) {
     console.log(error);
     if (error instanceof Error) {

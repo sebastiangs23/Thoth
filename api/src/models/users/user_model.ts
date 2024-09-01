@@ -3,6 +3,7 @@ import db from "../../db/postgresql.js";
 import UserTypeModel from "../user_type/user_type_model.js";
 import CountriesModel from "../countries/countries_model.js";
 
+//In a future I need to implement classes for the models
 const UserModel = db.define('users', {
     id: {
         type: DataTypes.INTEGER,
