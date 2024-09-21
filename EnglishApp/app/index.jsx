@@ -15,8 +15,8 @@ import LanguageLevel from "./src/modules/LanguageLevel/LanguageLevel.jsx";
 import Areas from "./src/modules/Conversation/Areas/Areas.jsx";
 import SpecificTopic from "./src/modules/Conversation/SpecificTopic/SpecificTopic.jsx";
 import Situation from "./src/modules/Conversation/Situations/Situations.jsx";
-import ChatGptConversation from "./src/modules/Conversation/Conversation/ChatGptConversation.jsx";
-import Conversation from "./src/modules/Conversation/Conversation/Conversation.jsx";
+import ChatGptConversation from "./src/modules/Conversation/Conversation/ProPlan/ChatGptConversation.jsx";
+import Conversation from "./src/modules/Conversation/Conversation/NormalPlan/Conversation.jsx";
 import UserDashboard from "./src/modules/UserDashboard/UserDashboard.jsx";
 import BottomTab from "./src/modules/BottomTab/BottomTab.jsx";
 

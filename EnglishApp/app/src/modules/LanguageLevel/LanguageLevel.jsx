@@ -13,6 +13,7 @@ import BottomTab from "../BottomTab/BottomTab";
 import BackButton from "../../global/components/BackButton";
 import Titles from "../../global/components/Titles";
 import { globalStyles } from "../../global/styles/styles";
+import { LinearGradient } from "expo-linear-gradient";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
@@ -105,16 +106,23 @@ export default function LanguageLevel({ navigation }) {
   return (
     <View style={globalStyles.container}>
       <ScrollView style={globalStyles.subcontainer}>
+        <BackButton module={"Plans"} navigation={navigation} />
 
-        <BackButton module={'Plans'} navigation={navigation} />
-
-        <Titles title={'Select the level that represents your current ability'} />
+        <Titles
+          title={"Select the level that represents your current ability"}
+        />
 
         <View style={globalStyles.container_card}>
           {languageLevels &&
             languageLevels.map((item) => {
               return (
                 <View key={item.id} style={globalStyles.card}>
+                  <LinearGradient
+                    colors={["#6a11cb", "#2575fc"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={globalStyles.gradientBackground}
+                  />
                   <TouchableOpacity
                     style={globalStyles.level_button}
                     onPress={() => updateUserLanguageLevel(item.id)}
@@ -146,4 +154,4 @@ export default function LanguageLevel({ navigation }) {
       </View>
     </View>
   );
-};
+}

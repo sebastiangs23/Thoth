@@ -123,6 +123,11 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
   },
+  gradientBackground: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 20,
+  },
+
 
   /*______________
   |   DIALOGS   */
