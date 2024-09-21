@@ -1,7 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-/*_______________________________________________
-|    SAVE THE USER DATA IN THE ASYNC STORAGE   */
 export async function saveUserSession(userSession){
   try {
     await AsyncStorage.setItem('userSession', JSON.stringify(userSession));
@@ -11,8 +9,6 @@ export async function saveUserSession(userSession){
   }
 };
 
-/*__________________________________________________
-|   GET THE USER SESSION WITH THE ASYNC STORAGE   */
 export async function getUserSession(){
     try{
         const userSession = await AsyncStorage.getItem('userSession');
@@ -24,8 +20,6 @@ export async function getUserSession(){
     }
 };
 
-/*_____________________________________________________
-|   REMOVE THE USER SESSION WITH THE ASYNC STORAGE   */
 export async function removeUserSession(){
     try{
         await AsyncStorage.removeItem('userSession');

@@ -2,14 +2,15 @@ import {
   View,
   ScrollView,
   Text,
-  StyleSheet,
   TouchableOpacity,
 } from "react-native";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import BottomTab from "../BottomTab/BottomTab";
 import Titles from "../../global/components/Titles";
 import { globalStyles } from "../../global/styles/styles";
+import { LinearGradient } from "expo-linear-gradient";
+import { savePlanSelected } from "../../common/plan/functions";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 import { Icon } from "react-native-elements";
@@ -28,7 +29,6 @@ export default function Plans({ navigation }) {
       const response = await axios.get(`${api}/plans`);
 
       setPlans(response.data);
-      console.log("los planes locos: ", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -36,11 +36,12 @@ export default function Plans({ navigation }) {
 
   /*________________
     |   FUNCTIONS   */
-  function redirect(type){
-    //Aca redireccionara dependiendo del plan que tenga
-    console.log('type--->', type);
+  function redirect(type) {
+    savePlanSelected(type);
+    
+    console.log("type--->", type);
     navigation.navigate("LanguageLevel");
-  };
+  }
 
   return (
     <View style={globalStyles.container}>
@@ -51,14 +52,25 @@ export default function Plans({ navigation }) {
           {plans &&
             plans.map((item) => {
               return (
-                <TouchableOpacity style={globalStyles.card} onPress={() => redirect(item.id)} >
+                <TouchableOpacity
+                  style={globalStyles.card}
+                  onPress={() => redirect(item.id)}
+                >
+                  <LinearGradient
+                    colors={["#6a11cb", "#2575fc"]}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={globalStyles.gradientBackground}
+                  />
                   <Icon
                     name={item.icon_name}
                     type={item.icon_type}
                     color="white"
                     size={30}
                   />
-                  <Text style={globalStyles.text_medium}>{item.name} ${item.price_usd} </Text>
+                  <Text style={globalStyles.text_medium}>
+                    {item.name} ${item.price_usd}
+                  </Text>
                 </TouchableOpacity>
               );
             })}
@@ -70,4 +82,4 @@ export default function Plans({ navigation }) {
       </View>
     </View>
   );
-};
+}

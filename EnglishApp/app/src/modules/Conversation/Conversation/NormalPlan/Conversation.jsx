@@ -1,16 +1,16 @@
 import { ScrollView, View, Vibration } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteScore } from "../../../store/slices/score/slice";
-import { deleteAudioUri } from "../../../store/slices/audioUri/slice";
+import { deleteScore } from "../../../../store/slices/score/slice";
+import { deleteAudioUri } from "../../../../store/slices/audioUri/slice";
 import { ALERT_TYPE, Dialog as Message, Toast } from "react-native-alert-notification";
 
-import Microphone from "./components/Microphone";
-import Dialog from "./components/Dialog";
-import PlayAudio from "./components/PlayAudio";
-import TutorSection from "./components/TutorSection";
-import Score from "./components/Score";
+import Microphone from "../components/Microphone";
+import Dialog from "../components/Dialog";
+import PlayAudio from "../components/PlayAudio";
+import TutorSection from "../components/TutorSection";
+import Score from "../components/Score";
 
-import { globalStyles } from "../../../global/styles/styles";
+import { globalStyles } from "../../../../global/styles/styles";
 
 export default function Conversation({ navigation }) {
   const dispatch = useDispatch();
