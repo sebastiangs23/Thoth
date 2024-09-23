@@ -38,8 +38,7 @@ export default function Plans({ navigation }) {
     |   FUNCTIONS   */
   function redirect(type) {
     savePlanSelected(type);
-    
-    console.log("type--->", type);
+
     navigation.navigate("LanguageLevel");
   }
 

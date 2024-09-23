@@ -8,7 +8,7 @@ export async function savePlanSelected(type) {
   }
 }
 
-export async function getSavePlanSaved() {
+export async function getPlanSaved() {
   try {
     const planSaved = await AsyncStorage.getItem("userPlanSelected");
 

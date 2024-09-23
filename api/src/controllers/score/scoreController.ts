@@ -1,3 +1,4 @@
+import "dotenv/config.js";
 import { Request, Response } from "express";
 import db from "../../db/postgresql.js";
 import LanguageLevel from "../../models/language_levels/language_levels_model.js";
@@ -39,7 +40,7 @@ function convertAudio(inputPath: any, outputPath: any) {
 
 /*_______________
 |   CALLBACK   */
-function callback(error: any){
+function callback(error: any) {
   console.log(error);
 }
 
@@ -47,11 +48,10 @@ function callback(error: any){
 |   SCORE AUDIO   */
 export async function audioScore(req: Request, res: Response) {
   try {
-    
     if (!req.file || !req.file.buffer) {
       return res.status(400).send("No file uploaded or file is corrupted.");
     }
-    console.log('__dirname ', __dirname);
+    console.log("__dirname ", __dirname);
 
     // 1) Tomo el audio corrupto
     const tempFilePath = path.join(__dirname, "input_audio.wav");
@@ -77,15 +77,18 @@ export async function audioScore(req: Request, res: Response) {
       throw new Error("El buffer de audio está vacío.");
     }
 
-    const audioConfig = sdkazure.AudioConfig.fromWavFileInput(fileBuffer); 
+    const audioConfig = sdkazure.AudioConfig.fromWavFileInput(fileBuffer);
+
+    console.log("quiero ver que dice", audioConfig);
 
     // 5) Califico la pronunciación
-    const pronunciationAssesstmentConfig = new sdkazure.PronunciationAssessmentConfig(
-      textToMatch,
-      sdkazure.PronunciationAssessmentGradingSystem.HundredMark,
-      sdkazure.PronunciationAssessmentGranularity.FullText,
-      true
-    );
+    const pronunciationAssesstmentConfig =
+      new sdkazure.PronunciationAssessmentConfig(
+        textToMatch,
+        sdkazure.PronunciationAssessmentGradingSystem.HundredMark,
+        sdkazure.PronunciationAssessmentGranularity.FullText,
+        true
+      );
     pronunciationAssesstmentConfig.enableProsodyAssessment = true;
 
     const recognizer = new sdkazure.SpeechRecognizer(speechConfig, audioConfig);
@@ -93,13 +96,12 @@ export async function audioScore(req: Request, res: Response) {
 
     async function onRecognizedResult(result: any) {
       try {
-        const resultPronunciation = sdkazure.PronunciationAssessmentResult.fromResult(
-          result
-        );
+        const resultPronunciation =
+          sdkazure.PronunciationAssessmentResult.fromResult(result);
 
         // 6) Hago uso de la function para extraer el resultado de la calificación
-        const pronunciation_level:any = [];
-        const words:any = [];
+        const pronunciation_level: any = [];
+        const words: any = [];
         const statistics_sentece = {
           accuracy_score: {},
           pronunciation_score: {},
@@ -109,8 +111,10 @@ export async function audioScore(req: Request, res: Response) {
         };
 
         statistics_sentece.accuracy_score = resultPronunciation.accuracyScore;
-        statistics_sentece.pronunciation_score = resultPronunciation.pronunciationScore;
-        statistics_sentece.completeness_score = resultPronunciation.completenessScore;
+        statistics_sentece.pronunciation_score =
+          resultPronunciation.pronunciationScore;
+        statistics_sentece.completeness_score =
+          resultPronunciation.completenessScore;
         statistics_sentece.fluency_score = resultPronunciation.fluencyScore;
         statistics_sentece.prosody_score = resultPronunciation.prosodyScore;
 
@@ -124,35 +128,33 @@ export async function audioScore(req: Request, res: Response) {
           const statistics_word = {
             index: idx + 1,
             word: word.Word,
-            pronunciation: word.PronunciationAssessment ? word.PronunciationAssessment.AccuracyScore : "",
-            pronunciationAssessment: word.PronunciationAssessment ? word.PronunciationAssessment.ErrorType : "",
+            pronunciation: word.PronunciationAssessment
+              ? word.PronunciationAssessment.AccuracyScore
+              : "",
+            pronunciationAssessment: word.PronunciationAssessment
+              ? word.PronunciationAssessment.ErrorType
+              : "",
           };
 
           words.push(statistics_word); //Esto no me trae toda la inforamcion completa me trae un string vacio
         });
 
         pronunciation_level.push(words);
-        
+
         // 6.1) Guardo el registro del score del usuario
-        if(req.body.id_plan === 2){
-          
+        if (req.body.id_plan === 2) {
           await UserScores.create({
             id_user: req.body.id_user,
             id_dialog: null,
-            score:  pronunciation_level
-           });
-          
-        }else if(req.body.id_plan === 1){
-
+            score: pronunciation_level,
+          });
+        } else if (req.body.id_plan === 1) {
           await UserScores.create({
             id_user: req.body.id_user,
             id_dialog: req.body.id_dialog,
-            score:  pronunciation_level
-           });
-
+            score: pronunciation_level,
+          });
         }
-
-        
 
         recognizer.close();
         fs.unlink(tempFilePath, callback);
@@ -161,7 +163,6 @@ export async function audioScore(req: Request, res: Response) {
         res.json({
           pronunciation_level,
         });
-
       } catch (e) {
         fs.unlink(tempFilePath, callback);
         fs.unlink(outputFilePath, callback);
@@ -179,7 +180,6 @@ export async function audioScore(req: Request, res: Response) {
         res.status(500).send("Error processing audio. " + err);
       }
     );
-
   } catch (error) {
     console.log(error);
     res.json({ error });
@@ -188,11 +188,12 @@ export async function audioScore(req: Request, res: Response) {
 
 /*_______________________
 |   GET AVERAGE USER   */
-export async function getUserScoreAverage(req: Request, res: Response){
-  try{
+export async function getUserScoreAverage(req: Request, res: Response) {
+  try {
     const { id_user } = req.params;
 
-    const userData = await db.query(`
+    const userData = await db.query(
+      `
       SELECT
       US.ID_USER,
       D.ID_LANGUAGE_LEVEL,
@@ -208,21 +209,21 @@ export async function getUserScoreAverage(req: Request, res: Response){
       JOIN LANGUAGE_LEVELS LL ON LL.ID = D.ID_LANGUAGE_LEVEL
       JOIN SPECIFIC_TOPICS ST ON ST.ID = D.ID_SPECIFIC_TOPIC
       where US.ID_USER = :id_user
-      GROUP BY US.ID_USER, D.ID_LANGUAGE_LEVEL, ST.ID, ST.DESCRIPTION`, {
-      replacements: {
-        id_user
+      GROUP BY US.ID_USER, D.ID_LANGUAGE_LEVEL, ST.ID, ST.DESCRIPTION`,
+      {
+        replacements: {
+          id_user,
+        },
       }
-    });
+    );
 
-    console.log('let me see ', userData[0]);
+    console.log("let me see ", userData[0]);
 
     res.json(userData[0]);
-
-  }catch(error){
+  } catch (error) {
     console.log(error);
   }
-};
-
+}
 
 /*_________________________
 |-----   CHATGPT ------  */
@@ -236,44 +237,111 @@ const openai = new OpenAI({
 
 export async function consumeChatGpt(req: Request, res: Response) {
   try {
-    const { data } = req.body;
+    const { data, chat, conversationHistory } = req.body;
 
-    console.log('lo que me llega', data)
+    // const data = JSON.parse(req.body.data);
+    // const chat = JSON.parse(req.body.chat);
 
-    const englishLevel: any = await LanguageLevel.findOne({
-      where: {
-        id: data.id_language_level
-      },
-      attributes: ['level']
-    });
+    console.log("data", data);
+    console.log("chat", chat);
+    console.log("llega aca");
 
-    if(englishLevel){
-      const stream = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
+    let messages: Array<{ role: "system" | "user"; content: string }> = [];
+
+    if (!chat) {      //La primera vez que se crea el chat
+
+      const englishLevel: any = await LanguageLevel.findOne({
+        where: {
+          id: data.id_language_level,
+        },
+        attributes: ["level"],
+      });
+
+      if (englishLevel) {
+        messages = [
           {
             role: "user",
-            content: `We are in a ${data.situation}. My name is ${data.name} ${data.last_name}. You will take on the role appropriate to the situation and lead the conversation about ${data.topic}. Please simulate a real-life conversation without acknowledging that you are an AI and avoid starting responses with labels like "Interviewer:". For example, if the situation is a daily standup, act as a project manager and ask me relevant questions about the project's progress. Keep the conversation natural, focus on relevant questions, and avoid any meta-commentary about being a bot or AI. The convesation is in this English level ${englishLevel.level}`
+            content: `We are in a ${data.situation}. My name is ${data.name} ${data.last_name}. You will take on the role appropriate to the situation and lead the conversation about ${data.topic}. Please simulate a real-life conversation without acknowledging that you are an AI and avoid starting responses with labels like "Interviewer:". For example, if the situation is a daily standup, act as a project manager and ask me relevant questions about the project's progress. Keep the conversation natural, focus on relevant questions, and avoid any meta-commentary about being a bot or AI. The convesation is in this English level ${englishLevel.level}`,
           },
-        ],
-        stream: true,
-      });
-  
-      let chat_gpt_answer = "";
-  
-      for await (const chunk of stream) {
-        const context = chunk.choices[0]?.delta?.content || "";
-        if (context) {
-          chat_gpt_answer += context;
-        }
+        ];
       }
-  
-      res.json({ message_chatgpt: chat_gpt_answer });
-    }else {
-      console.log('nose encontro ningun nivel con ese id')
+    } else { //Cuando el usuario ya empieza a mandar audios
+
+      if (!req.file || !req.file.buffer) {
+        return res.status(400).send("No file uploaded or file is corrupted.");
+      }
+      console.log("__dirname ", __dirname);
+
+      // 1) Tomo el audio corrupto
+      const tempFilePath = path.join(__dirname, "input_audio.wav");
+      fs.writeFileSync(tempFilePath, req.file.buffer);
+
+      // 2) Lo reparo para que sea aceptable por el azure
+      const outputFilePath = path.join(__dirname, "output_audio.wav");
+      await convertAudio(tempFilePath, outputFilePath);
+
+      // 3) Realizo las configuraciones (credenciales, lengua y la frase a comparar)
+      const speechConfig = sdkazure.SpeechConfig.fromSubscription(
+        "b26e3d8292384860871e4f1eb684a283",
+        "eastus"
+      );
+
+      speechConfig.speechRecognitionLanguage = "en-US";
+
+      // 4) Leo el audio, hago que el azure lo reconozca
+      const fileBuffer = fs.readFileSync(outputFilePath);
+
+      if (fileBuffer.length === 0) {
+        throw new Error("El buffer de audio está vacío.");
+      }
+
+      const audioConfig = sdkazure.AudioConfig.fromWavFileInput(fileBuffer);
+
+      // Crear el reconocedor de habla
+      const recognizer = new sdkazure.SpeechRecognizer(
+        speechConfig,
+        audioConfig
+      );
+
+      // 5) Transcribir el audio
+      recognizer.recognizeOnceAsync((result) => {
+        if (result.reason === sdkazure.ResultReason.RecognizedSpeech) {
+          console.log(`Texto transcrito: ${result.text}`);
+          // res.send({ text: result.text });
+        } else {
+          console.error(`Error al reconocer el audio: ${result.errorDetails}`);
+          // res.status(500).send("Error al transcribir el audio.");
+        }
+      });
+
+      messages = [
+        ...chat,
+        {
+          role: "user",
+          content: "mensaje de usuario que tengo que sacar de azure xd",
+        },
+      ];
     }
 
-    
+    console.log("se salta aqui ", messages);
+
+    const stream = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: messages,
+      stream: true,
+    });
+
+    let chat_gpt_answer = "";
+
+    for await (const chunk of stream) {
+      const context = chunk.choices[0]?.delta?.content || "";
+      if (context) {
+        chat_gpt_answer += context;
+      }
+    }
+
+    console.log({ system: chat_gpt_answer });
+    res.json({ system: chat_gpt_answer });
   } catch (error) {
     console.log(error);
     if (error instanceof Error) {
@@ -282,7 +350,4 @@ export async function consumeChatGpt(req: Request, res: Response) {
       };
     }
   }
-};
-
-
-//tengo que crear otro controlador porque no tengo usando la logica de arriba yo no tengo una "sentences" con cual comparar el audio del estudiante
+}

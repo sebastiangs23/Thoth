@@ -14,8 +14,12 @@ import { playFail, playGood } from "../../../../common/audio/functions";
 import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
 import { globalStyles } from "../../../../global/styles/styles";
 
-
-export default function Microphone({ person, dialog, id_conversation, allApproved, id_plan }) {
+export default function Microphone({
+  person,
+  dialog,
+  id_conversation,
+  allApproved,
+}) {
   const dispatch = useDispatch();
 
   const [user, setUser] = useState(null);
@@ -23,7 +27,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
 
   const [permissionResponse, requestPermission] = Audio.usePermissions();
 
-  useEffect(() => {
+  useEffect(async () => {
     getUser();
   }, []);
 
@@ -33,7 +37,6 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
     try {
       const response = await getUserSession();
       setUser(response);
-
     } catch (error) {
       Message.show({
         type: ALERT_TYPE.DANGER,
@@ -56,7 +59,7 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       });
 
       console.log("Starting recording..");
-      Vibration.vibrate(100)
+      Vibration.vibrate(100);
 
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
@@ -89,14 +92,13 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
         allowsRecordingIOS: false,
       });
 
-      id_plan === 1 ? audioScoreNormal(uri, dialog) :  audioScorePro(uri);
-
-      
+      audioScoreNormal(uri, dialog)
     } catch (error) {
       Message.show({
         type: ALERT_TYPE.DANGER,
         title: ":(",
-        textBody: "Something unexpected just happened trying to stopRecording in the Microphone.jsx",
+        textBody:
+          "Something unexpected just happened trying to stopRecording in the Microphone.jsx",
         button: "Ok",
         autoClose: 2000,
       });
@@ -112,71 +114,44 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       formData.append("dialog", dialog);
       formData.append("id_user", user.id);
       formData.append("id_dialog", id_conversation);
-      formData.append("id_plan", id_plan);
       formData.append("voice", {
         uri,
         type: "audio/wav",
         name: "audio.wav",
       });
 
-      const response = await axios.post(
-        `${api}/score/audio`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      console.log("pasa por aqui ", formData);
+
+      const response = await axios.post(`${api}/score/audio`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       dispatch(setScore(response.data));
 
       //Condition to know if the the approved the dialog or not
       let average = 0;
 
-      if(response.data.pronunciation_level){
+      if (response.data.pronunciation_level) {
         average += response.data.pronunciation_level[0].accuracy_score;
         average += response.data.pronunciation_level[0].completeness_score;
         average += response.data.pronunciation_level[0].fluency_score;
         average += response.data.pronunciation_level[0].pronunciation_score;
         average += response.data.pronunciation_level[0].prosody_score;
 
-        average = average/5;
+        average = average / 5;
       }
 
-      if(average >= 75){
+      if (average >= 75) {
         dispatch(setDialogsApproved());
-        playGood()
+        playGood();
         //allApproved;
-      }else if(average <= 60){
-        playFail()
+      } else if (average <= 60) {
+        playFail();
       }
-
     } catch (error) {
-      Message.show({
-        type: ALERT_TYPE.WARNING,
-        title: "Something goes wrong :(",
-        textBody: "Please get closer to the microphone or speak louder!",
-        button: "close",
-      });
-    }
-  }
-
-  async function audioScorePro(uri){
-    try{
-      const formData = new FormData();
-
-      formData.append("id_user", user.id);
-      formData.append("id_plan", id_plan);
-      formData.append("voice", {
-        uri,
-        type: "audio/wav",
-        name: "audio.wav",
-      });
-
-      const response = await axios.post(`${api}/`);
-
-    }catch(error){
+      console.log(error);
       Message.show({
         type: ALERT_TYPE.WARNING,
         title: "Something goes wrong :(",
@@ -192,7 +167,9 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
         <View style={globalStyles.container_button_record}>
           <TouchableOpacity
             style={
-              recording ? globalStyles.button_recording : globalStyles.button_no_recording
+              recording
+                ? globalStyles.button_recording
+                : globalStyles.button_no_recording
             }
             onPress={recording ? stopRecording : startRecording}
           >
@@ -207,7 +184,6 @@ export default function Microphone({ person, dialog, id_conversation, allApprove
       ) : (
         <></>
       )}
-
     </View>
   );
-};
+}

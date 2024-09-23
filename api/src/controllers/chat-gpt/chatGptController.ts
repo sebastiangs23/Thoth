@@ -13,7 +13,7 @@ export async function consumeChatGpt(req: Request, res: Response) {
   try {
     const { data, conversationHistory } = req.body;
 
-    // console.log('lo que me llega', data, conversationHistory)
+    console.log('lo que me llega', data, conversationHistory)
 
     let messages : Array<{role: "system" | "user", content:string}> = [];
 
