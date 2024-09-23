@@ -11,7 +11,6 @@ import { useSelector } from "react-redux";
 import Score from "../components/Score";
 import Dialog from "../components/Dialog";
 import PlayAudio from "../components/PlayAudio";
-import Microphone from "../components/Microphone";
 import TutorSection from "../components/TutorSection";
 import MicrophonePro from "../components/MicrophonePro";
 
@@ -22,6 +21,7 @@ import { globalStyles } from "../../../../global/styles/styles";
 
 export default function ChatGptConversation({ navigation }) {
   const [chat, setChat] = useState([]);
+  const [data, setData] = useState({});
 
   const topic = useSelector((state) => state.chosenTopic.value);
   const situation = useSelector((state) => state.situation.value);
@@ -32,24 +32,43 @@ export default function ChatGptConversation({ navigation }) {
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
-  async function talkWithChatgpt(data, conversationHistory) {
+  async function talkWithChatgpt(data, chat, uri) {
     try {
-      const response = await axios.post(`${api}/chat-gpt/answer`, {
-        data,
-        conversationHistory,
-      });
+      let response = [];
 
-      let fake_data = [
-        {
-          system:
-            "Hello XD, Sebastian! Nice to meet you. I’m excited to talk about your experience with React today. Can you tell me what you like most about using React?",
-        },
-        {
-          user: "Thats right, I'm senior developer",
-        },
-      ];
-      // setChat([response.data]);
-      setChat(fake_data);
+      if (chat && uri) {
+        const formData = new FormData();
+
+        formData.append("voice", {
+          uri,
+          type: "audio/wav",
+          name: "audio.wav",
+        });
+        formData.append("data", JSON.stringify(data));
+        formData.append("chat", JSON.stringify(chat));
+
+        response = await axios.post(
+          `${api}/score/chat-gpt/audio`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            params:{
+              data,
+              chat,
+            }
+          },
+        );
+      } else {
+        response = await axios.post(`${api}/score/chat-gpt/audio`, {
+          data,
+          chat,
+        });
+      }
+      console.log("ABC", [response.data, { user: "" }]);
+
+      setChat([response.data, { role: "user", content: "" }]);
     } catch (error) {
       console.log(error);
     }
@@ -70,6 +89,8 @@ export default function ChatGptConversation({ navigation }) {
         situation,
       };
 
+      setData(data);
+
       console.log("before send", data);
 
       await talkWithChatgpt(data, null);
@@ -82,6 +103,12 @@ export default function ChatGptConversation({ navigation }) {
         autoClose: 2000,
       });
     }
+  }
+
+  async function getUri(uri) {
+    console.log("lauri??", uri);
+
+    await talkWithChatgpt(data, chat, uri);
   }
 
   return (
@@ -108,18 +135,13 @@ export default function ChatGptConversation({ navigation }) {
                   dialog={item.system ? item.system : item.user}
                 />
                 <PlayAudio dialog={item.system ? item.system : item.user} />
-                <Microphone
-                  person={2}
-                  dialog={item.system ? item.system : item.user}
-                />
               </View>
             );
           })}
       </ScrollView>
 
       <View style={globalStyles.container_bottom_tab}>
-        <Text>HERE IT SHOIDA BE THE OUTSIDE AUDIPO</Text>
-        <MicrophonePro />
+        <MicrophonePro data={data} getUri={getUri} />
       </View>
     </View>
   );

@@ -11,6 +11,7 @@ import BackButton from "../../../global/components/BackButton";
 import Titles from "../../../global/components/Titles";
 import BottomTab from "../../BottomTab/BottomTab";
 import { globalStyles } from "../../../global/styles/styles";
+import { getPlanSaved } from "../../../common/plan/functions";
 
 import { useDispatch } from "react-redux";
 import { setSituation } from "../../../store/slices/situation/slice";
@@ -43,12 +44,21 @@ export default function Situation({ navigation }) {
   |   FUNCTIONS   */
   function ChatGptConversation() {
     navigation.navigate("ChatGptConversation");
-    //navigation.navigate("Conversation");
   }
 
-  function selectSituation(situation) {
+  function NormalConversation(){
+    navigation.navigate("Conversation");
+  }
+
+  async function selectSituation(situation) {
     dispatch(setSituation(situation.description));
-    ChatGptConversation();
+    const plan = await getPlanSaved();
+
+    if(plan === 1){
+      NormalConversation();
+    }else if (plan === 2){
+      ChatGptConversation();
+    }
   }
 
   return (
