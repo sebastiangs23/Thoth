@@ -237,19 +237,17 @@ const openai = new OpenAI({
 
 export async function consumeChatGpt(req: Request, res: Response) {
   try {
-    const { data, chat, conversationHistory } = req.body;
-
-    // const data = JSON.parse(req.body.data);
-    // const chat = JSON.parse(req.body.chat);
+    const { data, chat } = req.body;
 
     console.log("data", data);
     console.log("chat", chat);
-    console.log("llega aca");
+
+    let chatJSON = JSON.parse(chat);
 
     let messages: Array<{ role: "system" | "user"; content: string }> = [];
 
-    if (!chat) {      //La primera vez que se crea el chat
-
+    if (!chat) { //La primera vez que se crea el chat
+      
       const englishLevel: any = await LanguageLevel.findOne({
         where: {
           id: data.id_language_level,
@@ -264,7 +262,25 @@ export async function consumeChatGpt(req: Request, res: Response) {
             content: `We are in a ${data.situation}. My name is ${data.name} ${data.last_name}. You will take on the role appropriate to the situation and lead the conversation about ${data.topic}. Please simulate a real-life conversation without acknowledging that you are an AI and avoid starting responses with labels like "Interviewer:". For example, if the situation is a daily standup, act as a project manager and ask me relevant questions about the project's progress. Keep the conversation natural, focus on relevant questions, and avoid any meta-commentary about being a bot or AI. The convesation is in this English level ${englishLevel.level}`,
           },
         ];
+      };
+
+      const stream = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: messages,
+        stream: true,
+      });
+
+      let chat_gpt_answer = "";
+
+      for await (const chunk of stream) {
+        const context = chunk.choices[0]?.delta?.content || "";
+        if (context) {
+          chat_gpt_answer += context;
+        }
       }
+
+      res.json({system: chat_gpt_answer});
+
     } else { //Cuando el usuario ya empieza a mandar audios
 
       if (!req.file || !req.file.buffer) {
@@ -304,44 +320,54 @@ export async function consumeChatGpt(req: Request, res: Response) {
       );
 
       // 5) Transcribir el audio
-      recognizer.recognizeOnceAsync((result) => {
-        if (result.reason === sdkazure.ResultReason.RecognizedSpeech) {
-          console.log(`Texto transcrito: ${result.text}`);
-          // res.send({ text: result.text });
-        } else {
-          console.error(`Error al reconocer el audio: ${result.errorDetails}`);
-          // res.status(500).send("Error al transcribir el audio.");
+      recognizer.recognizeOnceAsync(async (result) => {
+        try {
+          if (result.reason === sdkazure.ResultReason.RecognizedSpeech) {
+            console.log(`Texto transcrito: ${result.text}`); 
+
+            if(!result.text){
+              throw new Error('El texto está vacio');
+            }
+
+            let userMessage:any = [{
+              role: "user",
+              content: `${result.text}`
+            }];
+            
+            chatJSON.pop();
+            chatJSON.push(userMessage[0]);
+
+            console.log("Mensaje que se le envia GPT", chatJSON);
+
+            const stream = await openai.chat.completions.create({
+              model: "gpt-4o-mini",
+              messages: userMessage,
+              stream: true,
+            });
+
+            let chat_gpt_answer = "";
+
+            for await (const chunk of stream) {
+              const context = chunk.choices[0]?.delta?.content || "";
+              if (context) {
+                chat_gpt_answer += context;
+              }
+            }
+
+            chatJSON.push({ system: chat_gpt_answer })
+            console.log('response ',chatJSON);
+            res.json(chatJSON);
+          }
+        } catch (error) {
+          console.log('ERROR: ', error);
+          res.status(500).send({
+            message: "Error al transcribir el audio: ",
+            error,
+          });
         }
       });
+    };
 
-      messages = [
-        ...chat,
-        {
-          role: "user",
-          content: "mensaje de usuario que tengo que sacar de azure xd",
-        },
-      ];
-    }
-
-    console.log("se salta aqui ", messages);
-
-    const stream = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: messages,
-      stream: true,
-    });
-
-    let chat_gpt_answer = "";
-
-    for await (const chunk of stream) {
-      const context = chunk.choices[0]?.delta?.content || "";
-      if (context) {
-        chat_gpt_answer += context;
-      }
-    }
-
-    console.log({ system: chat_gpt_answer });
-    res.json({ system: chat_gpt_answer });
   } catch (error) {
     console.log(error);
     if (error instanceof Error) {
