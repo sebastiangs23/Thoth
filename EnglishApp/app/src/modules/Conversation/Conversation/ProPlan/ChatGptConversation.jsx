@@ -32,7 +32,7 @@ export default function ChatGptConversation({ navigation }) {
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
-  async function talkWithChatgpt(data, chat, uri) {
+  async function talkWithChatgptFirtsInteraction(data, chat, uri) {
     try {
       let response = [];
 
@@ -74,6 +74,50 @@ export default function ChatGptConversation({ navigation }) {
     }
   }
 
+  async function talkWithChatgpt(data, chat, uri) {
+    try {
+      let response = [];
+
+      if (chat && uri) {
+        const formData = new FormData();
+
+        formData.append("voice", {
+          uri,
+          type: "audio/wav",
+          name: "audio.wav",
+        });
+        formData.append("data", JSON.stringify(data));
+        formData.append("chat", JSON.stringify(chat));
+
+        response = await axios.post(
+          `${api}/score/chat-gpt/audio`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            params:{
+              data,
+              chat,
+            }
+          },
+        );
+      } else {
+        response = await axios.post(`${api}/score/chat-gpt/audio`, {
+          data,
+          chat,
+        });
+      }
+      console.log("ABC", response.data);
+
+      setChat(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
   /*________________
   |   FUNCTIONS   */
   async function getUser() {
@@ -93,7 +137,7 @@ export default function ChatGptConversation({ navigation }) {
 
       console.log("before send", data);
 
-      await talkWithChatgpt(data, null);
+      await talkWithChatgptFirtsInteraction(data, null);
     } catch (error) {
       Message.show({
         type: ALERT_TYPE.DANGER,
@@ -132,7 +176,7 @@ export default function ChatGptConversation({ navigation }) {
                 <Dialog
                   id_conversation={index}
                   person={1}
-                  dialog={item.system ? item.system : item.user}
+                  dialog={item.system ? item.system : item.content}
                 />
                 <PlayAudio dialog={item.system ? item.system : item.user} />
               </View>
