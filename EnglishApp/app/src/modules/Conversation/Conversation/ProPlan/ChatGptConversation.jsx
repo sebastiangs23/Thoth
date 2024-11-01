@@ -66,9 +66,8 @@ export default function ChatGptConversation({ navigation }) {
           chat,
         });
       }
-      console.log("ABC", [response.data, { user: "" }]);
 
-      setChat([response.data, { role: "user", content: "" }]);
+      setChat([response.data]);
     } catch (error) {
       console.log(error);
     }

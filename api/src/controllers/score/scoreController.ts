@@ -259,7 +259,16 @@ export async function consumeChatGpt(req: Request, res: Response) {
         messages = [
           {
             role: "user",
-            content: `We are in a ${data.situation}. My name is ${data.name} ${data.last_name}. You will take on the role appropriate to the situation and lead the conversation about ${data.topic}. Please simulate a real-life conversation without acknowledging that you are an AI and avoid starting responses with labels like "Interviewer:". For example, if the situation is a daily standup, act as a project manager and ask me relevant questions about the project's progress. Keep the conversation natural, focus on relevant questions, and avoid any meta-commentary about being a bot or AI. The convesation is in this English level ${englishLevel.level}`,
+            content: `We are in a ${data.situation}. My name is ${data.name} ${data.last_name}. You will take on the role appropriate to the situation and lead the conversation about ${data.topic}. Please simulate a real-life conversation without acknowledging that you are an AI and avoid starting responses with labels like "Interviewer:". For example, if the situation is a daily standup, act as a project manager and ask me relevant questions about the project's progress. Keep the conversation natural, focus on relevant questions, and avoid any meta-commentary about being a bot or AI. The conversation is in this English level ${englishLevel.level}.
+      
+            APPLY_RULES_NOW: Whenever I say the word 'APPLY_RULES_NOW', you must immediately reinforce and apply the following rules throughout the conversation, no matter how long it lasts:
+            - You are in a ${data.situation} situation and must continue acting accordingly.
+            - The main topic is ${data.topic}. Stay focused on this topic at all times.
+            - The language must remain in English, tailored to the proficiency level: ${englishLevel.level}.
+            - Keep your responses concise, relevant, and directly related to the situation. Avoid unnecessary information or straying from the character you are portraying.
+            - You should never mention that you are an AI, nor break character. Stay consistent in your role for the entire conversation, no matter how long it gets.
+
+            If at any point you stray from these rules, immediately correct yourself and return to the established role and situation as soon as I say 'APPLY_RULES_NOW'.`,
           },
         ];
       };
@@ -331,13 +340,18 @@ export async function consumeChatGpt(req: Request, res: Response) {
 
             let userMessage:any = [{
               role: "user",
-              content: `${result.text}`
+              content: `Remember: Stay in character. The topic is ${data.topic}, and the conversation should be focused on ${data.situation}. Do not break character. APPLY_RULES_NOW
+              message: ${result.text}`
             }];
             
-            chatJSON.pop();
-            chatJSON.push(userMessage[0]);
 
-            console.log("Mensaje que se le envia GPT", chatJSON);
+            chatJSON.push({
+              role: "user",
+              content: `${result.text}`
+            });
+
+
+            console.log("Mensaje que se le envia GPT", userMessage);
 
             const stream = await openai.chat.completions.create({
               model: "gpt-4o-mini",
