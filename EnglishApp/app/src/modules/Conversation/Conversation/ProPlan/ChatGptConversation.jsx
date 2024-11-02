@@ -8,7 +8,6 @@ import {
 import { getUserSession } from "../../../../common/user/functions";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import Score from "../components/Score";
 import Dialog from "../components/Dialog";
 import PlayAudio from "../components/PlayAudio";
 import TutorSection from "../components/TutorSection";
@@ -47,19 +46,15 @@ export default function ChatGptConversation({ navigation }) {
         formData.append("data", JSON.stringify(data));
         formData.append("chat", JSON.stringify(chat));
 
-        response = await axios.post(
-          `${api}/score/chat-gpt/audio`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            params:{
-              data,
-              chat,
-            }
+        response = await axios.post(`${api}/score/chat-gpt/audio`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
-        );
+          params: {
+            data,
+            chat,
+          },
+        });
       } else {
         response = await axios.post(`${api}/score/chat-gpt/audio`, {
           data,
@@ -88,19 +83,15 @@ export default function ChatGptConversation({ navigation }) {
         formData.append("data", JSON.stringify(data));
         formData.append("chat", JSON.stringify(chat));
 
-        response = await axios.post(
-          `${api}/score/chat-gpt/audio`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            params:{
-              data,
-              chat,
-            }
+        response = await axios.post(`${api}/score/chat-gpt/audio`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
-        );
+          params: {
+            data,
+            chat,
+          },
+        });
       } else {
         response = await axios.post(`${api}/score/chat-gpt/audio`, {
           data,
@@ -114,8 +105,6 @@ export default function ChatGptConversation({ navigation }) {
       console.log(error);
     }
   }
-
-
 
   /*________________
   |   FUNCTIONS   */
@@ -157,8 +146,6 @@ export default function ChatGptConversation({ navigation }) {
   return (
     <View style={globalStyles.container}>
       <ScrollView style={globalStyles.subcontainer}>
-        <Score />
-
         <TutorSection navigation={navigation} />
 
         {chat &&
@@ -177,7 +164,12 @@ export default function ChatGptConversation({ navigation }) {
                   person={1}
                   dialog={item.system ? item.system : item.content}
                 />
-                <PlayAudio dialog={item.system ? item.system : item.user} />
+
+                {item.system ? (
+                  <PlayAudio dialog={item.system ? item.system : item.user} />
+                ) : (
+                  <></>
+                )}
               </View>
             );
           })}
