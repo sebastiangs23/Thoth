@@ -18,7 +18,7 @@ import { globalStyles } from "../../../global/styles/styles";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
-import { getUserSession } from "../../../common/user/functions";
+import { getUserSession } from "../../../common/user/functions"; //nose si se use
 
 export default function SpecificTopic({ navigation }) {
   const topics = useSelector((state) => state.topics.value);
@@ -32,13 +32,14 @@ export default function SpecificTopic({ navigation }) {
 
   /*____________________________
   |   REQUEST TO THE SERVER   */
-  async function getDialogs(topic) {
-    const response = await axios.get(
-      `${api}/conversation/get-dialogs/${topic.id}/${user.id_language_level} `
-    );
+  async function selectTopic(topic) { 
+    // const response = await axios.get(
+    //   `${api}/conversation/get-dialogs/${topic.id}/${user.id_language_level} `
+    // );
 
-    dispatch(setChosenTopic(topic.description));
-    dispatch(setDialog(response.data));
+    // dispatch(setChosenTopic(topic.description));
+    dispatch(setChosenTopic(topic));
+    // dispatch(setDialog(response.data));
     Situation();
   };
 
@@ -69,7 +70,7 @@ export default function SpecificTopic({ navigation }) {
                 <TouchableOpacity
                   key={item.id}
                   style={globalStyles.card}
-                  onPress={() => getDialogs(item)}
+                  onPress={() => selectTopic(item)}
                 >
                   <Text style={globalStyles.text_semi_small}> {item.description} </Text>
                 </TouchableOpacity>

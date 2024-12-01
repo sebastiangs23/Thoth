@@ -117,7 +117,7 @@ export default function ChatGptConversation({ navigation }) {
         name: response.name,
         last_name: response.last_name,
         id_language_level: response.id_language_level,
-        topic,
+        topic: topic.description,
         situation,
       };
 
