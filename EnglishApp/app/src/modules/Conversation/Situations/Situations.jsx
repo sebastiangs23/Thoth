@@ -13,18 +13,25 @@ import BottomTab from "../../BottomTab/BottomTab";
 import { globalStyles } from "../../../global/styles/styles";
 import { getPlanSaved } from "../../../common/plan/functions";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSituation } from "../../../store/slices/situation/slice";
 import { Icon } from "react-native-elements";
+import { getUserSession } from "../../../common/user/functions";
+import { setDialog } from "../../../store/slices/dialog/slice";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 export default function Situation({ navigation }) {
   const dispatch = useDispatch();
 
+  const topics = useSelector((state) => state.topics.value);
+  const chosenTopic = useSelector((state) => state.chosenTopic.value);
+
+  const [user, setUser] = useState({});
   const [situations, setSituations] = useState([]);
 
   useEffect(() => {
+    getUser()
     getSituations();
   }, []);
 
@@ -32,8 +39,11 @@ export default function Situation({ navigation }) {
     |   REQUEST TO THE SERVER   */
   async function getSituations() {
     try {
-      const response = await axios.get(`${api}/conversation/situations`);
+      const id_area = topics[0].id_area;
 
+      const response = await axios.get(
+        `${api}/conversation/situations/${id_area}`
+      );
       setSituations(response.data);
     } catch (error) {
       console.log(error);
@@ -46,20 +56,33 @@ export default function Situation({ navigation }) {
     navigation.navigate("ChatGptConversation");
   }
 
-  function NormalConversation(){
+  function NormalConversation() {
     navigation.navigate("Conversation");
   }
 
   async function selectSituation(situation) {
-    dispatch(setSituation(situation.description));
-    const plan = await getPlanSaved();
+    try {
+      dispatch(setSituation(situation.description));
+      const plan = await getPlanSaved();
 
-    if(plan === 1){
-      NormalConversation();
-    }else if (plan === 2){
-      ChatGptConversation();
+      if (plan === 1) {
+        const response = await axios.get(
+          `${api}/conversation/get-dialogs/${chosenTopic.id}/${situation.id}/${user.id_language_level} `
+        );
+        dispatch(setDialog(response.data));
+        NormalConversation();
+      } else if (plan === 2) {
+        ChatGptConversation();
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
+
+  async function getUser() {
+    const response = await getUserSession();
+    setUser(response);
+  };
 
   return (
     <View style={globalStyles.container}>

@@ -38,8 +38,8 @@ export default function DatePicker({ format }) {
   return (
     <SafeAreaView style={styles.button_container}>
       <TouchableOpacity onPress={showDatepicker} style={styles.button}>
-        {/* <Button onPress={showTimepicker} title="Show time picker!" /> */}
         <Text style={styles.text}>Birthday: {date.toLocaleDateString()}</Text>
+        {/* <Text style={styles.text}>Birthday</Text> */}
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -52,19 +52,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderRadius: 8,
+    borderColor: "#ccc",
     width: '50%'
   },
   button: {
     width: '100%',
-    height: 50,
+    height: 40,
     backgroundColor: "#FFFFFF",
     justifyContent: "center",
-    alignItems: "center",
+    paddingLeft: 5,
     borderRadius: 10,
   },
   text: {
     fontSize: 15,
-    color: "#000000",
-    fontWeight: "400",
+    color: "#ccc",
   },
 });

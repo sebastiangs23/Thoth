@@ -32,18 +32,23 @@ async function getSpecificTopics(req: Request, res: Response) {
     res.json(specific_topic);
   } catch (error) {
     console.log(error);
-    res.status(500).send('Error in the getSpecificTopics controller');
+    res.status(500).send("Error in the getSpecificTopics controller");
   }
 }
 
-async function getSituations(req: Request, res : Response){
-  try{
+async function getSituationsByID(req: Request, res: Response) {
+  try {
+    const { id_area } = req.params;
+
     const situations = await Situation.findAll({
-      attributes: ['id', 'description']
+      where: {
+        id_area
+      },
+      attributes: ["id", "description"],
     });
 
     res.json(situations);
-  }catch(error){
+  } catch (error) {
     console.log(error);
     res.status(500).send("Error in the getSituations controller.");
   }
@@ -51,14 +56,13 @@ async function getSituations(req: Request, res : Response){
 
 async function getDialogs(req: Request, res: Response) {
   try {
-    const { id_specific_topic, id_language_level } = req.params;
-
-    //Aca una lógica para que me traiga solo dialogos de un tema en espeficio de manrea random
-
+    const { id_specific_topic, id_language_level, id_situation } = req.params;
+    
     const dialogs = await Dialogs.findAll({
       where: {
         id_specific_topic,
-        id_language_level
+        id_language_level,
+        id_situation
       },
       attributes: [
         "id",
@@ -71,30 +75,22 @@ async function getDialogs(req: Request, res: Response) {
     });
 
     //Add the property which made able to render just the first two dialogs
-    let dialogsConversationsApproved = dialogs.map(
-      (item: any, index: any) => {
-        let dialog = item.toJSON();
-        if (index < 2) {
-          dialog.approved = true;
-        } else {
-          dialog.approved = false;
-        }
-
-        return dialog;
+    let dialogsConversationsApproved = dialogs.map((item: any, index: any) => {
+      let dialog = item.toJSON();
+      if (index < 2) {
+        dialog.approved = true;
+      } else {
+        dialog.approved = false;
       }
-    );
+
+      return dialog;
+    });
 
     res.json(dialogsConversationsApproved);
-
   } catch (error) {
     console.log(error);
     res.status(500).send("Error en el controlador getDialogs");
   }
 }
 
-export {
-  getAreas,
-  getSpecificTopics,
-  getSituations,
-  getDialogs,
-};
+export { getAreas, getSpecificTopics, getSituationsByID, getDialogs };

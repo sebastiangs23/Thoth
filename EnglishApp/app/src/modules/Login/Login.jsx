@@ -1,13 +1,19 @@
-import { StyleSheet,View, Text, ImageBackground,TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCountries } from "../../store/slices/countries/slice";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
-import { playAudioNext } from "../../common/audio/functions";
 import { getUserSession, removeUserSession } from "../../common/user/functions";
-import { StatusBar } from 'expo-status-bar';
-import image from "../../assets/logos/login_wallpaper_full.webp";
+import { StatusBar } from "expo-status-bar";
+import birdHappyImg from "../../assets/images/landing_bird.png";
+
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 export default function Login({ navigation }) {
@@ -22,9 +28,7 @@ export default function Login({ navigation }) {
   |   REQUEST TO SERVER (GLOBAL STATES)   */
   async function getCountries() {
     try {
-      const response = await axios.get(
-        `${api}/countries/get-countries-db`
-      );
+      const response = await axios.get(`${api}/countries/get-countries-db`);
 
       dispatch(setCountries(response.data));
     } catch (error) {
@@ -38,7 +42,6 @@ export default function Login({ navigation }) {
     }
   }
 
-
   /*________________
   |   FUNCTIONS   */
   async function activeSession() {
@@ -51,50 +54,48 @@ export default function Login({ navigation }) {
 
   function signIn() {
     navigation.navigate("SignIn");
-    playAudioNext();
   }
 
   function signUp() {
     navigation.navigate("SignUp");
-    playAudioNext();
   }
 
   return (
     <View style={styles.main_container}>
       {/* <StatusBar style="light" hidden={true} /> */}
-      <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-        <View styles={styles.login_form}>
-          <View style={styles.title_container}>
-            <Text style={styles.title}>Welcome to Mammoth /. </Text>
-          </View>
-
-          <View style={styles.subtitle_container}>
-            <Text style={styles.subtitle}>
-              Perfecciona tu pronunciación y habilidades comunicativas con conversaciones que usarás en tu vida diaria y en diferentes escenarios a través de nuestro Chat AI.
-            </Text>
-          </View>
-
-          <View style={styles.button_container}>
-            <TouchableOpacity
-              title="Log in"
-              onPress={() => signIn()}
-              style={styles.button}
-            >
-              <Text style={styles.text}>Log in</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.button_container}>
-            <TouchableOpacity
-              onPress={() => signUp()}
-              color="#3790F5"
-              style={styles.button}
-            >
-              <Text style={styles.text}>Sign up</Text>
-            </TouchableOpacity>
-          </View>
+      <View styles={styles.login_form}>
+        <View style={styles.title_container}>
+          <Text style={styles.title}>Welcome to Mammoth /. </Text>
+          <Image source={birdHappyImg} style={styles.middle_img} />
         </View>
-      </ImageBackground>
+
+        <View style={styles.subtitle_container}>
+          <Text style={styles.subtitle}>
+            Perfecciona tu pronunciación y habilidades comunicativas con
+            conversaciones que usarás en tu vida diaria y en diferentes
+            escenarios a través de nuestro Chat AI.
+          </Text>
+        </View>
+
+        <View style={styles.button_container}>
+          <TouchableOpacity
+            title="Log in"
+            onPress={() => signIn()}
+            style={styles.button}
+          >
+            <Text style={styles.text}>Log in</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => signUp()}
+            color="#3790F5"
+            style={styles.button}
+          >
+            <Text style={styles.text}>Sign up</Text>
+          </TouchableOpacity>
+        </View>
+
+      </View>
     </View>
   );
 }
@@ -102,11 +103,11 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   main_container: {
     flex: 1,
-    backgroundColor: "#000000",
+    backgroundColor: "#FFFFFF",
   },
-  image: {
-    flex: 1,
-    justifyContent: "center",
+  middle_img: {
+    width: 220,
+    height: 220,
   },
   login_form: {
     flex: 1,
@@ -119,19 +120,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
+    marginTop: 50,
     margin: 5,
     padding: 5,
-    fontSize: 55,
+    fontSize: 40,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#18181b",
   },
   subtitle_container: {
     justifyContent: "center",
     alignItems: "center",
   },
   subtitle: {
-    fontSize: 20,
-    color: "#fff",
+    fontSize: 17,
+    color: "#71717A",
     marginBottom: 50,
     paddingHorizontal: 20,
   },
@@ -139,22 +141,24 @@ const styles = StyleSheet.create({
     width: 60,
     height: 50,
   },
-
   button_container: {
     margin: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    display: "flex",
+    flexDirection: 'row', 
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   button: {
-    width: 200,
-    height: 55,
-    backgroundColor: "#3790F5",
+    width: 125,
+    height: 45,
+    backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
+    borderRadius: 10,
+    marginRight: 5
   },
   text: {
-    fontSize: 23,
+    fontSize: 17,
     color: "#FFFFFF",
     fontWeight: "bold",
   },

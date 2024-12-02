@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAreas , getSpecificTopics, getDialogs, getSituations } from "../../controllers/conversations/conversationController.js";
+import { getAreas , getSpecificTopics, getDialogs, getSituationsByID } from "../../controllers/conversations/conversationController.js";
 
 const router = Router();
 
@@ -13,10 +13,10 @@ router.get('/get-specific-topics/:id_area', getSpecificTopics);
 
 /*________________
 |  GET DIALOGS  */
-router.get('/get-dialogs/:id_specific_topic/:id_language_level', getDialogs);
+router.get('/get-dialogs/:id_specific_topic/:id_situation/:id_language_level', getDialogs);
 
 /*___________________
 |  GET SITUATIONS  */
-router.get('/situations', getSituations);
+router.get('/situations/:id_area', getSituationsByID);
 
 export default router;
