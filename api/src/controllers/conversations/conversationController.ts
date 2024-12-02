@@ -57,11 +57,7 @@ async function getSituationsByID(req: Request, res: Response) {
 async function getDialogs(req: Request, res: Response) {
   try {
     const { id_specific_topic, id_language_level, id_situation } = req.params;
-    console.log('lo que llega x params', req.params);
     
-
-    //Aca una lógica para que me traiga solo dialogos de un tema en espeficio de manrea random
-
     const dialogs = await Dialogs.findAll({
       where: {
         id_specific_topic,

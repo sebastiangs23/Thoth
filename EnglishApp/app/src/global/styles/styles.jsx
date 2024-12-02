@@ -6,6 +6,7 @@ export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative",
+    backgroundColor: '#FFFFFF'
   },
   subcontainer: {
     marginBottom: 60,

@@ -1,5 +1,4 @@
 import {
-  ImageBackground,
   View,
   Text,
   TextInput,
@@ -19,7 +18,7 @@ import { globalStyles } from "../../../../global/styles/styles";
 import BackButton from "../../../../global/components/BackButton";
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
-import imagegb from "../../../../assets/logos/login_wallpaper_full.webp";
+import loginImg from "../../../../assets/images/log_in.png";
 
 export default function SignUp({ navigation }) {
   const countriesRedux = useSelector((state) => state.countries.value);
@@ -123,10 +122,7 @@ export default function SignUp({ navigation }) {
           id_country: selectedCountry,
         };
 
-        const response = await axios.post(
-          `${api}/users/create/`,
-          data
-        );
+        const response = await axios.post(`${api}/users/create/`, data);
 
         switch (response.data.status) {
           case "Successful":
@@ -189,19 +185,15 @@ export default function SignUp({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <ImageBackground
-        source={imagegb}
-        resizeMode="cover"
-        style={styles.image_bg}
-      >
+      <BackButton module="Login" navigation={navigation} />
 
-        <BackButton module="Login" navigation={navigation} />
+      <View style={styles.title_container}>
+        <Text style={styles.title}>Sign Up</Text>
+        <Image source={loginImg} style={styles.middle_img} />
+      </View>
 
-        <View style={styles.title_container}>
-          <Text style={styles.title}>Sign Up</Text>
-        </View>
-
-        <View style={styles.form_container}>
+      <View>
+        <View style={styles.rows}>
           <View style={styles.container_input}>
             <TextInput
               placeholder="Name"
@@ -212,15 +204,17 @@ export default function SignUp({ navigation }) {
 
           <View style={styles.container_input}>
             <TextInput
-              placeholder="LastName"
+              placeholder="Last name"
               style={styles.input}
               onChangeText={(text) => setLastName(text)}
             />
           </View>
+        </View>
 
+        <View style={styles.rows}>
           <View style={styles.container_input}>
             <TextInput
-              placeholder="Second lastName"
+              placeholder="Middle name"
               style={styles.input}
               onChangeText={(text) => setSecondLastName(text)}
             />
@@ -228,12 +222,14 @@ export default function SignUp({ navigation }) {
 
           <View style={styles.container_input}>
             <TextInput
-              placeholder="Example@email.com"
+              placeholder="Email"
               style={styles.input}
               onChangeText={(text) => setEmail(text)}
             />
           </View>
+        </View>
 
+        <View style={styles.rows}>
           <View>
             <DropDownPicker
               open={openB}
@@ -242,15 +238,13 @@ export default function SignUp({ navigation }) {
               setOpen={setOpenB}
               setValue={setSelectedCountry}
               setItems={setCountries}
-              placeholder="Country of birth"
+              placeholder="Country"
               dropDownContainerStyle={styles.dropdownContainer}
               itemSeparator={true}
-              maxHeight={200}
-              maxWidth={200}
+              searchable={true}
               style={styles.dropdown}
               placeholderStyle={{
                 color: "grey",
-                fontWeight: "bold",
               }}
               customItemContainer={({ label, icon }) => (
                 <View style={styles.itemContainer}>
@@ -261,47 +255,49 @@ export default function SignUp({ navigation }) {
             />
           </View>
 
-          <DatePicker format={"date"} />
-
-          <View style={styles.container_input_password}>
-            <TextInput
-              placeholder="Password"
-              style={styles.input}
-              secureTextEntry={securePassword}
-              onChangeText={(text) => setPassword(text)}
-            />
-            <View style={styles.container_eye}>
-              {eyeOpen == false ? (
-                <Icon
-                  name="eye-off-outline"
-                  type="ionicon"
-                  onPress={() => passwordVisible(true)}
-                />
-              ) : (
-                <Icon
-                  name="eye-outline"
-                  type="ionicon"
-                  onPress={() => passwordVisible(false)}
-                />
-              )}
-            </View>
+          <View style={styles.container_date_picker}>
+            <DatePicker format={"date"} />
           </View>
         </View>
 
-        <View style={styles.create_button_container}>
-          <TouchableOpacity style={styles.create_button} onPress={createUser}>
-            <Text style={styles.create_button_text}>Create</Text>
-          </TouchableOpacity>
+        <View style={styles.container_input_password}>
+          <TextInput
+            placeholder="Password"
+            style={styles.input}
+            secureTextEntry={securePassword}
+            onChangeText={(text) => setPassword(text)}
+          />
+          <View style={styles.container_eye}>
+            {eyeOpen == false ? (
+              <Icon
+                name="eye-off-outline"
+                type="ionicon"
+                onPress={() => passwordVisible(true)}
+              />
+            ) : (
+              <Icon
+                name="eye-outline"
+                type="ionicon"
+                onPress={() => passwordVisible(false)}
+              />
+            )}
+          </View>
         </View>
-      </ImageBackground>
+      </View>
+
+      <View style={styles.create_button_container}>
+        <TouchableOpacity style={styles.create_button} onPress={createUser}>
+          <Text style={styles.create_button_text}>Create</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  image_bg: {
-    flex: 1,
-    justifyContent: "center",
+  middle_img: {
+    width: 220,
+    height: 220,
   },
   title_container: {
     justifyContent: "center",
@@ -310,54 +306,72 @@ const styles = StyleSheet.create({
   title: {
     margin: 5,
     padding: 5,
-    fontSize: 55,
+    fontSize: 40,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#18181b",
   },
-  form_container: {
-    alignItems: "center",
+  rows: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
   },
-
   container_input: {
     backgroundColor: "#FFFFFF",
     padding: 5,
-    width: "65%",
+    width: "45%",
     borderRadius: 8,
     flexDirection: "row",
     marginTop: 10,
     marginBottom: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   input: {
     borderRadius: 5,
-    width: "60%",
+    width: "80%",
   },
-  container_input_password: {
+  rows_drop_date: {
+    display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#FFFFFF",
-    padding: 5,
-    width: "65%",
-    borderRadius: 8,
-    flexDirection: "row",
-    marginTop: 10,
-    marginBottom: 10,
+    justifyContent: "flex-start",
+  },
+  container_date_picker: {
+    width: 290,
   },
   dropdown: {
-    width: "65%",
-    color: "#fff",
+    borderColor: "#ccc",
+    color: "#FFFFFF",
+    width: 145,
+    marginRight: 25
   },
   flag: {
     width: 30,
     height: 20,
     marginRight: 8,
   },
+  container_input_password: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#FFFFFF",
+    padding: 5,
+    width: 200,
+    borderRadius: 8,
+    flexDirection: "row",
+    marginTop: 10,
+    marginBottom: 10,
+    marginLeft: 75,
+    borderColor: "#ccc",
+    borderWidth: 1,
+  },
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   label: {
-    fontSize: 24,
+    fontSize: 5,
+    color: '#ccc'
   },
   create_button_container: {
     margin: 3,
@@ -366,15 +380,16 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   create_button: {
-    width: 200,
-    height: 55,
-    backgroundColor: "#3790F5",
+    width: 125,
+    height: 45,
+    backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
+    borderRadius: 10,
+    marginRight: 5
   },
   create_button_text: {
-    fontSize: 23,
+    fontSize: 17,
     color: "#FFFFFF",
     fontWeight: "bold",
   },

@@ -1,6 +1,7 @@
 import {
   View,
   ImageBackground,
+  Image,
   StyleSheet,
   Text,
   TextInput,
@@ -8,19 +9,17 @@ import {
 } from "react-native";
 import { useState } from "react";
 import axios from "axios";
-import { ALERT_TYPE, Dialog, Toast} from "react-native-alert-notification";
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import { Icon } from "react-native-elements";
 import { saveUserSession } from "../../../../common/user/functions";
 import { playAudioNext } from "../../../../common/audio/functions";
 import BackButton from "../../../../global/components/BackButton";
 import { globalStyles } from "../../../../global/styles/styles";
+import loginImg from "../../../../assets/images/log_in.png";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
-import imagebg from "../../../../assets/logos/login_wallpaper_full.webp";
-
 export default function SignIn({ navigation }) {
-
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [eyeOpen, setEyeOpen] = useState(false);
@@ -30,7 +29,6 @@ export default function SignIn({ navigation }) {
   |   REQUEST TO THE SERVER   */
   async function sendUserData() {
     try {
-
       if (!email || !password) {
         Dialog.show({
           type: ALERT_TYPE.WARNING,
@@ -43,10 +41,9 @@ export default function SignIn({ navigation }) {
 
       let data = { email: email, password: password };
 
-      let response = await axios.get(
-        `${api}/login/login-user`,
-        { params: data }
-      );
+      let response = await axios.get(`${api}/login/login-user`, {
+        params: data,
+      });
 
       switch (response.data.status) {
         case "Successful": {
@@ -63,7 +60,6 @@ export default function SignIn({ navigation }) {
             playAudioNext();
             Plans();
             break;
-
           } else if (response.data.user.id_user_type == 1) {
             //DASHBOARD ADMIN
           } else {
@@ -96,7 +92,7 @@ export default function SignIn({ navigation }) {
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: ":(",
@@ -120,67 +116,58 @@ export default function SignIn({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
-      <ImageBackground
-        source={imagebg}
-        resizeMode="cover"
-        style={styles.image_bg}
-      >
-        <BackButton module="Login"  navigation={navigation} />
+      <BackButton module="Login" navigation={navigation} />
 
-        <View style={styles.title_container}>
-          <Text style={styles.title}>Log in</Text>
+      <View style={styles.title_container}>
+        <Text style={styles.title}>Log in</Text>
+        <Image source={loginImg} style={styles.middle_img} />
+      </View>
+
+      <View style={styles.form_container}>
+        <View style={styles.container_input}>
+          <Icon  name="person-outline" type="ionicon" color="#bebebe" />
+          <TextInput
+            placeholder="Example@email.com"
+            style={styles.input}
+            onChangeText={(text) => setEmail(text)}
+          />
         </View>
 
-        <View style={styles.form_container}>
-          <View style={styles.container_input}>
-            <Icon name="person-outline" type="ionicon" />
-            <TextInput
-              placeholder="Example@email.com"
-              style={styles.input}
-              onChangeText={(text) => setEmail(text)}
+        <View style={styles.container_input}>
+          <Icon name="lock-closed-outline" type="ionicon" color="#bebebe"></Icon>
+          <TextInput
+            placeholder="password"
+            style={styles.input}
+            secureTextEntry={securePassword}
+            onChangeText={(text) => setPassword(text)}
+          />
+          {eyeOpen == false ? (
+            <Icon
+              name="eye-off-outline"
+              type="ionicon"
+              onPress={() => passwordVisible(true)}
             />
-          </View>
-
-          <View style={styles.container_input}>
-            <Icon name="lock-closed-outline" type="ionicon"></Icon>
-            <TextInput
-              placeholder="password"
-              style={styles.input}
-              secureTextEntry={securePassword}
-              onChangeText={(text) => setPassword(text)}
+          ) : (
+            <Icon
+              name="eye-outline"
+              type="ionicon"
+              onPress={() => passwordVisible(false)}
             />
-            {eyeOpen == false ? (
-              <Icon
-                name="eye-off-outline"
-                type="ionicon"
-                onPress={() => passwordVisible(true)}
-              />
-            ) : (
-              <Icon
-                name="eye-outline"
-                type="ionicon"
-                onPress={() => passwordVisible(false)}
-              />
-            )}
-          </View>
+          )}
         </View>
+      </View>
 
-        <View style={styles.button_container}>
-          <TouchableOpacity style={styles.button} onPress={sendUserData}>
-            <Text style={styles.text}>Log in</Text>
-            <Icon name="log-in-outline" type="ionicon" color="white" />
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
+      <View style={styles.button_container}>
+        <TouchableOpacity style={styles.button} onPress={sendUserData}>
+          <Text style={styles.text}>Log in</Text>
+          <Icon name="log-in-outline" type="ionicon" color="white" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  image_bg: {
-    flex: 1,
-    justifyContent: "center",
-  },
   title_container: {
     justifyContent: "center",
     alignItems: "center",
@@ -188,9 +175,13 @@ const styles = StyleSheet.create({
   title: {
     margin: 5,
     padding: 5,
-    fontSize: 55,
+    fontSize: 40,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#18181b",
+  },
+  middle_img: {
+    width: 220,
+    height: 220,
   },
   form_container: {
     alignItems: "center",
@@ -203,26 +194,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 10,
     marginBottom: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
   },
   input: {
     borderRadius: 5,
     width: "80%",
   },
   button_container: {
+    marginTop: 45,
     margin: 3,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
   },
   button: {
-    display: 'flex',
-    flexDirection: 'row',
-    width: 200,
-    height: 55,
-    backgroundColor: "#3790F5",
+    display: "flex",
+    flexDirection: "row",
+    width: 125,
+    height: 45,
+    backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 50,
+    borderRadius: 10,
   },
   text: {
     fontSize: 18,
