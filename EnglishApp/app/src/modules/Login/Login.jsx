@@ -12,7 +12,7 @@ import { setCountries } from "../../store/slices/countries/slice";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import { getUserSession, removeUserSession } from "../../common/user/functions";
 import { StatusBar } from "expo-status-bar";
-import birdHappyImg from "../../assets/images/bird_happy.png";
+import birdHappyImg from "../../assets/images/landing_bird.png";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
