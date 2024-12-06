@@ -42,7 +42,7 @@ export default function PickAvatar({ navigation }) {
   function showAccentInfo() {
     Dialog.show({
       type: ALERT_TYPE.SUCCESS,
-      title: "¡Nueva feature!",
+      title: "¡Nueva feature proximamente!",
       textBody:
         "Nueva funcionabilidad en la próxima versión! 🎉",
       button: "Ok",
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
   accent_button: {
     display: "flex",
     flexDirection: "row",
+    justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#18181b",
     borderRadius: 5,
@@ -156,7 +157,7 @@ const styles = StyleSheet.create({
     right: 4,
     bottom: 4,
     padding: 3,
-    width: 120,
+    width: 125,
   },
   information_button_text: {
     color: "#FFFFFF",

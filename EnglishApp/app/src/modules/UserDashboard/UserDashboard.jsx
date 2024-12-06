@@ -87,8 +87,8 @@ export default function UserDashboard({ navigation }) {
     yAxisInterval={1} // optional, defaults to 1
     chartConfig={{
       backgroundColor: "#e26a00",
-      backgroundGradientFrom: "#fb8c00",
-      backgroundGradientTo: "#ffa726",
+      backgroundGradientFrom: "#18181b",
+      backgroundGradientTo: "#18181b",
       decimalPlaces: 2, // optional, defaults to 2dp
       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -98,7 +98,7 @@ export default function UserDashboard({ navigation }) {
       propsForDots: {
         r: "6",
         strokeWidth: "2",
-        stroke: "#ffa726"
+        stroke: "#ffffff"
       }
     }}
     bezier
