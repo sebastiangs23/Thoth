@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
-  Alert,
 } from "react-native";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -13,7 +12,7 @@ import BottomTab from "../BottomTab/BottomTab";
 import BackButton from "../../global/components/BackButton";
 import Titles from "../../global/components/Titles";
 import { globalStyles } from "../../global/styles/styles";
-import { LinearGradient } from "expo-linear-gradient";
+import { useFonts } from 'expo-font';
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 import { Icon } from "react-native-elements";
@@ -27,6 +26,10 @@ import {
 export default function LanguageLevel({ navigation }) {
   const [languageLevels, setLanguageLevels] = useState([]);
   const [user, setUser] = useState({});
+
+  let [fontsLoaded] = useFonts({
+    'Roboto-Italic': require('../../assets/fonts/titles/Roboto-ThinItalic.ttf'), // O la fuente que estés usando
+  });
 
   useEffect(() => {
     getLanguageLevels();
@@ -116,32 +119,34 @@ export default function LanguageLevel({ navigation }) {
           {languageLevels &&
             languageLevels.map((item) => {
               return (
-                <View key={item.id} style={globalStyles.card}>
-                  <LinearGradient
-                    colors={["#6a11cb", "#2575fc"]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}
-                    style={globalStyles.gradientBackground}
-                  />
+                <View key={item.id} style={styles.card}>
                   <TouchableOpacity
-                    style={globalStyles.level_button}
+                    style={styles.level_button}
                     onPress={() => updateUserLanguageLevel(item.id)}
                   >
-                    <Text style={globalStyles.text_medium}>{item.level} </Text>
+                    <View style={styles.row_1}>
+                      <Text style={styles.text_medium}>{item.level} </Text>
+                      <Text style={styles.text_level}>{item.name} </Text>
+                    </View>
+
+                    <View>
+                      <Text style={styles.text_description}>
+                        {item.description_cefr.length > 60
+                          ? item.description_cefr.substring(0, 60) + "..."
+                          : item.description_cefr}
+                      </Text>
+                    </View>
                   </TouchableOpacity>
 
                   <TouchableOpacity
-                    style={globalStyles.information_button}
+                    style={styles.information_button}
                     onPress={() =>
                       showLevelInformation(item.level, item.description_cefr)
                     }
                   >
-                    <Icon
-                      name="information-circle-outline"
-                      type="ionicon"
-                      size={30}
-                      color="white"
-                    />
+                    <Text style={styles.information_button_text}>
+                      Read more
+                    </Text>
                   </TouchableOpacity>
                 </View>
               );
@@ -155,3 +160,54 @@ export default function LanguageLevel({ navigation }) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  card: {
+    width: 300,
+    height: 100,
+    padding: 10,
+    margin: 10,
+    marginLeft: 30,
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+    borderRadius: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
+  },
+  row_1: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  text_medium: {
+    color: "#18181b",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  text_description: {
+    // marginTop: 6,
+    color: "#18181b",
+    fontSize: 12,
+  },
+  text_level: {
+    color: "#18181b",
+    fontSize: 12,
+    fontFamily: "Roboto",
+    fontWeight: "bold",
+    fontStyle: "italic",
+  },
+  information_button: {
+    backgroundColor: "#18181b",
+    borderRadius: 5,
+    position: "absolute",
+    right: 4,
+    bottom: 4,
+  },
+  information_button_text: {
+    color: "#FFFFFF",
+    fontSize: 12,
+    fontWeight: "bold",
+    padding: 5,
+  },
+});

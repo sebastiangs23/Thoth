@@ -5,28 +5,42 @@ import gringa from "../../assets/avatars/avatar_gringa.webp";
 import morena from "../../assets/avatars/avatar_africana.webp";
 import asiatica from "../../assets/avatars/avatar_asiatica.png";
 
+import spanishFlag from "../../assets/flags/spanish_flag.png";
+import ukFlag from "../../assets/flags/uk_flag.png";
+import drFlag from "../../assets/flags/dr_flag.png";
+import chineseFlag from "../../assets/flags/chinese_flag.png";
+
+
 /*_____________________________________________________________________________________
  |   FOR THE MOMENT ITS GONNA BE HERE BECAUSE I DONT FIND IT SENSE TO PUT IT IN DB   */ 
 export const avatars = [
   {
     id: 1,
     name: 'Vanessa Rodriguez',
-    img: latina
+    img: latina,
+    accent: 'Spanish',
+    flag: spanishFlag
   },
   {
     id: 2,
     name: 'Charlotte Smith',
-    img: gringa
+    img: gringa,
+    accent: 'UK',
+    flag: ukFlag
   },
   {
     id: 3,
     name: 'Fatima Lopez',
     img: morena,
+    accent: 'Latin',
+    flag: drFlag
   },
   {
     id: 4,
     name: 'Mila Lee',
-    img: asiatica
+    img: asiatica,
+    accent: 'Asian',
+    flag: chineseFlag
   }];
 
 /*____________________________________________
