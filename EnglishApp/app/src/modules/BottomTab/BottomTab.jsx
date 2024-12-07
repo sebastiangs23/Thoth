@@ -13,11 +13,15 @@ export default function BottomTab({ navigation }) {
     navigation.navigate("UserDashboard");
   }
 
+  function settings() {
+    navigation.navigate("Settings");
+  }
+
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.tab} onPress={languageLevel}>
-        <Icon name="rotate-right" type="font-awesome"color="black" size={20} />
-        <Text style={styles.tabText}>Select Mode</Text>
+        <Icon name="home" type="font-awesome"color="black" size={20} />
+        <Text style={styles.tabText}>Home</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.tab} onPress={userDashboard}>
@@ -25,7 +29,7 @@ export default function BottomTab({ navigation }) {
         <Text style={styles.tabText}>Dashboard</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.tab} onPress={userDashboard}>
+      <TouchableOpacity style={styles.tab} onPress={settings}>
         <Icon name="gear" type="font-awesome" color="black" size={20}  />
         <Text style={styles.tabText}>Settings</Text>
       </TouchableOpacity>

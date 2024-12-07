@@ -18,6 +18,7 @@ import Situation from "./src/modules/Conversation/Situations/Situations.jsx";
 import ChatGptConversation from "./src/modules/Conversation/Conversation/ProPlan/ChatGptConversation.jsx";
 import Conversation from "./src/modules/Conversation/Conversation/NormalPlan/Conversation.jsx";
 import UserDashboard from "./src/modules/UserDashboard/UserDashboard.jsx";
+import Settings from "./src/modules//Settings/Settings.jsx";
 import BottomTab from "./src/modules/BottomTab/BottomTab.jsx";
 
 
@@ -48,6 +49,7 @@ export default function Page() {
             <Stack.Screen name="Conversation" component={Conversation} />
             <Stack.Screen name="ChatGptConversation" component={ChatGptConversation} />
             <Stack.Screen name="UserDashboard" component={UserDashboard} />
+            <Stack.Screen name="Settings" component={Settings} />
             <Stack.Screen name="BottomTab" component={BottomTab} />
           </Stack.Navigator>
         </NavigationContainer>
