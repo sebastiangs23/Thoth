@@ -140,20 +140,23 @@ export async function audioScore(req: Request, res: Response) {
         });
 
         pronunciation_level.push(words);
-
-        // 6.1) Guardo el registro del score del usuario
-        if (req.body.id_plan === 2) {
+        
+        console.log(req.body.id_plan, 'no encontro ninguno');
+        // 6.1) Guardo el registro del score del usuario        
+        if (req.body.id_plan == 2) {
           await UserScores.create({
             id_user: req.body.id_user,
             id_dialog: null,
             score: pronunciation_level,
           });
-        } else if (req.body.id_plan === 1) {
+          console.log(req.body.id_plan, 'entro en este plan');
+        } else if (req.body.id_plan == 1) {
           await UserScores.create({
             id_user: req.body.id_user,
             id_dialog: req.body.id_dialog,
             score: pronunciation_level,
           });
+          console.log(req.body.id_plan, 'entro en este plan');
         }
 
         recognizer.close();
@@ -194,30 +197,22 @@ export async function getUserScoreAverage(req: Request, res: Response) {
 
     const userData = await db.query(
       `
-      SELECT
-      US.ID_USER,
-      D.ID_LANGUAGE_LEVEL,
-      ST.ID AS ID_SPECIFIC_TOPICS,
-      ST.DESCRIPTION,
-      AVG((US.SCORE->0->>'ACCURACY_SCORE')::NUMERIC) AS AVG_ACCURACY_SCORE,
-      AVG((US.SCORE->0->>'PRONUNCIATION_SCORE')::NUMERIC) AS AVG_PRONUNCIATION_SCORE,
-      AVG((US.SCORE->0->>'COMPLETENESS_SCORE')::NUMERIC) AS AVG_COMPLETENESS_SCORE,
-      AVG((US.SCORE->0->>'FLUENCY_SCORE')::NUMERIC) AS AVG_FLUENCY_SCORE,
-      AVG((US.SCORE->0->>'PROSODY_SCORE')::NUMERIC) AS AVG_PROSODY_SCORE
-      FROM USERS_SCORES US
-      JOIN DIALOGS D ON D.ID = US.ID_DIALOG
-      JOIN LANGUAGE_LEVELS LL ON LL.ID = D.ID_LANGUAGE_LEVEL
-      JOIN SPECIFIC_TOPICS ST ON ST.ID = D.ID_SPECIFIC_TOPIC
-      where US.ID_USER = :id_user
-      GROUP BY US.ID_USER, D.ID_LANGUAGE_LEVEL, ST.ID, ST.DESCRIPTION`,
+      SELECT 
+          id_user,
+          AVG((score->0->>'accuracy_score')::numeric) AS avg_accuracy_score,
+          AVG((score->0->>'pronunciation_score')::numeric) AS avg_pronunciation_score,
+          AVG((score->0->>'completeness_score')::numeric) AS avg_completeness_score,
+          AVG((score->0->>'fluency_score')::numeric) AS avg_fluency_score,
+          AVG((score->0->>'prosody_score')::numeric) AS avg_prosody_score
+      FROM users_scores
+      where id_user = :id_user
+      GROUP BY id_user;`,
       {
         replacements: {
           id_user,
         },
       }
     );
-
-    console.log("let me see ", userData[0]);
 
     res.json(userData[0]);
   } catch (error) {

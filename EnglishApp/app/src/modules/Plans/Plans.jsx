@@ -88,7 +88,7 @@ export default function Plans({ navigation }) {
           {plans.length > 1 ? (
             <TouchableOpacity
               style={styles.card}
-              onPress={() => redirect(plans[0].id)}
+              onPress={() => redirect(plans[1].id)}
             >
               <Text style={styles.text_medium}>
                 {plans[1].name} ${plans[1].price_usd}

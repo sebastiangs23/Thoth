@@ -2,6 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function savePlanSelected(type) {
   try {
+    console.log('que plan se intenta guardar?', type);
+    
     await AsyncStorage.setItem("userPlanSelected", JSON.stringify(type));
   } catch (error) {
     console.log("Error saving data",error);

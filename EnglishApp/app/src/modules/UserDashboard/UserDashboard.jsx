@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { LineChart } from "react-native-chart-kit";
 import { useFonts } from "expo-font";
+import { LineChart } from "react-native-chart-kit";
+import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
@@ -21,7 +22,7 @@ export default function UserDashboard({ navigation }) {
     "Inter-Regular": require("../../assets/fonts/titles/Inter_18pt-Regular.ttf"), // O la fuente que estés usando
   });
   const [user, setUser] = useState(null);
-  const [average, setAverage] = useState([]);
+  const [average, setAverage] = useState({});
 
   useEffect(() => {
     getUser();
@@ -42,7 +43,7 @@ export default function UserDashboard({ navigation }) {
     );
 
     console.log("here the average: ", response.data);
-    setAverage(response.data);
+    setAverage(response.data[0]);
   }
 
   /*________________
@@ -54,26 +55,39 @@ export default function UserDashboard({ navigation }) {
 
   const [chartVisible, setChartVisible] = useState(false);
 
-  // Función para alternar la visibilidad del gráfico
   const toggleChart = () => {
     setChartVisible(!chartVisible);
   };
 
+  function showAccentInfo() {
+    Dialog.show({
+      type: ALERT_TYPE.SUCCESS,
+      title: "¡Nuevas features proximamente!",
+      textBody: "Nuevas funcionabilidades en la próxima versión! 🎉",
+      button: "Ok",
+      autoClose: 2000,
+    });
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.subcontainer}>
-        <View style={styles.name_container}>
-          <Icon
-            name="paw"
-            type="font-awesome"
-            reverse
-            color="#fff"
-            reverseColor="#18181b"
-            size={13}
-          />
-          <Text style={styles.name_user}>
-            {user ? user.name + " " + user.last_name : ""}
-          </Text>
+        <View style={styles.title_container}>
+          <Text style={styles.title}>Dashboard</Text>
+
+          <View style={styles.name_container}>
+            <Icon
+              name="paw"
+              type="font-awesome"
+              reverse
+              color="#fff"
+              reverseColor="#18181b"
+              size={13}
+            />
+            <Text style={styles.name_user}>
+              {user ? user.name : ""}
+            </Text>
+          </View>
         </View>
 
         <View style={styles.line} />
@@ -109,36 +123,31 @@ export default function UserDashboard({ navigation }) {
               <LineChart
                 data={{
                   labels: [
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
+                    "Presición",
+                    "Pronunciación",
+                    // "Completeness",
+                    "Fluidez",
+                    "Prosodia",
                   ],
                   datasets: [
                     {
                       data: [
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
-                        Math.random() * 100,
+                        parseFloat(average.avg_accuracy_score),
+                        parseFloat(average.avg_pronunciation_score),
+                        parseFloat(average.avg_fluency_score),
+                        parseFloat(average.avg_prosody_score),
                       ],
                     },
                   ],
                 }}
-                width={270}
+                width={320}
                 height={220}
-                yAxisLabel="$"
-                yAxisSuffix="k"
                 yAxisInterval={1}
                 chartConfig={{
                   backgroundColor: "#18181b",
                   backgroundGradientFrom: "#18181b",
                   backgroundGradientTo: "#18181b",
-                  decimalPlaces: 2,
+                  decimalPlaces: 1,
                   color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                   labelColor: (opacity = 1) =>
                     `rgba(255, 255, 255, ${opacity})`,
@@ -160,7 +169,10 @@ export default function UserDashboard({ navigation }) {
           )}
         </View>
 
-        <TouchableOpacity style={styles.button_container}>
+        <TouchableOpacity
+          style={styles.button_container}
+          onPress={() => showAccentInfo()}
+        >
           <Icon
             name="pie-chart-outline"
             type="ionicon"
@@ -182,7 +194,10 @@ export default function UserDashboard({ navigation }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button_container}>
+        <TouchableOpacity
+          style={styles.button_container}
+          onPress={() => showAccentInfo()}
+        >
           <Icon
             name="today-outline"
             type="ionicon"
@@ -204,7 +219,10 @@ export default function UserDashboard({ navigation }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button_container}>
+        <TouchableOpacity
+          style={styles.button_container}
+          onPress={() => showAccentInfo()}
+        >
           <Icon
             name="gift"
             type="font-awesome"
@@ -252,6 +270,19 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  title_container: {
+    display: "flex",
+    alignItems: "center",
+    flexDirection: 'row',
+    marginLeft: 10,
+  },
+  title: {
+    margin: 5,
+    padding: 5,
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "#18181b",
+  },
   name_container: {
     display: "flex",
     flexDirection: "row",
@@ -261,15 +292,14 @@ const styles = StyleSheet.create({
     padding: 3,
     paddingRight: 10,
     margin: 15,
-    width: 320,
+    width: 140,
     borderWidth: 0.5,
     borderColor: "#ccc",
   },
   name_user: {
     color: "#18181b",
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "Inter-Regular",
-    fontWeight: "bold",
   },
   button_container: {
     display: "flex",

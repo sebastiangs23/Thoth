@@ -13,6 +13,7 @@ import { Audio } from "expo-av";
 import { playFail, playGood } from "../../../../common/audio/functions";
 import { ALERT_TYPE, Dialog as Message } from "react-native-alert-notification";
 import { globalStyles } from "../../../../global/styles/styles";
+import { getPlanSaved } from "../../../../common/plan/functions";
 
 export default function Microphone({
   person,
@@ -109,8 +110,11 @@ export default function Microphone({
   |   REQUEST TO THE SERVER   */
   async function audioScoreNormal(uri, dialog) {
     try {
-      const formData = new FormData();
+      const plan = await getPlanSaved();
 
+      const formData = new FormData();
+      
+      formData.append("id_plan", plan);
       formData.append("dialog", dialog);
       formData.append("id_user", user.id);
       formData.append("id_dialog", id_conversation);

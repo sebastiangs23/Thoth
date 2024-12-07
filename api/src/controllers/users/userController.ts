@@ -6,7 +6,8 @@ import UserLanguageLevel from "../../models/user_language_level/user_language_mo
 
 export async function createUser(req: Request, res: Response) {
   try {
-    const { name, last_name, second_last_name, email, password, id_country } = req.body;
+    const { name, last_name, second_last_name, email, password, id_country } =
+      req.body;
 
     //Validacion para saber si ese correo ya existe en la bd
     const emailInUse = await UserModel.findOne({
@@ -18,7 +19,7 @@ export async function createUser(req: Request, res: Response) {
 
     if (!emailInUse) {
       const saltRounds = 5;
-      const hashedPassword =  await bcrypt.hash(password, saltRounds);
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
 
       const userCreated = await UserModel.create({
         id_user_type: 2,
@@ -69,9 +70,9 @@ export async function updateUserLanguageLevel(req: Request, res: Response) {
 
     const userUpdate = await ViewUserModel.findOne({
       where: {
-        id: id_user
-      }
-    })
+        id: id_user,
+      },
+    });
 
     res.status(200).json({
       status: "Successfull",
@@ -103,13 +104,43 @@ export async function updateUserAvatar(req: Request, res: Response) {
     );
 
     res.json({
-      status: 'Successfull',
-      message: 'The avatar was successfully edited.'
+      status: "Successfull",
+      message: "The avatar was successfully edited.",
     });
   } catch (error) {
     res.json({
-      status: 'Warning',
-      message: 'Some issue trying to update the avatar.'
-    })
+      status: "Warning",
+      message: "Some issue trying to update the avatar.",
+    });
+  }
+}
+
+export async function updateUserData(req: Request, res: Response) {
+  try {
+    const { id, name, last_name, second_last_name } = req.body;
+
+    await UserModel.update(
+      {
+        name,
+        last_name,
+        second_last_name,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    );
+
+    res.json({
+      status: "Successfull",
+      message: "The user was successfully edited.",
+    });
+
+  } catch (error) {
+    res.json({
+      status: "Warning",
+      message: "Some issue trying to update the avatar.",
+    });
   }
 }

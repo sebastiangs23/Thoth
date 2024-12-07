@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, updateUserLanguageLevel, updateUserAvatar } from "../../controllers/users/userController.js"
+import { createUser, updateUserLanguageLevel, updateUserAvatar, updateUserData } from "../../controllers/users/userController.js"
 
 const router = Router();
 
@@ -15,5 +15,8 @@ router.put('/update-level-language',  updateUserLanguageLevel);
 |   EDIT THE USER AVATAR   */
 router.put('/update-avatar', updateUserAvatar);
 
+/*_________________________
+|   EDIT THE USER DATA   */
+router.put('/update-data-user', updateUserData);
 
 export default router;
