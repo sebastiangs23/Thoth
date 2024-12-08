@@ -11,6 +11,10 @@ const Plans = db.define("plans", {
         type: DataTypes.STRING(25),
         allowNull: false
     },
+    description: {
+        type: DataTypes.STRING(),
+        allowNull: true
+    },
     price_usd: {
         type: DataTypes.DECIMAL(10,3),
         allowNull: false

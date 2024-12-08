@@ -1,21 +1,29 @@
 import db from "../../db/postgresql.js";
 import { DataTypes } from "sequelize";
 
-const LanguageLevel = db.define('language_levels', {
+const LanguageLevel = db.define(
+  "language_levels",
+  {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     level: {
-        type: DataTypes.STRING(10),
-        allowNull: false
+      type: DataTypes.STRING(10),
+      allowNull: false,
     },
     description_cefr: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    }
-}, {timestamps: false});
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING(25),
+      allowNull: true,
+    },
+  },
+  { timestamps: false }
+);
 
 LanguageLevel.sync({ alter: true });
 

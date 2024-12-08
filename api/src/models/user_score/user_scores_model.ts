@@ -3,20 +3,7 @@ import { DataTypes } from "sequelize";
 import UserModel from "../users/user_model.js";
 import Dialogs from "../dialogs/dialogs-model.js";
 
-const 
-
-
-
-
-
-
-
-
-
-
-
-
-UserScores = db.define('users_scores', {
+const UserScores = db.define('users_scores', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,

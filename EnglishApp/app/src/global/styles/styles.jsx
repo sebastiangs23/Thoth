@@ -11,6 +11,10 @@ export const globalStyles = StyleSheet.create({
   subcontainer: {
     marginBottom: 60,
   },
+  title_container: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
   container_card: {
     display: "flex",
     flexDirection: "row",
@@ -99,7 +103,7 @@ export const globalStyles = StyleSheet.create({
     height: 100,
     padding: 10,
     margin: 10,
-    backgroundColor: "#3790F5",
+    backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
@@ -119,7 +123,8 @@ export const globalStyles = StyleSheet.create({
     height: 120,
     padding: 5,
     margin: 10,
-    backgroundColor: "#3790F5",
+    // backgroundColor: "#3790F5",
+    backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
@@ -144,7 +149,7 @@ export const globalStyles = StyleSheet.create({
     borderBottomRightRadius: 40,
     borderTopRightRadius: 40,
     flexWrap: "wrap",
-    backgroundColor: "#7BAEF8",
+    backgroundColor: "#18181b",
   },
   dialog_user: {
     display: "flex",
@@ -158,7 +163,7 @@ export const globalStyles = StyleSheet.create({
     borderBottomRightRadius: 40,
     borderTopRightRadius: 40,
     flexWrap: "wrap",
-    backgroundColor: "#35B8EE",
+    backgroundColor: "#ccc",
   },
 
   /*____________
@@ -237,6 +242,11 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 50,
     width: 50,
     height: 50,
+  },
+
+  middle_img: {
+    width: 220,
+    height: 220,
   },
 
   /*____________
