@@ -141,7 +141,6 @@ export async function audioScore(req: Request, res: Response) {
 
         pronunciation_level.push(words);
         
-        console.log(req.body.id_plan, 'no encontro ninguno');
         // 6.1) Guardo el registro del score del usuario        
         if (req.body.id_plan == 2) {
           await UserScores.create({

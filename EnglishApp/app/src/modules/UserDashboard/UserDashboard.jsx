@@ -125,7 +125,6 @@ export default function UserDashboard({ navigation }) {
                   labels: [
                     "Presición",
                     "Pronunciación",
-                    // "Completeness",
                     "Fluidez",
                     "Prosodia",
                   ],
