@@ -1,46 +1,28 @@
-import { View, TouchableOpacity, Pressable, Text, Vibration } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  Pressable,
+  Text,
+  Vibration,
+} from "react-native";
 import { useState } from "react";
 import { globalStyles } from "../../../../global/styles/styles";
 
 import { Audio } from "expo-av";
 import { Icon } from "react-native-elements";
 
-export default function MicrophonePro({data, getUri }) {
+export default function MicrophonePro({ data, getUri }) {
   const [recording, setRecording] = useState(false);
-  
+
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   /*____________________________
     |   REQUEST TO THE SERVER   */
   async function audioScorePro(uri) {
     try {
-
-      if(uri){
-        console.log('se manda la uri');
-        getUri(uri)
+      if (uri) {
+        console.log("se manda la uri");
+        getUri(uri);
       }
-      
-      // const formData = new FormData();
-      // console.log("dataaaaa", data);
-
-      // formData.append("id_user", data.id_user);
-      // // formData.append("id_plan", idPlan);
-      // formData.append("id_language_level", data.id_language_level);
-      // formData.append("voice", {
-      //   uri,
-      //   type: "audio/wav",
-      //   name: "audio.wav",
-      // });
-
-      // const response = await axios.post(
-      //   `${api}/score/chat-gpt/audio`,
-      //   formData,
-      //   {
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //   }
-      // );
-
     } catch (error) {
       Message.show({
         type: ALERT_TYPE.WARNING,
@@ -110,23 +92,24 @@ export default function MicrophonePro({data, getUri }) {
   }
 
   return (
-    <View style={globalStyles.container_microphone}>
+    <View style={globalStyles.container_microphone_pro}>
       <View style={globalStyles.container_button_record}>
-        <TouchableOpacity
+        <Pressable
           style={
             recording
-              ? globalStyles.button_recording
-              : globalStyles.button_no_recording
+              ? globalStyles.button_recording_pro
+              : globalStyles.button_no_recording_pro
           }
-          onPress={recording ? stopRecording : startRecording}
+          onPressIn={startRecording}
+          onPressOut={stopRecording}
         >
           <Icon
             name="mic-circle-outline"
             type="ionicon"
-            size={25}
+            size={60}
             color={recording ? "#FF5F5F" : "#000000"}
           />
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );

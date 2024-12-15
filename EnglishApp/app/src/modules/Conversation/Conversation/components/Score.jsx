@@ -33,12 +33,12 @@ export default function Score() {
     <View style={globalStyles.container_score_board}>
       
       <TouchableOpacity onPress={playAudio} style={globalStyles.own_audio}>
-        <Text>Your audio</Text>
+        <Text style={globalStyles.own_audio_text} >Your audio</Text>
         <Icon
           name="ear-outline"
-          reverseColor="#000000"
+          reverseColor="#ffffff"
           type="ionicon"
-          color="black"
+          color="white"
           size={20}
         />
       </TouchableOpacity>

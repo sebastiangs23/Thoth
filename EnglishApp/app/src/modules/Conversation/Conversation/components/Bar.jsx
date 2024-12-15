@@ -26,7 +26,7 @@ export function Bar({ type, porcentaje, icon_name, icon_type }) {
   return (
     <View style={styles.container_bar}>
       <View style={styles.container_text_icon}>
-        <Icon name={icon_name} type={icon_type} style={styles.texto} color={'#9B9A9A'} />
+        <Icon name={icon_name} type={icon_type} style={styles.texto} color={'#18181b'}  size={20}/>
         <Text style={styles.texto} > {type} </Text>
       </View>
 
@@ -82,7 +82,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   texto: {
-    color: '#9B9A9A',
+    color: '#18181b',
+    fontWeight: "bold",
     fontFamily: 'Roboto-Italic',
   },
   textoExterno: {

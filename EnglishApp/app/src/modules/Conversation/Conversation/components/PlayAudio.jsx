@@ -17,7 +17,7 @@ export default function PlayAudio({ dialog }) {
   }
 
   return (
-    <View style={globalStyles.button_hear_container}>
+    <View style={globalStyles.container_play_audio}>
       <TouchableOpacity style={globalStyles.hear_button} onPress={hear}>
         <Icon name="play" type="font-awesome" size={20} />
       </TouchableOpacity>
