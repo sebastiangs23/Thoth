@@ -19,7 +19,9 @@ export const globalStyles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "center"
+    // justifyContent: "flex-start",
   },
   container_bottom_tab: {
     position: "absolute",
