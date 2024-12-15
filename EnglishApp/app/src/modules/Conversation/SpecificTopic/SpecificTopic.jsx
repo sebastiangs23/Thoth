@@ -69,7 +69,7 @@ export default function SpecificTopic({ navigation }) {
               return (
                 <TouchableOpacity
                   key={item.id}
-                  style={globalStyles.card}
+                  style={globalStyles.card_high}
                   onPress={() => selectTopic(item)}
                 >
                   <Text style={globalStyles.text_semi_small}> {item.description} </Text>

@@ -49,6 +49,7 @@ export default function UserDashboard({ navigation }) {
   /*________________
   |   FUNCTIONS   */
   function logOut() {
+    console.log("deberia irse no?");
     removeUserSession();
     navigation.navigate("Login");
   }
@@ -84,9 +85,7 @@ export default function UserDashboard({ navigation }) {
               reverseColor="#18181b"
               size={13}
             />
-            <Text style={styles.name_user}>
-              {user ? user.name : ""}
-            </Text>
+            <Text style={styles.name_user}>{user ? user.name : ""}</Text>
           </View>
         </View>
 
@@ -122,12 +121,7 @@ export default function UserDashboard({ navigation }) {
             <View style={styles.line_chart_container}>
               <LineChart
                 data={{
-                  labels: [
-                    "Presición",
-                    "Pronunciación",
-                    "Fluidez",
-                    "Prosodia",
-                  ],
+                  labels: ["Presición", "Pronunciación", "Fluidez", "Prosodia"],
                   datasets: [
                     {
                       data: [
@@ -233,7 +227,7 @@ export default function UserDashboard({ navigation }) {
           <Text style={styles.button_text}>New features coming soon</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button_container}>
+        <TouchableOpacity style={styles.button_container} onPress={logOut}>
           <Icon
             name="power-off"
             color="#fff"
@@ -241,7 +235,6 @@ export default function UserDashboard({ navigation }) {
             type="font-awesome"
             reverse
             size={13}
-            onPress={() => logOut()}
           />
           <Text style={styles.button_text}>Log out</Text>
         </TouchableOpacity>
@@ -272,7 +265,7 @@ const styles = StyleSheet.create({
   title_container: {
     display: "flex",
     alignItems: "center",
-    flexDirection: 'row',
+    flexDirection: "row",
     marginLeft: 10,
   },
   title: {

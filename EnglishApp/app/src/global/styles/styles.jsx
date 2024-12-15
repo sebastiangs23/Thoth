@@ -19,7 +19,9 @@ export const globalStyles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "center"
+    // justifyContent: "flex-start",
   },
   container_bottom_tab: {
     position: "absolute",
@@ -74,9 +76,24 @@ export const globalStyles = StyleSheet.create({
     margin: 5,
     padding: 1,
   },
+  container_microphone_pro: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    minWidth: 85,
+    margin: 5,
+    padding: 1,
+  },
   container_button_hear: {
     marginTop: 5,
     marginBottom: 5,
+  },
+  container_play_audio: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor: "transparent",
   },
   container_button_record: {
     marginTop: 5,
@@ -216,7 +233,8 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 50,
-    marginLeft: 6,
+    marginTop: 10,
+    marginLeft: 5
   },
   button_recording: {
     height: 40,
@@ -229,6 +247,22 @@ export const globalStyles = StyleSheet.create({
   button_no_recording: {
     height: 40,
     width: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
+  },
+  button_recording_pro: {
+    height: 70,
+    width: 70,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 50,
+  },
+  button_no_recording_pro: {
+    height: 70,
+    width: 70,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFFFFF",
@@ -264,11 +298,16 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 5,
-    backgroundColor: "#fff",
+    backgroundColor: "#18181b",
     height: 35,
     maxWidth: 120,
     borderRadius: 12,
     borderWidth: 1,
     marginVertical: 5,
+    color: "#fff"
+  },
+  own_audio_text: {
+    color: '#FFF',
+    fontWeight: "bold",
   }
 });
