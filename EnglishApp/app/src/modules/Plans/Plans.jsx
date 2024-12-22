@@ -129,7 +129,13 @@ export default function Plans({ navigation }) {
                 </View>
 
                 <View>
-                  <Text style={styles.text_medium_price}>
+                  <Text style={styles.text_medium_price}>Free</Text>
+                  <Text
+                    style={[
+                      styles.text_medium_price,
+                      { textDecorationLine: "line-through" },
+                    ]}
+                  >
                     ${plans[1].price_usd}
                   </Text>
                 </View>

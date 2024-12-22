@@ -64,6 +64,9 @@ async function getDialogs(req: Request, res: Response) {
         id_language_level,
         id_situation
       },
+      order: [
+        ["id", 'ASC']
+      ],
       attributes: [
         "id",
         "person",
