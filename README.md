@@ -60,3 +60,29 @@ VALUES
     
 
 Hazme saber si entendiste para empezar a mandarte el 'id_specific_topic' , 'id_situation' y 'id_language_level'
+
+
+_____________________________________________________________________________________________
+To keep inserting data you can use this:
+
+listo ahora de otra area que es: Human resources (2)
+
+en specific_topics tengo :
+Recruitment and Selection(15)
+Employee Onboarding(16)
+Performance Management(17)
+Training and Development(18)
+Employee Engagement(19)
+
+en situations tengo :
+
+New Intern Orientation(8)
+Employee Arrives Late(9)
+Conflict Between Team Members(10)
+Employee Requesting Leave(11)
+Performance Issues Discussion(12)
+Planning a Team-Building Activity(13)
+
+ahora dame todas las de recruitment and selection en las 3 primeras situations en a1
+
+______________________________________________________________________________________________
