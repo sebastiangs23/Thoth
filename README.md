@@ -14,9 +14,34 @@
 ### DATABASE ###
 1.- Prompt de llenado de data.
 
-Tengo una aplicacion para mejorar el ingles, con niveles, a1 (id = 1),a2 (id = 2),  b1 (id = 3) ,b2 (id = 4) ,c1 (id = 5) y c2 (id = 6).
+Tengo una aplicacion para mejorar el ingles con postgreSQL, con estos niveles y sus IDs , a1 (id = 1),a2 (id = 2),  b1 (id = 3) ,b2 (id = 4) ,c1 (id = 5) y c2 (id = 6). 
 
-donde hago que el usuario interactue con el sistema, a traves de conversaciones en temas especificos. la primera imagen  son las areas, la segunda son los 'specific_topics' del area si te das cuenta tiene una forenea con id_area. la tercera son las 'situations' , si te das cuenta tiene una fk con id_area, osea por ejemplo en un area como 'aviation' puede tener una 'situation' como 'Emergency Landing Protocols' . luego esta la cuarta imagen que son los 'dialogs' que dialogs tiene una fk con id_specific_topic, id_situation y id_language_level, yo te pasare el specific_topic , la situation y el language level y tu lo que tienes que hacer es generarme un dialogo tomando en cuenta estas parametros y el nivel de ingles y crear un dialogo, en el cual siempre tu empezaras la conversación, te pido que te metas bien en el personaje y recuerda que son conversaciones en la cual el usuairo tiene que sentir como si estuviera en esa situacion, tienes permitido, ser prepotente, amable, arrogante, cortante, o todo lo necesario para que el usuario sienta como si fuera una conversacion con un humano (recuerda tomar en cuenta los parametros) , dependiendo el nivel de ingles, los diagolos deberan tener entre 12 y 18 dialogos: te pasare un ejemplo de como inserto data en mi tabla dialogos:
+
+Donde hago que el usuario interactue con el sistema, a traves de conversaciones en temas especificos, el objetivo es que mi usuario use esa conversaciones en su dia a dia, para eso necesito que crees dialogos como si el usuario estuviera en esa situacion hablando con otro humano.
+
+Tengo estas areas: 
+1 = Software Developer
+2 = Human Resources
+3 = Graphic Design
+4 = Hospitality and tourism
+5 = Aviation
+6 = International Business
+7 = Marketing and Adverstising
+8 = Customer Service 
+
+Luego tengo 'specific_topics' que estan vinculadas a las areas a traves de una foreign key de id_area, esos temas en especifico tienen relacion con el area por ejemplo en software developer hay temas especificos como 'React', 'Vue', 'Devops', etc; Y asi tambien las otras areas tienen igual temas especificos acorde a su area.
+
+Luego tengo mi table 'situations' , que igualmente esta vinculada con 'id_area' pero en este caso son situaciones generales que se pueden dar en esa area, como por ejemplo 'job interview', 'daily standup', etc.
+
+Luego  tengo una coleccion 'dialogs' que estos necesito que me devuevas un script para insertar data, yo te dare el nivel de ingles(a1,a2,b1,b2,c1,c2) y el dialogo tiene que estar acorde al nivel, osea poner cosas faciles cuando es nivel bajo y palabras complicadas cuando el nivel es mas alto.
+Luego tambien tiiene la columna 'id_situation' y 'id_specific_topic', las conveersaciones tienen que ser diferentes por nivel, osea usar diferentes palabras y tener un enfoque diferente , para que por ejemplo si te digo una situacion y specific topic con el nivel a1 , no se repita en el a2 
+
+Asi es como actualmente estoy insertando data y es un ejemplo, yo te pasare el id_language_level, id_situation, id_specific_topic y me tienes que devolver el dialogo.
+Cuando el language level sea de a1 y a2 los dialogos tengan 8 dialogo, b1 y b2 tengan 12 dialogo y c1 y c2 tengan 14 a 16.
+La columna 'person' el 1 representa el sistema , y el 2 es el usuario, siempre el  sistema iniciara la conversacion.
+
+Aca esta mi ejemplo
+
 
 INSERT INTO dialogs (id_language_level, id_specific_topic, id_situation, person, dialog, "order", "createdAt", "updatedAt")
 VALUES 
@@ -33,4 +58,31 @@ VALUES
     (1, 15, 16, 1, 'We''re committed to a diverse workplace.', 11, now(), now()),
     (1, 15, 16, 2, 'I appreciate that.', 12, now(), now());
     
-   
+
+Hazme saber si entendiste para empezar a mandarte el 'id_specific_topic' , 'id_situation' y 'id_language_level'
+
+
+_____________________________________________________________________________________________
+To keep inserting data you can use this:
+
+listo ahora de otra area que es: Human resources (2)
+
+en specific_topics tengo :
+Recruitment and Selection(15)
+Employee Onboarding(16)
+Performance Management(17)
+Training and Development(18)
+Employee Engagement(19)
+
+en situations tengo :
+
+New Intern Orientation(8)
+Employee Arrives Late(9)
+Conflict Between Team Members(10)
+Employee Requesting Leave(11)
+Performance Issues Discussion(12)
+Planning a Team-Building Activity(13)
+
+ahora dame todas las de recruitment and selection en las 3 primeras situations en a1
+
+______________________________________________________________________________________________
