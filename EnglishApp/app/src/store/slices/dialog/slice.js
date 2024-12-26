@@ -12,24 +12,21 @@ export const DialogsSlice = createSlice({
     setDialogsApproved: (state) => {
       let next2 = 2;
 
-    //   let allapproved = state.value.filter((dialog) => dialog.approved == true)
-    //     .length;
+      const newState = state.value.map((item) => {
+        if (next2 != 0 && item.approved == false) {
+          next2--;
+          return { ...item, approved: true };
+        }
+        return item;
+      });
 
-    //   if (state.value.length == allapproved) {
-    //     //Significa que ya aprobo todos los dialogos
-    //     console.log("here it should be change the conversation to other, :P");
-    //     state.value = [];
-    //   } else {
-        const newState = state.value.map((item) => {
-          if (next2 != 0 && item.approved == false) {
-            next2--;
-            return { ...item, approved: true };
-          }
-          return item;
-        });
+      let countApproved = state.value.filter((dialog) => dialog.approved == true).length;
 
-        state.value = newState;
-    //   }
+      if(countApproved === state.value.length){
+        newState[newState.length - 1] = { ...newState[newState.length - 1], allApproved: true  }
+      }
+
+      state.value = newState;
     },
   },
 });

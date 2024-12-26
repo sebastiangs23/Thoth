@@ -22,7 +22,10 @@ export default function Conversation({ navigation }) {
       (dialog) => dialog.approved == true
     ).length;
 
-    if (dialogs.length == verification) {
+    let allApproved = dialogs.find((item) => item.allApproved === true);
+
+    
+    if (verification == dialogs.length && allApproved) {
       Vibration.vibrate(2000);
 
       Message.show({

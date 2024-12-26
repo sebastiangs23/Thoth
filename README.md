@@ -86,3 +86,25 @@ Planning a Team-Building Activity(13)
 ahora dame todas las de recruitment and selection en las 3 primeras situations en a1
 
 ______________________________________________________________________________________________
+
+listo ahora con id_area: Graphic Design (3)
+
+en specific_topics: 
+
+Logo Design(24)
+Typography(25)
+Color Theory(26)
+User Interface Design(27)
+Branding(28)
+
+en situations:
+Client Feedback Session(17)
+Design Presentation to Stakeholders(18)
+Revisions on a Logo Design(19)
+Meeting a Project Deadline(20)
+Collaborating with a Copywriter(21)
+Conducting a Design Workshop(22)
+
+dame las 3 primeras de  logo design en a1
+
+_________________________________________________________________________________________________________________

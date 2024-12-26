@@ -88,7 +88,7 @@ async function getDialogs(req: Request, res: Response) {
 
       return dialog;
     });
-
+    
     res.json(dialogsConversationsApproved);
   } catch (error) {
     console.log(error);
