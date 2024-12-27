@@ -68,6 +68,7 @@ export default function Microphone({
 
       setRecording(recording);
     } catch (error) {
+      setRecording(false);
       Message.show({
         type: ALERT_TYPE.DANGER,
         title: ":(",
@@ -95,6 +96,7 @@ export default function Microphone({
 
       audioScoreNormal(uri, dialog)
     } catch (error) {
+      // setRecording(false)
       Message.show({
         type: ALERT_TYPE.DANGER,
         title: ":(",
@@ -169,14 +171,13 @@ export default function Microphone({
     <View key={id_conversation} style={globalStyles.container_microphone}>
       {person == 2 ? (
         <View style={globalStyles.container_button_record}>
-          <Pressable
+           <TouchableOpacity
             style={
               recording
                 ? globalStyles.button_recording
                 : globalStyles.button_no_recording
             }
-            onPressIn={startRecording}
-            onPressOut={stopRecording}
+            onPress={recording ? stopRecording : startRecording}
           >
             <Icon
               name="mic-circle-outline"
@@ -184,7 +185,7 @@ export default function Microphone({
               size={25}
               color={recording ? "#FF5F5F" : "#000000"}
             />
-          </Pressable>
+           </TouchableOpacity>
         </View>
       ) : (
         <></>
