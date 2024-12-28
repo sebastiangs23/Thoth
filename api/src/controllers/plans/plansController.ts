@@ -6,8 +6,9 @@ import UserPlanHistory from "../../models/plans/users_plan_history_model.js";
 export async function getPlans(req: Request, res: Response){
     try{
         const plans = await Plans.findAll({
-            attributes: ['id', 'name', 'price_usd', 'description', 'icon_name', 'icon_type']
-        });
+            attributes: ['id', 'name', 'price_usd', 'description', 'icon_name', 'icon_type'],
+            order: [['id', 'ASC']]
+        },);
 
         res.json(plans);
 
