@@ -108,3 +108,45 @@ Conducting a Design Workshop(22)
 dame las 3 primeras de  logo design en a1
 
 _________________________________________________________________________________________________________________
+listo ahora con id_area: Hospitality and tourism(4)
+
+en specific_topics:
+
+Customer Service in Hospitality(34)
+Hotel Management(35)
+Event Planning(36)
+Sustainable Tourism(38)
+Food and Beverage Management(39)
+
+y en situations:
+Coordinating Event Bookings(27)
+Managing Tourism Service Partners(28)
+Customer Service Training(29)
+Custom Tourism Packages(31)
+Customer Satisfaction Surveys(33)
+Exceptional Guest Experiences(36)
+
+Ahora dame las 3 primeras de  Hotel Management(35) en a1
+
+______________________________________________________________________________________________________________________
+listo ahora con el id_area: International Business(6)
+
+en specific_topics:
+
+Global Marketing Strategies(54)
+International Trade Regulations(55)
+Cross-Cultural Communication(56)
+Global Supply Chain Management(57)
+International Finance(58)
+
+en situations:
+
+Cross-Border Contract Negotiation(50)
+Cultural Differences in Business(51)
+Tariff and Trade Compliance(52)
+Foreign Market Entry Strategies(53)
+International Joint Ventures(54)
+Global Talent Acquisition(55)
+
+Ahora dame las 3 primeras de Global Marketing Strategies(54) en a1
+
