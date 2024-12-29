@@ -25,16 +25,15 @@ export async function logInUser(req: Request, res: Response) {
     });
 
     if (user) {
-      if (!user.emailVerified) {
-        return res.json({
-          status: "EmailNotVerified",
-          message: "Please verify your email before logging in.",
-        });
-      }
-
       bcrypt.compare(password as string, (user as any).password).then(function (result) {
           
-          if (result == true) {
+          if (!user.emailVerified) {
+            return res.json({
+              status: "EmailNotVerified",
+              message: "Please verify your email before logging in.",
+              user
+            });
+          }else if (result == true) {
             res.json({
               status: "Successful",
               message: "Welcome back",

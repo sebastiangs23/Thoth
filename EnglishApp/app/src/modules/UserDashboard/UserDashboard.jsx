@@ -125,10 +125,10 @@ export default function UserDashboard({ navigation }) {
                   datasets: [
                     {
                       data: [
-                        parseFloat(average.avg_accuracy_score),
-                        parseFloat(average.avg_pronunciation_score),
-                        parseFloat(average.avg_fluency_score),
-                        parseFloat(average.avg_prosody_score),
+                        parseFloat(average?.avg_accuracy_score ?? 0),
+                        parseFloat(average?.avg_pronunciation_score ?? 0),
+                        parseFloat(average?.avg_fluency_score ?? 0),
+                        parseFloat(average?.avg_prosody_score ?? 0),
                       ],
                     },
                   ],

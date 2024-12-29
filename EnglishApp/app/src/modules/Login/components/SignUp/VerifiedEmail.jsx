@@ -3,21 +3,41 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { getUserSession } from "../../../../common/user/functions";
+import { getUserSession, removeUserSession, saveUserSession } from "../../../../common/user/functions";
 import axios from "axios";
+import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
 const VerifiedEmail = ({ navigation }) => {
   const [code, setCode] = useState("");
   const [user, setUser] = useState(null);
+  const [isResendDisabled, setIsResendDisabled] = useState(false);
+  const [timer, setTimer] = useState(30);
 
   useEffect(() => {
     getUser();
-  });
+  }, []);
+
+  useEffect(() => {
+    let interval;
+    if (isResendDisabled) {
+      interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev === 1) {
+            clearInterval(interval);
+            setIsResendDisabled(false);
+            setTimer(30);
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isResendDisabled]);
 
   async function getUser() {
     try {
@@ -30,19 +50,41 @@ const VerifiedEmail = ({ navigation }) => {
 
   const handleVerify = async () => {
     try {
-      console.log("code:", code);
-      console.log("codeVerified:", user?.codeVerified);
-
       if (code === user?.codeVerified) {
-        console.log("entro aqui??");
-
         const response = await axios.put(`${api}/users/verified-email/${user?.id}`);
-
         if (response.data.status === "Successfull") {
-          console.log("Was successful");
           navigation.navigate("Plans");
         }
+      } else {
+        Dialog.show({
+          type: ALERT_TYPE.WARNING,
+          title: "Código incorrecto",
+          textBody: "Por favor, ingresa el código correcto",
+          button: "Cerrar",
+        });
       }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleResendCode = async () => {
+    try {
+      setIsResendDisabled(true);
+      
+      const response = await axios.post(`${api}/users/resend-verification-code/${user?.id}`);
+      console.log(response.data);
+      
+      removeUserSession();
+      setUser(response.data.user);
+      saveUserSession(response.data.user);
+
+      Dialog.show({
+        type: ALERT_TYPE.SUCCESS,
+        title: "Código reenviado",
+        textBody: "Se ha enviado un nuevo código a tu correo.",
+        button: "Cerrar",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -62,12 +104,22 @@ const VerifiedEmail = ({ navigation }) => {
         onChangeText={setCode}
         keyboardType="numeric"
       />
-      <TouchableOpacity
-        onPress={() => handleVerify()}
-        color="#3790F5"
-        style={styles.button}
-      >
+      <TouchableOpacity onPress={handleVerify} style={styles.button}>
         <Text style={styles.text}>Verificar</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity
+        onPress={handleResendCode}
+        style={[
+          styles.button,
+          styles.resendButton,
+          isResendDisabled && styles.disabledButton,
+        ]}
+        disabled={isResendDisabled}
+      >
+        <Text style={styles.text}>
+          {isResendDisabled ? `Reenviar en ${timer}s` : "Reenviar código"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -99,13 +151,20 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   button: {
-    width: 125,
+    width: 135,
     height: 45,
     backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    marginRight: 5,
+    marginVertical: 8,
+  },
+  resendButton: {
+    marginTop: 10,
+    backgroundColor: "#18181b",
+  },
+  disabledButton: {
+    backgroundColor: "#18181b",
   },
   text: {
     fontSize: 17,

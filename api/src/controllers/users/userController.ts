@@ -85,6 +85,50 @@ export async function verifiedEmail(req: Request, res: Response) {
   }
 }
 
+export async function resendVerificationCode(req: Request, res: Response) {
+  try {
+    const { id_user } = req.params;
+
+    const code = Math.floor(Math.random() * 1000000).toString();
+
+    await UserModel.update(
+      {
+        codeVerified: code,
+      },
+      {
+        where: {
+          id: id_user,
+        },
+      }
+    );
+
+    const user = await UserModel.findOne({
+      where: {
+        id: id_user
+      }
+    })
+
+    if (user) {
+      const email = user.get("email") as string;
+      const name = user.get("name") as string;
+    
+      buildAndSendEmail(email, name, "Verificación de correo", code);
+    }
+    
+    res.status(200).json({
+      status: "Successfull",
+      message: "The user was successfully updated.",
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.json({
+      status: "Warning",
+      message: "Some issue trying to create the user.",
+    });
+  }
+}
+
 export async function updateUserLanguageLevel(req: Request, res: Response) {
   try {
     const { id_user, id_language_level } = req.body;
