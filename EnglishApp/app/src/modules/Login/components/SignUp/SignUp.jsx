@@ -5,6 +5,9 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -137,7 +140,8 @@ export default function SignUp({ navigation }) {
             }
 
             saveUserSession(response.data.user);
-            navigation.navigate("Plans");
+            // navigation.navigate("Plans");
+            navigation.navigate("VerifiedEmail");
             break;
 
           case "Warning": {
@@ -184,113 +188,120 @@ export default function SignUp({ navigation }) {
   }
 
   return (
-    <View style={globalStyles.container}>
-      <BackButton module="Login" navigation={navigation} />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={globalStyles.container}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={globalStyles.container}>
+          <BackButton module="Login" navigation={navigation} />
 
-      <View style={styles.title_container}>
-        <Text style={styles.title}>Sign Up</Text>
-        <Image source={loginImg} style={styles.middle_img} />
-      </View>
-
-      <View>
-        <View style={styles.rows}>
-          <View style={styles.container_input}>
-            <TextInput
-              placeholder="Name"
-              style={styles.input}
-              onChangeText={(text) => setName(text)}
-            />
+          <View style={styles.title_container}>
+            <Text style={styles.title}>Sign Up</Text>
+            <Image source={loginImg} style={styles.middle_img} />
           </View>
 
-          <View style={styles.container_input}>
-            <TextInput
-              placeholder="Last name"
-              style={styles.input}
-              onChangeText={(text) => setLastName(text)}
-            />
-          </View>
-        </View>
-
-        <View style={styles.rows}>
-          <View style={styles.container_input}>
-            <TextInput
-              placeholder="Middle name"
-              style={styles.input}
-              onChangeText={(text) => setSecondLastName(text)}
-            />
-          </View>
-
-          <View style={styles.container_input}>
-            <TextInput
-              placeholder="Email"
-              style={styles.input}
-              onChangeText={(text) => setEmail(text)}
-            />
-          </View>
-        </View>
-
-        <View style={styles.rows}>
           <View>
-            <DropDownPicker
-              open={openB}
-              value={selectedCountry}
-              items={countries}
-              setOpen={setOpenB}
-              setValue={setSelectedCountry}
-              setItems={setCountries}
-              placeholder="Country"
-              dropDownContainerStyle={styles.dropdownContainer}
-              itemSeparator={true}
-              searchable={true}
-              style={styles.dropdown}
-              placeholderStyle={{
-                color: "grey",
-              }}
-              customItemContainer={({ label, icon }) => (
-                <View style={styles.itemContainer}>
-                  {icon && icon()}
-                  <Text style={styles.label}>{label}</Text>
-                </View>
-              )}
-            />
+            <View style={styles.rows}>
+              <View style={styles.container_input}>
+                <TextInput
+                  placeholder="Name"
+                  style={styles.input}
+                  onChangeText={(text) => setName(text)}
+                />
+              </View>
+
+              <View style={styles.container_input}>
+                <TextInput
+                  placeholder="Last name"
+                  style={styles.input}
+                  onChangeText={(text) => setLastName(text)}
+                />
+              </View>
+            </View>
+
+            <View style={styles.rows}>
+              <View style={styles.container_input}>
+                <TextInput
+                  placeholder="Middle name"
+                  style={styles.input}
+                  onChangeText={(text) => setSecondLastName(text)}
+                />
+              </View>
+
+              <View style={styles.container_input}>
+                <TextInput
+                  placeholder="Email"
+                  style={styles.input}
+                  onChangeText={(text) => setEmail(text)}
+                />
+              </View>
+            </View>
+
+            <View style={styles.rows}>
+              <View>
+                <DropDownPicker
+                  open={openB}
+                  value={selectedCountry}
+                  items={countries}
+                  setOpen={setOpenB}
+                  setValue={setSelectedCountry}
+                  setItems={setCountries}
+                  placeholder="Country"
+                  dropDownContainerStyle={styles.dropdownContainer}
+                  itemSeparator={true}
+                  searchable={true}
+                  style={styles.dropdown}
+                  placeholderStyle={{
+                    color: "grey",
+                  }}
+                  customItemContainer={({ label, icon }) => (
+                    <View style={styles.itemContainer}>
+                      {icon && icon()}
+                      <Text style={styles.label}>{label}</Text>
+                    </View>
+                  )}
+                />
+              </View>
+
+              <View style={styles.container_date_picker}>
+                <DatePicker format={"date"} />
+              </View>
+            </View>
+
+            <View style={styles.container_input_password}>
+              <TextInput
+                placeholder="Password"
+                style={styles.input}
+                secureTextEntry={securePassword}
+                onChangeText={(text) => setPassword(text)}
+              />
+              <View style={styles.container_eye}>
+                {eyeOpen == false ? (
+                  <Icon
+                    name="eye-off-outline"
+                    type="ionicon"
+                    onPress={() => passwordVisible(true)}
+                  />
+                ) : (
+                  <Icon
+                    name="eye-outline"
+                    type="ionicon"
+                    onPress={() => passwordVisible(false)}
+                  />
+                )}
+              </View>
+            </View>
           </View>
 
-          <View style={styles.container_date_picker}>
-            <DatePicker format={"date"} />
+          <View style={styles.create_button_container}>
+            <TouchableOpacity style={styles.create_button} onPress={createUser}>
+              <Text style={styles.create_button_text}>Create</Text>
+            </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styles.container_input_password}>
-          <TextInput
-            placeholder="Password"
-            style={styles.input}
-            secureTextEntry={securePassword}
-            onChangeText={(text) => setPassword(text)}
-          />
-          <View style={styles.container_eye}>
-            {eyeOpen == false ? (
-              <Icon
-                name="eye-off-outline"
-                type="ionicon"
-                onPress={() => passwordVisible(true)}
-              />
-            ) : (
-              <Icon
-                name="eye-outline"
-                type="ionicon"
-                onPress={() => passwordVisible(false)}
-              />
-            )}
-          </View>
-        </View>
-      </View>
-
-      <View style={styles.create_button_container}>
-        <TouchableOpacity style={styles.create_button} onPress={createUser}>
-          <Text style={styles.create_button_text}>Create</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

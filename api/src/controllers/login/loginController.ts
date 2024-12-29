@@ -4,17 +4,34 @@ import bcrypt from "bcrypt";
 import ViewUserModel from "../../models/users/view_user_model.js";
 import LanguageLevel from "../../models/language_levels/language_levels_model.js";
 
+
 export async function logInUser(req: Request, res: Response) {
   try {
     const { email, password } = req.query;
 
+    if (!email || !password) {
+      return res.status(400).json({ message: "Email y contraseña son obligatorios" });
+    }
+
+    const emailString = Array.isArray(email) ? email[0] : email;
+    if (typeof emailString !== "string") {
+      return res.status(400).json({ message: "El email debe ser un string válido" });
+    }
+
     const user = await ViewUserModel.findOne({
       where: {
-        email,
+        email: emailString,
       },
     });
 
     if (user) {
+      if (!user.emailVerified) {
+        return res.json({
+          status: "EmailNotVerified",
+          message: "Please verify your email before logging in.",
+        });
+      }
+
       bcrypt.compare(password as string, (user as any).password).then(function (result) {
           
           if (result == true) {

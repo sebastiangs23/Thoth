@@ -46,10 +46,14 @@ export default function Login({ navigation }) {
   |   FUNCTIONS   */
   async function activeSession() {
     const response = await getUserSession();
-
-    if (response) {
+    console.log('response', response);
+    
+    if(!response?.emailVerified){
+      navigation.navigate('Login');
+    }else if(response){
       navigation.navigate("LanguageLevel");
     }
+
   }
 
   function signIn() {

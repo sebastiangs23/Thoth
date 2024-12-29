@@ -8,6 +8,7 @@ import Plans from "./src/modules/Plans/Plans.jsx";
 import Login from "./src/modules/Login/Login.jsx";
 import SignIn from "./src/modules/Login/components/SignIn/SignIn.jsx";
 import SignUp from "./src/modules/Login/components/SignUp/SignUp.jsx";
+import VerifiedEmail from "./src/modules/Login/components/SignUp/VerifiedEmail.jsx";
 import Titles from "./src/global/components/Titles.jsx";
 import BackButton from "./src/global/components/BackButton.jsx";
 import PickAvatar from "./src/modules/PickAvatar/PickAvatar.jsx";
@@ -37,6 +38,7 @@ export default function Page() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="VerifiedEmail" component={VerifiedEmail} />
             <Stack.Screen name="BackButton" component={BackButton} />
             <Stack.Screen name="Titles" component={Titles} />
 
