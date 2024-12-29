@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUser, verifiedEmail,updateUserLanguageLevel, updateUserAvatar, updateUserData } from "../../controllers/users/userController.js"
+import { createUser, verifiedEmail,resendVerificationCode, updateUserLanguageLevel, updateUserAvatar, updateUserData } from "../../controllers/users/userController.js"
 
 const router = Router();
 
@@ -7,9 +7,13 @@ const router = Router();
 |   CREATE USER   */
 router.post('/create', createUser);
 
-/*__________________
-|   CREATE USER   */
+/*_____________________
+|   VERIFIED EMAIL   */
 router.put('/verified-email/:id_user', verifiedEmail);
+
+/*_______________________________
+|   RESEND VERIFICATION CODE   */
+router.post('/resend-verification-code/:id_user', resendVerificationCode);
 
 /*_______________________________
 |   EDIT LANGUAGE LEVEL USER   */

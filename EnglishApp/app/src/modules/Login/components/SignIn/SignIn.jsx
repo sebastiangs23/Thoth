@@ -91,6 +91,7 @@ export default function SignIn({ navigation }) {
         }
 
         case "EmailNotVerified": {
+          saveUserSession(response.data.user);
           Dialog.show({
             type: ALERT_TYPE.WARNING,
             title: "Please verify your email",
