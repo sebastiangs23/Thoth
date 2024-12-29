@@ -1,11 +1,15 @@
 import { Router } from "express";
-import { createUser, updateUserLanguageLevel, updateUserAvatar, updateUserData } from "../../controllers/users/userController.js"
+import { createUser, verifiedEmail,updateUserLanguageLevel, updateUserAvatar, updateUserData } from "../../controllers/users/userController.js"
 
 const router = Router();
 
 /*__________________
 |   CREATE USER   */
 router.post('/create', createUser);
+
+/*__________________
+|   CREATE USER   */
+router.put('/verified-email/:id_user', verifiedEmail);
 
 /*_______________________________
 |   EDIT LANGUAGE LEVEL USER   */

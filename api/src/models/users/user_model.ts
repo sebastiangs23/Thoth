@@ -49,6 +49,14 @@ const UserModel = db.define('users', {
     avatar: {
         type: DataTypes.INTEGER,
         allowNull: true
+    },
+    emailVerified: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+    },
+    codeVerified: {
+        type: DataTypes.STRING(6),
+        allowNull: true
     }
 });
 

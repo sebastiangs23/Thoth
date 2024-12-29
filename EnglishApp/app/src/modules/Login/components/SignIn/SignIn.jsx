@@ -1,4 +1,6 @@
 import {
+  KeyboardAvoidingView,
+  ScrollView,
   View,
   ImageBackground,
   Image,
@@ -87,6 +89,18 @@ export default function SignIn({ navigation }) {
           });
           break;
         }
+
+        case "EmailNotVerified": {
+          Dialog.show({
+            type: ALERT_TYPE.WARNING,
+            title: "Please verify your email",
+            textBody: response.data.message,
+            button: "close",
+          });
+          navigation.navigate("VerifiedEmail");
+
+          break;
+        }
         default: {
           break;
         }
@@ -115,55 +129,61 @@ export default function SignIn({ navigation }) {
   }
 
   return (
-    <View style={globalStyles.container}>
-      <BackButton module="Login" navigation={navigation} />
+    <KeyboardAvoidingView style={globalStyles.container}>
+      <ScrollView>
+        <BackButton module="Login" navigation={navigation} />
 
-      <View style={styles.title_container}>
-        <Text style={styles.title}>Log in</Text>
-        <Image source={loginImg} style={styles.middle_img} />
-      </View>
-
-      <View style={styles.form_container}>
-        <View style={styles.container_input}>
-          <Icon  name="person-outline" type="ionicon" color="#bebebe" />
-          <TextInput
-            placeholder="Example@email.com"
-            style={styles.input}
-            onChangeText={(text) => setEmail(text)}
-          />
+        <View style={styles.title_container}>
+          <Text style={styles.title}>Log in</Text>
+          <Image source={loginImg} style={styles.middle_img} />
         </View>
 
-        <View style={styles.container_input}>
-          <Icon name="lock-closed-outline" type="ionicon" color="#bebebe"></Icon>
-          <TextInput
-            placeholder="password"
-            style={styles.input}
-            secureTextEntry={securePassword}
-            onChangeText={(text) => setPassword(text)}
-          />
-          {eyeOpen == false ? (
-            <Icon
-              name="eye-off-outline"
-              type="ionicon"
-              onPress={() => passwordVisible(true)}
+        <View style={styles.form_container}>
+          <View style={styles.container_input}>
+            <Icon name="person-outline" type="ionicon" color="#bebebe" />
+            <TextInput
+              placeholder="Example@email.com"
+              style={styles.input}
+              onChangeText={(text) => setEmail(text)}
             />
-          ) : (
-            <Icon
-              name="eye-outline"
-              type="ionicon"
-              onPress={() => passwordVisible(false)}
-            />
-          )}
-        </View>
-      </View>
+          </View>
 
-      <View style={styles.button_container}>
-        <TouchableOpacity style={styles.button} onPress={sendUserData}>
-          <Text style={styles.text}>Log in</Text>
-          <Icon name="log-in-outline" type="ionicon" color="white" />
-        </TouchableOpacity>
-      </View>
-    </View>
+          <View style={styles.container_input}>
+            <Icon
+              name="lock-closed-outline"
+              type="ionicon"
+              color="#bebebe"
+            ></Icon>
+            <TextInput
+              placeholder="password"
+              style={styles.input}
+              secureTextEntry={securePassword}
+              onChangeText={(text) => setPassword(text)}
+            />
+            {eyeOpen == false ? (
+              <Icon
+                name="eye-off-outline"
+                type="ionicon"
+                onPress={() => passwordVisible(true)}
+              />
+            ) : (
+              <Icon
+                name="eye-outline"
+                type="ionicon"
+                onPress={() => passwordVisible(false)}
+              />
+            )}
+          </View>
+        </View>
+
+        <View style={styles.button_container}>
+          <TouchableOpacity style={styles.button} onPress={sendUserData}>
+            <Text style={styles.text}>Log in</Text>
+            <Icon name="log-in-outline" type="ionicon" color="white" />
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
