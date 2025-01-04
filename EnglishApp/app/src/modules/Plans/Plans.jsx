@@ -163,8 +163,9 @@ export default function Plans({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  card_container: {
-    borderWidth: 1,
+  container_card: {
+    display: "flex",
+    alignItems: "center",
   },
   normal_plan_img: {
     width: 220,
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 300,
+    width: '95%'
   },
   container_plan_name: {
     display: "flex",
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     height: 120,
   },
   card: {
-    width: 330,
+    width: '90%',
     height: 200,
     padding: 10,
     margin: 10,

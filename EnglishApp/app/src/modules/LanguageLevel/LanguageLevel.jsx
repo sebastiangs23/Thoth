@@ -163,7 +163,7 @@ export default function LanguageLevel({ navigation }) {
 
 const styles = StyleSheet.create({
   card: {
-    width: 300,
+    width: '80%',
     height: 100,
     padding: 10,
     margin: 10,
