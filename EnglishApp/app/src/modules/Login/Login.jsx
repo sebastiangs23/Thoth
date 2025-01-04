@@ -13,6 +13,7 @@ import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 import { getUserSession, removeUserSession } from "../../common/user/functions";
 import { StatusBar } from "expo-status-bar";
 import birdHappyImg from "../../assets/images/landing_bird.png";
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
@@ -66,7 +67,6 @@ export default function Login({ navigation }) {
 
   return (
     <View style={styles.main_container}>
-      {/* <StatusBar style="light" hidden={true} /> */}
       <View styles={styles.login_form}>
         <View style={styles.title_container}>
           <Text style={styles.title}>Welcome to Mammoth /. </Text>
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   middle_img: {
-    width: 220,
-    height: 220,
+    height: '50%',
+    aspectRatio: 1,
   },
   login_form: {
     flex: 1,
@@ -120,14 +120,14 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   title_container: {
+    display: "flex",
     justifyContent: "center",
     alignItems: "center",
   },
   title: {
-    marginTop: 50,
     margin: 5,
     padding: 5,
-    fontSize: 40,
+    fontSize: RFValue(50),
     fontWeight: "bold",
     color: "#18181b",
   },
@@ -136,24 +136,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   subtitle: {
-    fontSize: 17,
+    fontSize: RFValue(18),
     color: "#71717A",
-    marginBottom: 50,
+    marginBottom: 20,
     paddingHorizontal: 20,
   },
-  logo_image: {
-    width: 60,
-    height: 50,
-  },
   button_container: {
-    margin: 5,
     display: "flex",
     flexDirection: 'row', 
     alignItems: 'center',
     justifyContent: 'center'
   },
   button: {
-    width: 125,
+    width: '40%',
     height: 45,
     backgroundColor: "#18181b",
     justifyContent: "center",
@@ -162,7 +157,7 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   text: {
-    fontSize: 17,
+    fontSize: RFValue(21),
     color: "#FFFFFF",
     fontWeight: "bold",
   },
