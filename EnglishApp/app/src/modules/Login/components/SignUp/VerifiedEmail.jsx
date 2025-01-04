@@ -53,6 +53,12 @@ const VerifiedEmail = ({ navigation }) => {
       if (code === user?.codeVerified) {
         const response = await axios.put(`${api}/users/verified-email/${user?.id}`);
         if (response.data.status === "Successfull") {
+          Dialog.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: "Success",
+            textBody: response.data.message,
+            button: "Cerrar",
+          });
           navigation.navigate("Plans");
         }
       } else {

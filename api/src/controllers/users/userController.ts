@@ -78,7 +78,7 @@ export async function verifiedEmail(req: Request, res: Response) {
 
     res.status(200).json({
       status: "Successfull",
-      message: "The user was successfully updated.",
+      message: "The email was successfullly verified.",
     });
   } catch (error) {
     console.log(error);
