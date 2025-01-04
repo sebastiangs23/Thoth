@@ -222,6 +222,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   input: {
+    fontSize: RFValue(18),
     borderRadius: 5,
     width: "80%",
   },
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     width: '40%',
-    height: 45,
+    height: height * 0.08,
     backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
