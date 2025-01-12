@@ -19,9 +19,11 @@ import { saveUserSession } from "../../../../common/user/functions";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import { globalStyles } from "../../../../global/styles/styles";
 import BackButton from "../../../../global/components/BackButton";
+import { RFValue } from "react-native-responsive-fontsize";
+
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 
-import loginImg from "../../../../assets/images/log_in.png";
+// import loginImg from "../../../../assets/images/log_in.png";
 
 export default function SignUp({ navigation }) {
   const countriesRedux = useSelector((state) => state.countries.value);
@@ -198,81 +200,75 @@ export default function SignUp({ navigation }) {
 
           <View style={styles.title_container}>
             <Text style={styles.title}>Sign Up</Text>
-            <Image source={loginImg} style={styles.middle_img} />
+            {/* <Image source={loginImg} style={styles.middle_img} /> */}
           </View>
 
-          <View>
-            <View style={styles.rows}>
-              <View style={styles.container_input}>
-                <TextInput
-                  placeholder="Name"
-                  style={styles.input}
-                  onChangeText={(text) => setName(text)}
-                />
-              </View>
-
-              <View style={styles.container_input}>
-                <TextInput
-                  placeholder="Last name"
-                  style={styles.input}
-                  onChangeText={(text) => setLastName(text)}
-                />
-              </View>
+          <View style={styles.container_inputs}>
+            <View style={styles.container_input}>
+              <TextInput
+                placeholder="Name"
+                style={styles.input}
+                onChangeText={(text) => setName(text)}
+              />
             </View>
 
-            <View style={styles.rows}>
-              <View style={styles.container_input}>
-                <TextInput
-                  placeholder="Middle name"
-                  style={styles.input}
-                  onChangeText={(text) => setSecondLastName(text)}
-                />
-              </View>
-
-              <View style={styles.container_input}>
-                <TextInput
-                  placeholder="Email"
-                  style={styles.input}
-                  onChangeText={(text) => setEmail(text)}
-                />
-              </View>
+            <View style={styles.container_input}>
+              <TextInput
+                placeholder="Last name"
+                style={styles.input}
+                onChangeText={(text) => setLastName(text)}
+              />
             </View>
 
-            <View style={styles.rows}>
-              <View>
-                <DropDownPicker
-                  open={openB}
-                  value={selectedCountry}
-                  items={countries}
-                  setOpen={setOpenB}
-                  setValue={setSelectedCountry}
-                  setItems={setCountries}
-                  placeholder="Country"
-                  dropDownContainerStyle={styles.dropdownContainer}
-                  itemSeparator={true}
-                  searchable={true}
-                  style={styles.dropdown}
-                  placeholderStyle={{
-                    color: "grey",
-                  }}
-                  customItemContainer={({ label, icon }) => (
-                    <View style={styles.itemContainer}>
-                      {icon && icon()}
-                      <Text style={styles.label}>{label}</Text>
-                    </View>
-                  )}
-                />
-              </View>
+            <View style={styles.container_input}>
+              <TextInput
+                placeholder="Second last name"
+                style={styles.input}
+                onChangeText={(text) => setSecondLastName(text)}
+              />
+            </View>
 
-              <View style={styles.container_date_picker}>
+            <View style={styles.container_input}>
+              <TextInput
+                placeholder="Email"
+                style={styles.input}
+                onChangeText={(text) => setEmail(text)}
+              />
+            </View>
+
+            <View>
+              <DropDownPicker
+                open={openB}
+                value={selectedCountry}
+                items={countries}
+                setOpen={setOpenB}
+                setValue={setSelectedCountry}
+                setItems={setCountries}
+                placeholder="Country"
+                dropDownContainerStyle={styles.dropdownContainer}
+                itemSeparator={true}
+                searchable={true}
+                style={styles.dropdown}
+                placeholderStyle={{
+                  color: "grey",
+                }}
+                customItemContainer={({ label, icon }) => (
+                  <View style={styles.itemContainer}>
+                    {icon && icon()}
+                    <Text style={styles.label}>{label}</Text>
+                  </View>
+                )}
+              />
+            </View>
+
+            {/* <View style={styles.container_date_picker}>
                 <DatePicker format={"date"} />
-              </View>
-            </View>
+              </View> */}
 
             <View style={styles.container_input_password}>
               <TextInput
                 placeholder="Password"
-                style={styles.input}
+                style={styles.input_password}
                 secureTextEntry={securePassword}
                 onChangeText={(text) => setPassword(text)}
               />
@@ -317,20 +313,19 @@ const styles = StyleSheet.create({
   title: {
     margin: 5,
     padding: 5,
-    fontSize: 40,
+    fontSize: RFValue(45),
     fontWeight: "bold",
     color: "#18181b",
   },
-  rows: {
+  container_inputs: {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "center"
   },
   container_input: {
     backgroundColor: "#FFFFFF",
     padding: 5,
-    width: "45%",
+    width: "75%",
     borderRadius: 8,
     flexDirection: "row",
     marginTop: 10,
@@ -339,23 +334,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   input: {
+    fontSize: RFValue(17),
     borderRadius: 5,
-    width: "80%",
+    width: "100%",
+    paddingLeft: 10,
   },
-  rows_drop_date: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
+  input_password: {
+    fontSize: RFValue(17),
+    borderRadius: 5,
+    width: "85%",
   },
-  container_date_picker: {
-    width: 290,
-  },
+  // container_date_picker: {
+  //   width: 290,
+  // },
   dropdown: {
     borderColor: "#ccc",
     color: "#FFFFFF",
-    width: 145,
-    marginRight: 25
+    width: "75%",
+    // marginRight: 25,
   },
   flag: {
     width: 30,
@@ -367,12 +363,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: "#FFFFFF",
     padding: 5,
-    width: 200,
+    width: "75%",
     borderRadius: 8,
     flexDirection: "row",
     marginTop: 10,
     marginBottom: 10,
-    marginLeft: 75,
+    // marginLeft: 75,
     borderColor: "#ccc",
     borderWidth: 1,
   },
@@ -381,8 +377,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   label: {
-    fontSize: 5,
-    color: '#ccc'
+    fontSize: RFValue(5),
+    color: "#ccc",
   },
   create_button_container: {
     margin: 3,
@@ -391,16 +387,16 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   create_button: {
-    width: 125,
-    height: 45,
+    width: "40%",
+    height: "30%",
     backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    marginRight: 5
+    marginRight: 5,
   },
   create_button_text: {
-    fontSize: 17,
+    fontSize: RFValue(20),
     color: "#FFFFFF",
     fontWeight: "bold",
   },

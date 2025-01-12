@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Dimensions
 } from "react-native";
 import { useState } from "react";
 import axios from "axios";
@@ -16,10 +17,12 @@ import { Icon } from "react-native-elements";
 import { saveUserSession } from "../../../../common/user/functions";
 import { playAudioNext } from "../../../../common/audio/functions";
 import BackButton from "../../../../global/components/BackButton";
+import { RFValue } from "react-native-responsive-fontsize";
 import { globalStyles } from "../../../../global/styles/styles";
 import loginImg from "../../../../assets/images/log_in.png";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
+const { height } = Dimensions.get("window");
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState(null);
@@ -135,7 +138,7 @@ export default function SignIn({ navigation }) {
         <BackButton module="Login" navigation={navigation} />
 
         <View style={styles.title_container}>
-          <Text style={styles.title}>Log in</Text>
+          <Text style={styles.title}>Log in /.</Text>
           <Image source={loginImg} style={styles.middle_img} />
         </View>
 
@@ -196,13 +199,14 @@ const styles = StyleSheet.create({
   title: {
     margin: 5,
     padding: 5,
-    fontSize: 40,
+    fontSize: RFValue(40),
     fontWeight: "bold",
     color: "#18181b",
   },
   middle_img: {
-    width: 220,
-    height: 220,
+    width: "65%", // Ajusta el ancho al 65% del contenedor padre
+    height: height * 0.45, // Ocupa el 30% de la altura de la pantalla
+    resizeMode: "contain", // Mantiene la proporción de la imagen
   },
   form_container: {
     alignItems: "center",
@@ -213,17 +217,17 @@ const styles = StyleSheet.create({
     width: "75%",
     borderRadius: 8,
     flexDirection: "row",
-    marginTop: 10,
     marginBottom: 10,
     borderColor: "#ccc",
     borderWidth: 1,
   },
   input: {
+    fontSize: RFValue(18),
     borderRadius: 5,
     width: "80%",
   },
   button_container: {
-    marginTop: 45,
+    marginTop: 25,
     margin: 3,
     justifyContent: "center",
     alignItems: "center",
@@ -232,15 +236,15 @@ const styles = StyleSheet.create({
   button: {
     display: "flex",
     flexDirection: "row",
-    width: 125,
-    height: 45,
+    width: '40%',
+    height: height * 0.08,
     backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
   },
   text: {
-    fontSize: 18,
+    fontSize: RFValue(21),
     color: "#FFFFFF",
     fontWeight: "bold",
   },

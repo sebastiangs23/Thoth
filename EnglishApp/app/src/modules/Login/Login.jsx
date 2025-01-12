@@ -6,14 +6,13 @@ import {
   Image,
 } from "react-native";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setCountries } from "../../store/slices/countries/slice";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
-import { getUserSession, removeUserSession } from "../../common/user/functions";
-import { StatusBar } from "expo-status-bar";
+import { getUserSession } from "../../common/user/functions";
+import { RFValue } from "react-native-responsive-fontsize";
 import birdHappyImg from "../../assets/images/landing_bird.png";
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
 

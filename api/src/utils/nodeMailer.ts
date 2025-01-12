@@ -157,7 +157,7 @@ export const template = (username: string, subject: string, number: string) => {
   
                     <div class="description">
                       <p>
-                        Para completar el proceso de creación de tu cuenta, haz clic en el siguiente enlace para <strong>verificar tu correo electrónico</strong> y activar tu cuenta.
+                        Para completar el proceso de creación de tu cuenta, copia el siguiente código y úsalo para <strong>verificar tu correo electrónico</strong>.Con ello, se activará tu cuenta.
                       </p>
                     </div>
   
@@ -167,7 +167,7 @@ export const template = (username: string, subject: string, number: string) => {
                       <p>
                         Si esta solicitud no fue realizada por ti, por favor ignora este
                         correo. Si tienes alguna duda o necesitas asistencia adicional, no
-                        dudes en contactarnos.
+                        dudes en contactarnos a través de este correo :).
                       </p>
                        <br>
                       <p>© Mammoth. Todos los derechos reservados 2025.</p>
