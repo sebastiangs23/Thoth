@@ -6,6 +6,7 @@ import LanguageRouter from './language/index.js';
 import scoreRouter from './score/index.js';
 import CountriesRouter from './countries/index.js';
 import ChatGptRouter from './chat-gpt/index.js';
+import AiMiaRouter from './ai-mia/index.js';
 import PlansRouter from './plans/index.js';
 import RootRouter from './root/index.js';
 
@@ -46,5 +47,9 @@ router.use('/chat-gpt', ChatGptRouter);
 /*___________________
 |   ROUTES PLANS   */
 router.use('/plans', PlansRouter);
+
+/*___________________
+|   ROUTES AI-MIA   */
+router.use('/ai-mia', AiMiaRouter);
 
 export default router;
