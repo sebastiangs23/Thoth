@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginBottom: 18,
-    width: 320,
+    width: '90%',
   },
   button_text: {
     color: "#ffffff",
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#18181b",
     marginBottom: 10,
     borderRadius: 10,
-    maxWidth: 290,
+    maxWidth: '90%',
   },
   line: {
     flex: 1,
