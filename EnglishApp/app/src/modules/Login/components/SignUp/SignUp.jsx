@@ -70,7 +70,7 @@ export default function SignUp({ navigation }) {
     } catch (error) {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
-        title: ":(",
+        title: ":c",
         textBody: "An unexpected just happened trying to render the countries",
         button: "Ok",
         autoClose: 2000,

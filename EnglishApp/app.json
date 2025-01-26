@@ -31,7 +31,7 @@
         "WRITE_EXTERNAL_STORAGE"
       ],
       "package": "com.anonymous.EnglishApp",
-      "versionCode": 3
+      "versionCode": 6
     },
     "web": {
       "favicon": "./app/src/assets/logos/Icon_square.png"
