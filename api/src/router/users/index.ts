@@ -27,4 +27,8 @@ router.put('/update-avatar', updateUserAvatar);
 |   EDIT THE USER DATA   */
 router.put('/update-data-user', updateUserData);
 
+/*_________________________
+|   CREATE CONNECTED DAY   */
+// router.post('/create', );
+
 export default router;

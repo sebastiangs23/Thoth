@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import { LineChart } from "react-native-chart-kit";
+import { Calendar } from "react-native-calendars";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
@@ -23,6 +24,7 @@ export default function UserDashboard({ navigation }) {
   });
   const [user, setUser] = useState(null);
   const [average, setAverage] = useState({});
+  const [selected, setSelected] = useState("");
 
   useEffect(() => {
     getUser();
@@ -55,9 +57,22 @@ export default function UserDashboard({ navigation }) {
   }
 
   const [chartVisible, setChartVisible] = useState(false);
+  const [calendarVisible, setCalendarVisible] = useState(false);
 
-  const toggleChart = () => {
+  const toggleChart = (toggle) => {
     setChartVisible(!chartVisible);
+  };
+
+  const toggle = (toggle) => {
+    switch (toggle) {
+      case "calendar": {
+        setCalendarVisible(!calendarVisible);
+        break;
+      }
+      default: {
+
+      }
+    }
   };
 
   function showAccentInfo() {
@@ -189,7 +204,7 @@ export default function UserDashboard({ navigation }) {
 
         <TouchableOpacity
           style={styles.button_container}
-          onPress={() => showAccentInfo()}
+          onPress={() => toggle('calendar')}
         >
           <Icon
             name="today-outline"
@@ -202,7 +217,7 @@ export default function UserDashboard({ navigation }) {
           <Text style={styles.button_text}>Days</Text>
           <View style={styles.caret_container}>
             <Icon
-              name="caret-down"
+              name={calendarVisible ? "caret-up" : "caret-down"}
               type="font-awesome"
               reverse
               color="#18181b"
@@ -211,6 +226,33 @@ export default function UserDashboard({ navigation }) {
             />
           </View>
         </TouchableOpacity>
+
+        {calendarVisible && (
+          <View style={styles.line_chart_container}>
+            <Calendar
+              onDayPress={(day) => {
+                setSelected(day.dateString);
+              }}
+              markedDates={{
+                [selected]: {
+                  selected: true,
+                  disableTouchEvent: true,
+                  selectedDotColor: "#18181b",
+                },
+              }}
+              theme={{
+                backgroundColor: "#ffffff",
+                calendarBackground: "#ffffff",
+                textSectionTitleColor: "#b6c1cd",
+                selectedDayBackgroundColor: "#18181b",
+                selectedDayTextColor: "#ffffff",
+                todayTextColor: "#00adf5",
+                dayTextColor: "#2d4150",
+                // textDisabledColor: '#dd99ee'
+              }}
+            />
+          </View>
+        )}
 
         <TouchableOpacity
           style={styles.button_container}
@@ -304,7 +346,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginBottom: 18,
-    width: '90%',
+    width: "90%",
   },
   button_text: {
     color: "#ffffff",
@@ -317,7 +359,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#18181b",
     marginBottom: 10,
     borderRadius: 10,
-    maxWidth: '90%',
+    maxWidth: "90%",
   },
   line: {
     flex: 1,

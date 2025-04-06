@@ -68,7 +68,7 @@ export default function Login({ navigation }) {
     <View style={styles.main_container}>
       <View styles={styles.login_form}>
         <View style={styles.title_container}>
-          <Text style={styles.title}>Welcome to Mammoth /. </Text>
+          <Text style={styles.title}>Welcome to Career English AI /. </Text>
           <Image source={birdHappyImg} style={styles.middle_img} />
         </View>
 
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   title: {
     margin: 5,
     padding: 5,
-    fontSize: RFValue(50),
+    fontSize: RFValue(38),
     fontWeight: "bold",
     color: "#18181b",
   },
