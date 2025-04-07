@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
-import db from "../../db/postgresql";
-import UserModel from "../user_type/user_type_model";
+import db from "../../db/postgresql.js";
+import UserModel from "../users/user_model.js";
 
-const usersConnectedDays = db.define('users_connected_days', {
+const usersDaysConnected = db.define('users_days_connected', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -17,15 +17,16 @@ const usersConnectedDays = db.define('users_connected_days', {
         }
     },
     date: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false
     }
 }, {
-    timestamps: false
+    timestamps: false,
+    freezeTableName: true,
 });
 
-usersConnectedDays.belongsTo(UserModel, { foreignKey: 'id_user' });
+usersDaysConnected.belongsTo(UserModel, { foreignKey: 'id_user' });
 
-usersConnectedDays.sync({ alter: true });
+usersDaysConnected.sync({ alter: true });
 
-export default usersConnectedDays;
+export default usersDaysConnected;

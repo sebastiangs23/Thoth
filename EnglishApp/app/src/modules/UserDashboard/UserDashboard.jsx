@@ -25,6 +25,7 @@ export default function UserDashboard({ navigation }) {
   const [user, setUser] = useState(null);
   const [average, setAverage] = useState({});
   const [selected, setSelected] = useState("");
+  const [connectedDays, setConnectedDays] = useState([]);
 
   useEffect(() => {
     getUser();
@@ -37,21 +38,56 @@ export default function UserDashboard({ navigation }) {
 
     setUser(response);
     await getStatistics(response.id);
+    await getDayConnected(response.id);
   }
 
   async function getStatistics(id_user) {
-    const response = await axios.get(
-      `${api}/score/get-user-score-average/${id_user}`
-    );
+    try {
+      const response = await axios.get(
+        `${api}/score/get-user-score-average/${id_user}`
+      );
 
-    console.log("here the average: ", response.data);
-    setAverage(response.data[0]);
+      console.log("here the average: ", response.data);
+      setAverage(response.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  async function getDayConnected(id_user) {
+    try {
+      const response = await axios.get(
+        `${api}/users/get-days-connected/${id_user}`
+      );
+      console.log("the days connected", response.data);
+
+      if (response.data) {
+        response.data?.forEach((day) => {
+          const [dayPart, monthPart, yearPart] = day.date.split("/");
+
+          const formattedDate = `${yearPart}-${String(monthPart).padStart(2,"0")}-${String(dayPart).padStart(2, "0")}`;
+
+          setConnectedDays((prev) => [...prev, formattedDate]);
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const markedDates = connectedDays.reduce((acc, day) => {
+    acc[day] = {
+      marked: true,
+      dotColor: "#18181b", 
+      selected: true,
+      selectedColor: "#00BFAE",
+    };
+    return acc;
+  }, {});
 
   /*________________
   |   FUNCTIONS   */
   function logOut() {
-    console.log("deberia irse no?");
     removeUserSession();
     navigation.navigate("Login");
   }
@@ -59,18 +95,18 @@ export default function UserDashboard({ navigation }) {
   const [chartVisible, setChartVisible] = useState(false);
   const [calendarVisible, setCalendarVisible] = useState(false);
 
-  const toggleChart = (toggle) => {
-    setChartVisible(!chartVisible);
-  };
-
   const toggle = (toggle) => {
     switch (toggle) {
       case "calendar": {
         setCalendarVisible(!calendarVisible);
         break;
       }
+      case "chart": {
+        setChartVisible(!chartVisible);
+        break;
+      }
       default: {
-
+        break;
       }
     }
   };
@@ -109,7 +145,7 @@ export default function UserDashboard({ navigation }) {
         <View>
           <TouchableOpacity
             style={styles.button_container}
-            onPress={toggleChart}
+            onPress={() => toggle('chart')}
           >
             <Icon
               name="bar-chart-outline"
@@ -204,7 +240,7 @@ export default function UserDashboard({ navigation }) {
 
         <TouchableOpacity
           style={styles.button_container}
-          onPress={() => toggle('calendar')}
+          onPress={() => toggle("calendar")}
         >
           <Icon
             name="today-outline"
@@ -231,9 +267,11 @@ export default function UserDashboard({ navigation }) {
           <View style={styles.line_chart_container}>
             <Calendar
               onDayPress={(day) => {
-                setSelected(day.dateString);
+                // setSelected(day.dateString);
+                console.log(day.dateString);
               }}
               markedDates={{
+                ...markedDates,
                 [selected]: {
                   selected: true,
                   disableTouchEvent: true,
@@ -242,12 +280,12 @@ export default function UserDashboard({ navigation }) {
               }}
               theme={{
                 backgroundColor: "#ffffff",
-                calendarBackground: "#ffffff",
-                textSectionTitleColor: "#b6c1cd",
-                selectedDayBackgroundColor: "#18181b",
+                // calendarBackground: "#ffffff",
+                // textSectionTitleColor: "#b6c1cd",
+                // selectedDayBackgroundColor: "#18181b",
                 selectedDayTextColor: "#ffffff",
-                todayTextColor: "#00adf5",
-                dayTextColor: "#2d4150",
+                todayTextColor: "#18181b",
+                // dayTextColor: "#2d4150",
                 // textDisabledColor: '#dd99ee'
               }}
             />

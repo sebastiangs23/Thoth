@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -46,14 +40,15 @@ export default function Login({ navigation }) {
   |   FUNCTIONS   */
   async function activeSession() {
     const response = await getUserSession();
-    console.log('response', response);
-    
-    if(!response?.emailVerified){
-      navigation.navigate('Login');
-    }else if(response){
+
+    console.log("Let me see the userSession", response);
+
+    if (!response?.emailVerified) {
+      navigation.navigate("Login");
+    } else if (response) {
+      createDayConnected(response.id);
       navigation.navigate("LanguageLevel");
     }
-
   }
 
   function signIn() {
@@ -62,6 +57,25 @@ export default function Login({ navigation }) {
 
   function signUp() {
     navigation.navigate("SignUp");
+  }
+
+  /*____________________________
+  |   REQUEST TO THE SERVER   */
+  async function createDayConnected(id_user) {
+    try {
+      await axios.post(`${api}/users/create-days-connected`, {
+        id_user,
+        date: new Date().toLocaleDateString(),
+      });
+    } catch (error) {
+      Dialog.show({
+        type: ALERT_TYPE.WARNING,
+        title: ":(",
+        textBody: "Something unexpected just happened trying to craate a day connected.",
+        button: "Ok",
+        autoClose: 2000,
+      });
+    }
   }
 
   return (
@@ -97,7 +111,6 @@ export default function Login({ navigation }) {
             <Text style={styles.text}>Sign up</Text>
           </TouchableOpacity>
         </View>
-
       </View>
     </View>
   );
@@ -109,7 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   middle_img: {
-    height: '50%',
+    height: "50%",
     aspectRatio: 1,
   },
   login_form: {
@@ -142,18 +155,18 @@ const styles = StyleSheet.create({
   },
   button_container: {
     display: "flex",
-    flexDirection: 'row', 
-    alignItems: 'center',
-    justifyContent: 'center'
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   button: {
-    width: '40%',
+    width: "40%",
     height: 45,
     backgroundColor: "#18181b",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
-    marginRight: 5
+    marginRight: 5,
   },
   text: {
     fontSize: RFValue(21),
