@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { createUser, verifiedEmail,resendVerificationCode, updateUserLanguageLevel, updateUserAvatar, updateUserData } from "../../controllers/users/userController.js"
+import { getDaysConnected, createDayConnected } from "../../controllers/days-connected/daysConnectedController.js";
 
 const router = Router();
 
@@ -26,5 +27,13 @@ router.put('/update-avatar', updateUserAvatar);
 /*_________________________
 |   EDIT THE USER DATA   */
 router.put('/update-data-user', updateUserData);
+
+/*__________________________
+|   CREATE DAYS CONNECTED  */
+router.post('/create-days-connected' , createDayConnected);
+
+/*_________________________
+|   GET DAYS CONNECTED   */
+router.get('/get-days-connected/:id_user',  getDaysConnected);
 
 export default router;

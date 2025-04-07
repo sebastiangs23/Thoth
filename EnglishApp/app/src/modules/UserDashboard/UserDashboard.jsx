@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useFonts } from "expo-font";
 import { LineChart } from "react-native-chart-kit";
+import { Calendar } from "react-native-calendars";
 import { ALERT_TYPE, Dialog, Toast } from "react-native-alert-notification";
 
 const api = process.env.EXPO_PUBLIC_SERVER_LOCAL;
@@ -23,6 +24,8 @@ export default function UserDashboard({ navigation }) {
   });
   const [user, setUser] = useState(null);
   const [average, setAverage] = useState({});
+  const [selected, setSelected] = useState("");
+  const [connectedDays, setConnectedDays] = useState([]);
 
   useEffect(() => {
     getUser();
@@ -35,29 +38,77 @@ export default function UserDashboard({ navigation }) {
 
     setUser(response);
     await getStatistics(response.id);
+    await getDayConnected(response.id);
   }
 
   async function getStatistics(id_user) {
-    const response = await axios.get(
-      `${api}/score/get-user-score-average/${id_user}`
-    );
+    try {
+      const response = await axios.get(
+        `${api}/score/get-user-score-average/${id_user}`
+      );
 
-    console.log("here the average: ", response.data);
-    setAverage(response.data[0]);
+      console.log("here the average: ", response.data);
+      setAverage(response.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  async function getDayConnected(id_user) {
+    try {
+      const response = await axios.get(
+        `${api}/users/get-days-connected/${id_user}`
+      );
+      console.log("the days connected", response.data);
+
+      if (response.data) {
+        response.data?.forEach((day) => {
+          const [dayPart, monthPart, yearPart] = day.date.split("/");
+
+          const formattedDate = `${yearPart}-${String(monthPart).padStart(2,"0")}-${String(dayPart).padStart(2, "0")}`;
+
+          setConnectedDays((prev) => [...prev, formattedDate]);
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const markedDates = connectedDays.reduce((acc, day) => {
+    acc[day] = {
+      marked: true,
+      dotColor: "#18181b", 
+      selected: true,
+      selectedColor: "#00BFAE",
+    };
+    return acc;
+  }, {});
 
   /*________________
   |   FUNCTIONS   */
   function logOut() {
-    console.log("deberia irse no?");
     removeUserSession();
     navigation.navigate("Login");
   }
 
   const [chartVisible, setChartVisible] = useState(false);
+  const [calendarVisible, setCalendarVisible] = useState(false);
 
-  const toggleChart = () => {
-    setChartVisible(!chartVisible);
+  const toggle = (toggle) => {
+    switch (toggle) {
+      case "calendar": {
+        setCalendarVisible(!calendarVisible);
+        break;
+      }
+      case "chart": {
+        setChartVisible(!chartVisible);
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   };
 
   function showAccentInfo() {
@@ -94,7 +145,7 @@ export default function UserDashboard({ navigation }) {
         <View>
           <TouchableOpacity
             style={styles.button_container}
-            onPress={toggleChart}
+            onPress={() => toggle('chart')}
           >
             <Icon
               name="bar-chart-outline"
@@ -189,7 +240,7 @@ export default function UserDashboard({ navigation }) {
 
         <TouchableOpacity
           style={styles.button_container}
-          onPress={() => showAccentInfo()}
+          onPress={() => toggle("calendar")}
         >
           <Icon
             name="today-outline"
@@ -202,7 +253,7 @@ export default function UserDashboard({ navigation }) {
           <Text style={styles.button_text}>Days</Text>
           <View style={styles.caret_container}>
             <Icon
-              name="caret-down"
+              name={calendarVisible ? "caret-up" : "caret-down"}
               type="font-awesome"
               reverse
               color="#18181b"
@@ -211,6 +262,35 @@ export default function UserDashboard({ navigation }) {
             />
           </View>
         </TouchableOpacity>
+
+        {calendarVisible && (
+          <View style={styles.line_chart_container}>
+            <Calendar
+              onDayPress={(day) => {
+                // setSelected(day.dateString);
+                console.log(day.dateString);
+              }}
+              markedDates={{
+                ...markedDates,
+                [selected]: {
+                  selected: true,
+                  disableTouchEvent: true,
+                  selectedDotColor: "#18181b",
+                },
+              }}
+              theme={{
+                backgroundColor: "#ffffff",
+                // calendarBackground: "#ffffff",
+                // textSectionTitleColor: "#b6c1cd",
+                // selectedDayBackgroundColor: "#18181b",
+                selectedDayTextColor: "#ffffff",
+                todayTextColor: "#18181b",
+                // dayTextColor: "#2d4150",
+                // textDisabledColor: '#dd99ee'
+              }}
+            />
+          </View>
+        )}
 
         <TouchableOpacity
           style={styles.button_container}
@@ -304,7 +384,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     marginBottom: 18,
-    width: '90%',
+    width: "90%",
   },
   button_text: {
     color: "#ffffff",
@@ -317,7 +397,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#18181b",
     marginBottom: 10,
     borderRadius: 10,
-    maxWidth: '90%',
+    maxWidth: "90%",
   },
   line: {
     flex: 1,

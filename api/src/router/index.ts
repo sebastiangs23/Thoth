@@ -48,8 +48,12 @@ router.use('/chat-gpt', ChatGptRouter);
 |   ROUTES PLANS   */
 router.use('/plans', PlansRouter);
 
+/*____________________________
+|   ROUTES DAYS CONNECTED   */
+// router.use('/connected-days', );
+
 /*___________________
 |   ROUTES AI-MIA   */
-router.use('/ai-mia', AiMiaRouter);
+// router.use('/ai-mia', AiMiaRouter);
 
 export default router;

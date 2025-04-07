@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import DropDownPicker from "react-native-dropdown-picker";
 import { Icon } from "react-native-elements";
-import DatePicker from "../../../../../global/datePicker/datePicker";
+// import DatePicker from "../../../../../global/datePicker/datePicker";
 import { useSelector } from "react-redux";
 import { saveUserSession } from "../../../../common/user/functions";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
@@ -70,7 +70,7 @@ export default function SignUp({ navigation }) {
     } catch (error) {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
-        title: ":(",
+        title: ":c",
         textBody: "An unexpected just happened trying to render the countries",
         button: "Ok",
         autoClose: 2000,
